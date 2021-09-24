@@ -1,0 +1,13 @@
+/.idea/
+/.vscode/
+
+/tool.*
+
+/dist/
+
+node_modules/
+
+*~
+~*
+
+*.iml
