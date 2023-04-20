@@ -18,9 +18,14 @@ import { ToolSpin } from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useRef } from "react";
 
 
-export function ToolLoad({
-
-	more,
+/**
+ * Incremental loading trigger.
+ *
+ * @param onLoad
+ * @param children
+ * @constructor
+ */
+export function ToolMore({
 
 	onLoad,
 
@@ -28,8 +33,6 @@ export function ToolLoad({
 
 
 }: {
-
-	more: undefined | boolean
 
 	onLoad: () => void
 
@@ -47,7 +50,7 @@ export function ToolLoad({
 
 			const observer=new IntersectionObserver(entries => entries.forEach(entry => {
 
-				if ( more && entry.isIntersecting ) { onLoad(); }
+				if ( entry.isIntersecting ) { onLoad(); }
 
 			}), {
 
@@ -69,9 +72,6 @@ export function ToolLoad({
 	}, [onLoad]);
 
 
-	return createElement("tool-load",
-		{ ref: loader },
-		more === undefined ? children ?? <ToolSpin/> : undefined
-	);
+	return createElement("tool-load", { ref: loader }, children ?? <ToolSpin/>);
 
 }

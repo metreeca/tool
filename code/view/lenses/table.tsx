@@ -23,7 +23,7 @@ import { Collection } from "@metreeca/data/models/collection";
 import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
 import { classes } from "@metreeca/view";
 import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
-import { ToolLoad } from "@metreeca/view/widgets/load";
+import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, ReactNode, useState } from "react";
 import "./table.css";
 
@@ -229,7 +229,7 @@ export function ToolTable<V extends Frame>({
 
 			</table>
 
-			<ToolLoad more={more} onLoad={load}/>
+		{more && <ToolMore onLoad={load}/>}
 
 		</>
 	);
