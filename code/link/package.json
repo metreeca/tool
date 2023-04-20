@@ -1,6 +1,6 @@
 {
     "name": "@metreeca/link",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "Graph connectors",
     "dependencies": {
         "@metreeca/core": "^0.0.8"
