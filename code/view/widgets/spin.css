@@ -1,0 +1,58 @@
+/*
+ * Copyright © 2020-2023 Metreeca srl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+:root {
+
+    --tool-spin-size: 1em;
+    --tool-spin-thickness: max(0.1rem, calc(var(--tool-spin-size) / 50));
+    --tool-spin-color: #CCC;
+    --tool-spin-period: 1s;
+
+}
+
+tool-spin {
+
+    display: grid;
+
+    font-size: var(--tool-spin-size);
+
+&
+> * {
+
+    margin: auto;
+
+    color: var(--tool-spin-color);
+    stroke-width: var(--tool-spin-thickness);
+
+    animation: tool-spin var(--tool-spin-period) infinite linear;
+
+}
+
+&
+> .lucide {
+    transform: none;
+}
+
+}
+
+@keyframes tool-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

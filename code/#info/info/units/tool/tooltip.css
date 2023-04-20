@@ -1,0 +1,120 @@
+/*
+ * Copyright © 2020-2023 Metreeca srl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**** Tooltips ********************************************************************************************************/
+
+.info .tooltip {
+    display: block;
+    box-sizing: border-box;
+    overflow: visible; /* show anchor */
+    border: 1px solid #BBB;
+    border-radius: 0.25em;
+    background-color: #FFF;
+}
+
+.info .tooltip::before {
+    /* anchor */
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1; /* below content */
+    height: 0.75em;
+    width: 0.75em;
+    border-color: inherit;
+    border-width: 1px;
+    background-color: inherit;
+}
+
+.info .tooltip.overflowing:before {
+    display: none;
+}
+
+.info .tooltip > * {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0.5em 0.75em 0.4em 0.75em;
+    background-color: inherit;
+}
+
+/**** Top *************************************************************************************************************/
+
+.info .tooltip.top {
+    /* coordinate with anchor size as size*sqrt(2)/2 */
+    /* ;(ie) calc is not supported inside transform (http://stackoverflow.com/a/21381301) */
+    transform: translateX(-50%) translateY(-100%) translateY(-0.53em);
+    -webkit-transform: translateX(-50%) translateY(-100%) translateY(-0.53em);
+}
+
+.info .tooltip.top::before {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 55%) rotate(45deg);
+    -webkit-transform: translate(-50%, 55%) rotate(45deg);
+    border-style: none solid solid none;
+}
+
+/**** Bottom **********************************************************************************************************/
+
+.info .tooltip.bottom {
+    /* coordinate with anchor size as size*sqrt(2)/2 */
+    /* ;(ie) calc is not supported inside transform (http://stackoverflow.com/a/21381301) */
+    transform: translateX(-50%) translateY(0.53em);
+    -webkit-transform: translateX(-50%) translateY(0.53em);
+}
+
+.info .tooltip.bottom::before {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -55%) rotate(45deg);
+    -webkit-transform: translate(-50%, -55%) rotate(45deg);
+    border-style: solid none none solid;
+}
+
+/**** Right ***********************************************************************************************************/
+
+.info .tooltip.right {
+    /* coordinate with anchor size as size*sqrt(2)/2 */
+    /* ;(ie) calc is not supported inside transform (http://stackoverflow.com/a/21381301) */
+    transform: translateX(0.53em) translateY(-50%);
+    -webkit-transform: translateX(0.53em) translateY(-50%);
+}
+
+.info .tooltip.right::before {
+    left: 0;
+    top: 50%;
+    transform: translate(-55%, -50%) rotate(45deg);
+    -webkit-transform: translate(-55%, -50%) rotate(45deg);
+    border-style: none none solid solid;
+}
+
+/**** Left ************************************************************************************************************/
+
+.info .tooltip.left {
+    /* coordinate with anchor size as size*sqrt(2)/2 */
+    /* ;(ie) calc is not supported inside transform (http://stackoverflow.com/a/21381301) */
+    transform: translateX(-100%) translateX(-0.53em) translateY(-50%);
+    -webkit-transform: translateX(-100%) translateX(-0.53em) translateY(-50%);
+}
+
+.info .tooltip.left::before {
+    right: 0;
+    top: 50%;
+    transform: translate(55%, -50%) rotate(45deg);
+    -webkit-transform: translate(55%, -50%) rotate(45deg);
+    border-style: solid solid none none;
+}

@@ -1,0 +1,44 @@
+{
+    "name": "@metreeca/tool",
+    "version": "0.0.8",
+    "description": "A model‑driven TypeScript/React framework for rapid REST/JSON‑LD frontend development.",
+    "homepage": "https://github.com/metreeca/tool",
+    "repository": "github:metreeca/tool",
+    "bugs": {
+        "url": "https://github.com/metreeca/tool/issues",
+        "email": "info@metreeca.com"
+    },
+    "license": "Apache-2.0",
+    "author": {
+        "name": "Metreeca",
+        "email": "info@metreeca.com",
+        "url": "https://www.metreeca.com/"
+    },
+    "workspaces": [
+        "code/*"
+    ],
+    "scripts": {
+        "clean": "del dist docs/types docs/demo node_modules code/*/node_modules",
+        "setup": "npm install --workspaces",
+        "check": "jest",
+        "build": "del dist && tsc && node package.js",
+        "write": "typedoc && del docs/demo && npm run build --prefix demo",
+        "issue": "npm run build && npm --prefix dist --workspaces publish --include-workspace-root --access public",
+        "major": "npm --workspaces --include-workspace-root version major",
+        "minor": "npm --workspaces --include-workspace-root version minor",
+        "patch": "npm --workspaces --include-workspace-root version patch",
+        "sneak": "npm --workspaces --include-workspace-root version prerelease"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.4.0",
+        "@types/node": "^18.14.5",
+        "dedent": "^0.7.0",
+        "del-cli": "^5.0.0",
+        "glob": "^9.2.1",
+        "jest": "^29.4.3",
+        "ts-jest": "^29.1.0",
+        "ts-node": "^10.9.1",
+        "typedoc": "^0.23.26",
+        "typescript": "^4.9.5"
+    }
+}

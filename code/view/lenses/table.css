@@ -1,0 +1,199 @@
+/*
+ * Copyright © 2020-2023 Metreeca srl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+tool-table {
+
+    --cell-max-width: 30em;
+
+    white-space: nowrap;
+
+&
+> small { /* placeholder */
+
+    margin: 50% auto;
+
+&
+.lucide {
+    stroke-width: 1px;
+    color: var(--tool--color-disabled);
+    transform: scale(10);
+}
+
+}
+
+&
+> table {
+
+    display: grid;
+    align-items: stretch;
+    justify-items: stretch;
+
+    grid-auto-rows: min-content;
+
+&
+> thead,
+
+&
+> tbody {
+
+    display: contents;
+
+&
+> tr {
+
+    display: contents;
+
+&
+> * {
+
+    z-index: 1; /* above page header */
+
+    flex-shrink: 1;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 0.4rem 0.5rem;
+    border-bottom: solid 1px #EEE;
+
+    max-width: var(--cell-max-width);
+
+&
+:first-child {
+
+    z-index: 2;
+
+    position: sticky;
+    left: 0;
+
+    padding-left: 0.5rem;
+    padding-right: 0.25rem;
+
+}
+
+&
+> * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+&
+.right > * {
+    margin-left: auto;
+    margin-right: 1em; /* align with sorting placeholder in th */
+}
+
+}
+
+}
+
+}
+
+&
+> thead {
+
+    color: var(--tool--color-label);
+
+&
+> tr > th {
+
+    z-index: 3;
+
+    position: sticky;
+    top: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border-bottom-style: solid;
+    margin-bottom: 0.75rem;
+
+    box-shadow: 0 0 0.5em 0.25em var(--tool--background-color);
+
+&
+:first-child {
+    z-index: 4;
+}
+
+&
+> button {
+
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    grid-column-gap: 0.25em;
+
+    text-transform: capitalize;
+    font-weight: 700;
+
+&
+> svg:last-child {
+    color: #999;
+    transform: translateY(5%);
+}
+
+}
+
+&
+.right > button {
+    justify-content: end;
+}
+
+}
+
+}
+
+&
+> tbody > tr {
+
+&
+:nth-child(odd) {
+
+&
+> :first-child,
+
+&
+> :last-child {
+    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #FFF;*/
+}
+
+}
+
+&
+:nth-child(even) {
+
+&
+> :first-child,
+
+&
+> :last-child {
+    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #F4F4F4;*/
+}
+
+}
+
+}
+
+}
+
+}
