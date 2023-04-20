@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable } from "@metreeca/core";
+import { immutable } from "@metreeca/core";
 import { Frame } from "@metreeca/core/entry";
 import { Value } from "@metreeca/core/value";
 import { useResource } from "@metreeca/data/models/resource";
@@ -38,7 +38,7 @@ export type Collection<V extends Value, R=never>=Readonly<[
 
 	}>>) => void,
 
-		undefined | ((value: V) => R)
+	((value: V) => R)?
 
 ]>
 
@@ -50,7 +50,7 @@ export function useCollection<
 	V extends Value,
 	K extends string
 
->(resource: Frame & { [key in K]: V[] }, field: K & keyof typeof resource, {
+>(resource: Frame & { [key in K]: undefined | V[] }, field: K & keyof typeof resource, {
 
 	id=""
 
@@ -62,7 +62,13 @@ export function useCollection<
 
 }>={}): Collection<V> {
 
-	const model=immutable(resource[field][0]) ?? error(new RangeError(`undefined model for collection <${field}>`));
+	const model=immutable(resource?.[field]?.[0]);
+
+
+	if ( model === undefined ) {
+		throw new RangeError(`undefined model for collection <${field}>`);
+	}
+
 
 	const [query, setQuery]=useState<Readonly<Frame>>(immutable({}));
 
