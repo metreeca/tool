@@ -1,0 +1,163 @@
+/*
+ * Copyright © 2020-2023 Metreeca srl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.tool-field {
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    --horizontal-padding: 0.3em;
+    --vertical-padding: 0.15em;
+
+&
+> :not(p):not(div) {
+    white-space: nowrap;
+}
+
+
+&
+> header {
+
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: min-content;
+
+    min-width: 10em;
+
+&
+> * {
+    grid-row: 1;
+}
+
+&
+> input {
+    grid-column: 1 / span 2;
+    padding-right: 1.5em !important;
+}
+
+&
+> button {
+
+    grid-column: 2;
+    padding: 0 0.25em;
+    background-color: transparent;
+    transform: scale(0.75);
+
+&
+:focus {
+    outline-offset: 0;
+}
+
+}
+
+}
+
+&
+> section {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.15em 0.2em 0.15em 0.3em;
+
+&
+:first-of-type {
+    margin-top: 0.25em;
+}
+
+&
+:nth-child(odd) {
+    background-color: var(--tool--background-color-stripe);
+    border-top-style: solid;
+    border-bottom-style: solid;
+}
+
+&
+> button {
+    transform: scale(0.75);
+}
+
+}
+
+&
+textarea,
+
+&
+input {
+
+    box-sizing: content-box;
+    padding: var(--vertical-padding) var(--horizontal-padding);
+    border-radius: 0.25em;
+    border-style: solid;
+
+&
+:not(:disabled):not(:read-only) {
+    background-color: var(--tool--background-color-edit);
+}
+
+}
+
+
+&
+textarea {
+    resize: vertical;
+}
+
+
+&
+select {
+
+    box-sizing: content-box;
+    border-style: solid;
+    border-radius: 0.25em;
+
+&
+:not(:disabled) {
+    background-color: var(--tool--background-color-edit);
+}
+
+&
+:focus {
+    box-shadow: var(--tool--box-shadow-focus);
+}
+
+&
+:invalid {
+    border-color: var(--tool--color-invalid);
+}
+
+&
+> option {
+    padding: var(--vertical-padding) var(--horizontal-padding);
+}
+
+}
+
+&
+small {
+    display: block;
+    white-space: nowrap;
+    color: var(--tool--color-placeholder);
+    transform: scale(0.75);
+    transform-origin: center left;
+}
+
+}
+
+

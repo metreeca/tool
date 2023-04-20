@@ -1,0 +1,13 @@
+{
+    "out": "docs/types",
+    "cleanOutputDir": true,
+    "readme": "README.md",
+    "entryPointStrategy": "packages",
+    "entryPoints": [
+        "code/*"
+    ],
+    "excludeNotDocumented": true,
+    "validation": {
+        "invalidLink": true
+    }
+}
