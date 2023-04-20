@@ -44,6 +44,7 @@ export { ChevronDown as CollapseIcon } from "lucide-react";
 
 export { Link2 as LinkIcon } from "lucide-react";
 export { ChevronRight as BackIcon } from "lucide-react";
+export { ChevronRight as OpenIcon } from "lucide-react";
 
 export { ChevronsUpDown as SortIcon } from "lucide-react";
 export { ChevronDown as IncreasingIcon } from "lucide-react";

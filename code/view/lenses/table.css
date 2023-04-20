@@ -62,8 +62,6 @@ tool-table {
                     padding: 0.4rem 0.5rem;
                     border-bottom: solid 1px #EEE;
 
-                    max-width: var(--cell-max-width);
-
                     &:first-child {
 
                         z-index: 2;
@@ -73,6 +71,18 @@ tool-table {
 
                         padding-left: 0.5rem;
                         padding-right: 0.25rem;
+
+                    }
+
+                    &:not(:last-child) {
+                        max-width: var(--cell-max-width);
+                    }
+
+                    &:last-child {
+
+                        & > * {
+                            margin-left: auto;
+                        }
 
                     }
 

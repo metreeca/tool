@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-import { asOrder, Frame, isEntry, Order } from "@metreeca/core/entry";
+import { asOrder, Entry, Frame, isEntry, label, Order } from "@metreeca/core/entry";
 import { isNumber } from "@metreeca/core/number";
 import { equals, model } from "@metreeca/core/value";
+import { useRoute } from "@metreeca/data/contexts/router";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
 import { classes } from "@metreeca/view";
-import { DecreasingIcon, IncreasingIcon, SortIcon } from "@metreeca/view/widgets/icon";
+import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
 import { ToolLoad } from "@metreeca/view/widgets/load";
 import React, { createElement, ReactNode, useState } from "react";
 import "./table.css";
@@ -60,7 +61,10 @@ export function ToolTable<V extends Frame>({
 	const renderer=custom ?? (() => ({})); // !!! default renderer
 
 
-	const [order, setOrder]=useState<Order>(isEntry(asOrder(collection.query["^"]) ?? collection.model) ? { label: "increasing" } : {});
+	let [, setRoute]=useRoute();
+
+
+	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ?? isEntry(collection.model) ? { label: "increasing" } : {});
 	const [offset, setOffset]=useState(0); // !!! sliding window (beware of interaction with selection)
 	const [limit, setLimit]=useState(25);
 
@@ -110,6 +114,10 @@ export function ToolTable<V extends Frame>({
 
 	function select(value: SelectionDelta<V>): void {
 		setSelection(value);
+	}
+
+	function open({ id }: Entry): void {
+		setRoute(id);
 	}
 
 	function sort(expression: string): void {
@@ -207,7 +215,15 @@ export function ToolTable<V extends Frame>({
 						</td>
 					)}
 
-					<td/>
+					<td>{isEntry(value) && <button title={`Open '${label(value)}'`}
+
+                        onClick={() => open(value)}
+
+                    >
+
+                        <OpenIcon/>
+
+                    </button>}</td>
 
 				</tr>)}</tbody>
 
