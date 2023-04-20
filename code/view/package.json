@@ -4,7 +4,7 @@
     "description": "visual React components",
     "main": "index.ts",
     "dependencies": {
-        "@metreeca/data": "^0.0.8",
+        "@metreeca/data": "^0",
         "lucide-react": "^0.130.1"
     }
 }

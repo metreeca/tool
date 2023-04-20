@@ -3,6 +3,6 @@
     "version": "0.0.10",
     "description": "Graph connectors",
     "dependencies": {
-        "@metreeca/core": "^0.0.8"
+        "@metreeca/core": "^0"
     }
 }

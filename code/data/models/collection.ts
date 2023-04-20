@@ -38,7 +38,7 @@ export type Collection<V extends Value, R=never>=Readonly<[
 
 	}>>) => void,
 
-	((value: V) => R)?
+	undefined | ((value: V) => R)
 
 ]>
 

@@ -66,7 +66,7 @@ export function useResource<
 
 	function retrieve() {
 
-		return graph.retrieve({ ...model, id }).then(entry => {
+		return graph.retrieve({ ...model, id: new URL(id, location.href).href }).then(entry => {
 
 			setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
 

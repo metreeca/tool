@@ -10,7 +10,7 @@
         "build": "vite build"
     },
     "dependencies": {
-        "@metreeca/view": "^0.0.8"
+        "@metreeca/view": "^0.0.10"
     },
     "devDependencies": {
         "@types/react": "^18.0.33",
