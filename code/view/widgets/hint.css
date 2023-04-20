@@ -28,19 +28,17 @@ tool-hint {
 
     background-color: var(--tool--background-color-edit);
 
-&
-> div {
+    & > div {
 
-    margin: auto;
+        margin: auto;
 
-    color: var(--tool--color-label);
+        color: var(--tool--color-label);
 
-&
-> .lucide {
-    stroke-width: 1px;
-    transform: scale(5);
-}
+        & > .lucide {
+            stroke-width: 1px;
+            transform: scale(5);
+        }
 
-}
+    }
 
 }

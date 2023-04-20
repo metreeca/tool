@@ -24,111 +24,94 @@ tool-note {
 
     margin: auto;
 
-&
-> *:not(p) {
-    white-space: nowrap;
-}
+    & > *:not(p) {
+        white-space: nowrap;
+    }
 
-&
-> :first-child {
+    & > :first-child {
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-    grid-column-gap: 0.5em;
+        grid-column-gap: 0.5em;
 
-&
-> :first-child {
-    font-size: 2em;
-}
+        & > :first-child {
+            font-size: 2em;
+        }
 
-}
+    }
 
-&
-.question > :first-child {
+    &.question > :first-child {
 
-    padding: 0.75ex 0.75em;
+        padding: 0.75ex 0.75em;
 
-    border-style: solid;
-    border-radius: 0.5em;
+        border-style: solid;
+        border-radius: 0.5em;
 
-}
+    }
 
-&
-.warning > :first-child {
+    &.warning > :first-child {
 
-    font-weight: 700;
+        font-weight: 700;
 
-&
-:hover:not(:active),
+        &:hover:not(:active),
+        & > :first-child {
+            color: red !important;
+        }
 
-&
-> :first-child {
-    color: red !important;
-}
+    }
 
-}
+    & > :empty {
+        display: none;
+    }
 
-&
-> :empty {
-    display: none;
-}
+    & > div {
+        text-align: center;
+        white-space: pre;
+    }
 
-&
-> div {
-    text-align: center;
-    white-space: pre;
-}
+    & > section {
 
-&
-> section {
+        max-height: 7.5em;
 
-    max-height: 7.5em;
+        padding: 0.5em 0;
+        border-style: solid none;
+        overflow-y: auto;
+        overflow-x: hidden;
 
-    padding: 0.5em 0;
-    border-style: solid none;
-    overflow-y: auto;
-    overflow-x: hidden;
+        &::before,
+        &::after {
 
-&
-::before,
+            display: block;
+            content: '';
 
-&
-::after {
+            position: sticky;
+            z-index: 1;
 
-    display: block;
-    content: '';
+            box-shadow: 0 0 0.5em 0.5em var(--tool--background-color);
 
-    position: sticky;
-    z-index: 1;
+        }
 
-    box-shadow: 0 0 0.5em 0.5em var(--tool--background-color);
+        &::before {
+            top: 0;
+            transform: translateY(-0.5em);
+        }
 
-}
+        &::after {
+            bottom: 0;
+            transform: translateY(0.5em);
+        }
 
-&
-::before {
-    top: 0;
-    transform: translateY(-0.5em);
-}
+    }
 
-&
-::after {
-    bottom: 0;
-    transform: translateY(0.5em);
-}
-
-}
-
-&
-> code {
-    max-width: 50em;
-    padding: 1em 0;
-    border-style: solid none;
-    overflow: auto;
-    white-space: pre-wrap;
-    font-size: 0.75em;
-}
+    & > code {
+        max-width: 50em;
+        padding: 1em 0;
+        border-style: solid none;
+        overflow: auto;
+        white-space: pre-wrap;
+        font-size: 0.75em;
+    }
 
 }

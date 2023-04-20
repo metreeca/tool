@@ -18,75 +18,64 @@
 
 tool-options {
 
-&
-> section {
+    & > section {
 
-    display: grid;
-    grid-template-columns: min-content 1fr  min-content;
-    align-items: center;
-    justify-items: stretch;
+        display: grid;
+        grid-template-columns: min-content 1fr  min-content;
+        align-items: center;
+        justify-items: stretch;
 
-    grid-column-gap: 0.5em;
+        grid-column-gap: 0.5em;
 
-    padding-top: 0.33em;
-    padding-bottom: 0.33em;
+        padding-top: 0.33em;
+        padding-bottom: 0.33em;
 
-&
-> small {
+        & > small {
 
-    grid-column: 1 / span 3;
+            grid-column: 1 / span 3;
 
-    padding: 0.25em 0;
+            padding: 0.25em 0;
 
-    font-size: 90%;
-    color: var(--tool--color-label);
+            font-size: 90%;
+            color: var(--tool--color-label);
 
-}
+        }
 
-&
-> div {
+        & > div {
 
-    display: contents;
+            display: contents;
 
-&
-.unavailable > * {
-    color: var(--tool--color-disabled) !important;
-}
+            &.unavailable > * {
+                color: var(--tool--color-disabled) !important;
+            }
 
-&
-> input {
-    align-self: center;
-}
+            & > input {
+                align-self: center;
+            }
 
-&
-> a,
+            & > a,
+            & > span {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-&
-> span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+            & > button,
+            & > small {
 
-&
-> button,
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: end;
 
-&
-> small {
+                grid-column-gap: 0.25em;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: end;
+                font-size: 80%;
+                color: #999;
+            }
 
-    grid-column-gap: 0.25em;
+        }
 
-    font-size: 80%;
-    color: #999;
-}
-
-}
-
-}
+    }
 
 }

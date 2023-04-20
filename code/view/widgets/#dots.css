@@ -29,57 +29,47 @@ tool-dots {
     width: 100%;
     height: 100%;
 
-&
-> div {
+    & > div {
 
-    position: relative;
-    margin: auto;
+        position: relative;
+        margin: auto;
 
-&
-,
-&
-::before,
+        &,
+        &::before,
+        &::after {
 
-&
-::after {
+            display: inline-block;
 
-    display: inline-block;
+            width: var(--tool-dots-size);
+            height: var(--tool-dots-size);
 
-    width: var(--tool-dots-size);
-    height: var(--tool-dots-size);
+            border-radius: 50%;
 
-    border-radius: 50%;
+            background-color: var(--tool-dots-color);
 
-    background-color: var(--tool-dots-color);
+            opacity: 0.5;
 
-    opacity: 0.5;
+            animation-fill-mode: both;
+            animation: tool-dots var(--tool-dots-period) infinite ease-in-out;
+        }
 
-    animation-fill-mode: both;
-    animation: tool-dots var(--tool-dots-period) infinite ease-in-out;
-}
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+        }
 
-&
-::before,
+        &::before {
+            left: calc(-1.25 * var(--tool-dots-size));
+            animation-delay: calc(-0.33 * var(--tool-dots-period));
+        }
 
-&
-::after {
-    content: '';
-    position: absolute;
-}
+        &::after {
+            right: calc(-1.25 * var(--tool-dots-size));
+            animation-delay: calc(0.33 * var(--tool-dots-period));
+        }
 
-&
-::before {
-    left: calc(-1.25 * var(--tool-dots-size));
-    animation-delay: calc(-0.33 * var(--tool-dots-period));
-}
-
-&
-::after {
-    right: calc(-1.25 * var(--tool-dots-size));
-    animation-delay: calc(0.33 * var(--tool-dots-period));
-}
-
-}
+    }
 
 }
 

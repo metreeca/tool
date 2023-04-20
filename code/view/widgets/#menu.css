@@ -25,37 +25,29 @@ tool-menu {
     grid-column-gap: 0.25em;
     grid-row-gap: 0.25em;
 
-&
-> * {
+    & > * {
 
-    display: contents;
+        display: contents;
 
-&
-> :first-child {
-    font-size: 1.5em;
-}
+        & > :first-child {
+            font-size: 1.5em;
+        }
 
-}
+    }
 
-&
-> hr {
+    & > hr {
 
-    display: block;
-    justify-self: stretch;
+        display: block;
+        justify-self: stretch;
 
-    grid-column: span 2;
+        grid-column: span 2;
 
-&
-:first-child,
+        &:first-child,
+        &:last-child,
+        & + hr {
+            display: none;
+        }
 
-&
-:last-child,
-
-&
-+ hr {
-    display: none;
-}
-
-}
+    }
 
 }

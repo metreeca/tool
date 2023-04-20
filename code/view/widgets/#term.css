@@ -16,12 +16,9 @@
 
 tool-term {
 
-&
-.disabled,
-
-&
-.disabled * {
-    color: var(--tool--color-disabled);
-}
+    &.disabled,
+    &.disabled * {
+        color: var(--tool--color-disabled);
+    }
 
 }

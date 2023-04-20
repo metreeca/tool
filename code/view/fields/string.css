@@ -17,10 +17,8 @@
 
 tool-text {
 
-&
-> div {
-    white-space: pre-line;
-}
-
+    & > div {
+        white-space: pre-line;
+    }
 
 }

@@ -20,180 +20,154 @@ tool-table {
 
     white-space: nowrap;
 
-&
-> small { /* placeholder */
+    & > small { /* placeholder */
 
-    margin: 50% auto;
+        margin: 50% auto;
 
-&
-.lucide {
-    stroke-width: 1px;
-    color: var(--tool--color-disabled);
-    transform: scale(10);
-}
+        &.lucide {
+            stroke-width: 1px;
+            color: var(--tool--color-disabled);
+            transform: scale(10);
+        }
 
-}
+    }
 
-&
-> table {
+    & > table {
 
-    display: grid;
-    align-items: stretch;
-    justify-items: stretch;
+        display: grid;
+        align-items: stretch;
+        justify-items: stretch;
 
-    grid-auto-rows: min-content;
+        grid-auto-rows: min-content;
 
-&
-> thead,
+        & > thead,
+        & > tbody {
 
-&
-> tbody {
+            display: contents;
 
-    display: contents;
+            & > tr {
 
-&
-> tr {
+                display: contents;
 
-    display: contents;
+                & > * {
 
-&
-> * {
+                    z-index: 1; /* above page header */
 
-    z-index: 1; /* above page header */
+                    flex-shrink: 1;
 
-    flex-shrink: 1;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+                    padding: 0.4rem 0.5rem;
+                    border-bottom: solid 1px #EEE;
 
-    padding: 0.4rem 0.5rem;
-    border-bottom: solid 1px #EEE;
+                    max-width: var(--cell-max-width);
 
-    max-width: var(--cell-max-width);
+                    &:first-child {
 
-&
-:first-child {
+                        z-index: 2;
 
-    z-index: 2;
+                        position: sticky;
+                        left: 0;
 
-    position: sticky;
-    left: 0;
+                        padding-left: 0.5rem;
+                        padding-right: 0.25rem;
 
-    padding-left: 0.5rem;
-    padding-right: 0.25rem;
+                    }
 
-}
-
-&
-> * {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+                    & > * {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
 
 
-&
-.right > * {
-    margin-left: auto;
-    margin-right: 1em; /* align with sorting placeholder in th */
-}
+                    & .right > * {
+                        margin-left: auto;
+                        margin-right: 1em; /* align with sorting placeholder in th */
+                    }
 
-}
+                }
 
-}
+            }
 
-}
+        }
 
-&
-> thead {
+        & > thead {
 
-    color: var(--tool--color-label);
+            color: var(--tool--color-label);
 
-&
-> tr > th {
+            & > tr > th {
 
-    z-index: 3;
+                z-index: 3;
 
-    position: sticky;
-    top: 0;
+                position: sticky;
+                top: 0;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
 
-    border-bottom-style: solid;
-    margin-bottom: 0.75rem;
+                border-bottom-style: solid;
+                margin-bottom: 0.75rem;
 
-    box-shadow: 0 0 0.5em 0.25em var(--tool--background-color);
+                box-shadow: 0 0 0.5em 0.25em var(--tool--background-color);
 
-&
-:first-child {
-    z-index: 4;
-}
+                &:first-child {
+                    z-index: 4;
+                }
 
-&
-> button {
+                & > button {
 
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
 
-    grid-column-gap: 0.25em;
+                    grid-column-gap: 0.25em;
 
-    text-transform: capitalize;
-    font-weight: 700;
+                    text-transform: capitalize;
+                    font-weight: 700;
 
-&
-> svg:last-child {
-    color: #999;
-    transform: translateY(5%);
-}
+                    & > svg:last-child {
+                        color: #999;
+                        transform: translateY(5%);
+                    }
 
-}
+                }
 
-&
-.right > button {
-    justify-content: end;
-}
+                &.right > button {
+                    justify-content: end;
+                }
 
-}
+            }
 
-}
+        }
 
-&
-> tbody > tr {
+        & > tbody > tr {
 
-&
-:nth-child(odd) {
+            &:nth-child(odd) {
 
-&
-> :first-child,
+                & > :first-child,
+                & > :last-child {
+                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #FFF;*/
+                }
 
-&
-> :last-child {
-    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #FFF;*/
-}
+            }
 
-}
+            &:nth-child(even) {
 
-&
-:nth-child(even) {
+                & > :first-child,
+                & > :last-child {
+                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #F4F4F4;*/
+                }
 
-&
-> :first-child,
+            }
 
-&
-> :last-child {
-    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #F4F4F4;*/
-}
+        }
 
-}
-
-}
-
-}
+    }
 
 }

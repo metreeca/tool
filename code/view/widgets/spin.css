@@ -29,22 +29,20 @@ tool-spin {
 
     font-size: var(--tool-spin-size);
 
-&
-> * {
+    & > * {
 
-    margin: auto;
+        margin: auto;
 
-    color: var(--tool-spin-color);
-    stroke-width: var(--tool-spin-thickness);
+        color: var(--tool-spin-color);
+        stroke-width: var(--tool-spin-thickness);
 
-    animation: tool-spin var(--tool-spin-period) infinite linear;
+        animation: tool-spin var(--tool-spin-period) infinite linear;
 
-}
+    }
 
-&
-> .lucide {
-    transform: none;
-}
+    & > .lucide {
+        transform: none;
+    }
 
 }
 

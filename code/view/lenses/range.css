@@ -18,91 +18,79 @@
 
 tool-range {
 
-&
-> section {
+    & > section {
 
-    display: flex;
-    align-items: stretch;
+        display: flex;
+        align-items: stretch;
 
-&
-> input {
+        & > input {
 
-    min-height: 4ex; /* prevent vertical flickering */
+            min-height: 4ex; /* prevent vertical flickering */
 
-    flex-grow: 1;
-    flex-basis: 100%;
+            flex-grow: 1;
+            flex-basis: 100%;
 
-    border-style: none;
-    border-radius: 0;
+            border-style: none;
+            border-radius: 0;
 
-&
-:focus {
-    box-shadow: none;
-}
+            &:focus {
+                box-shadow: none;
+            }
 
-&
-:invalid {
-    color: var(--tool--color-invalid);
-    border-color: inherit;
-}
+            &:invalid {
+                color: var(--tool--color-invalid);
+                border-color: inherit;
+            }
 
-&
-::-webkit-calendar-picker-indicator {
-    height: 1em;
-    margin: 0 0.1em;
-    font-size: 75%;
-}
+            &::-webkit-calendar-picker-indicator {
+                height: 1em;
+                margin: 0 0.1em;
+                font-size: 75%;
+            }
 
-}
+        }
 
-&
-:not(.wide) {
+        &:not(.wide) {
 
-    flex-direction: row;
+            flex-direction: row;
 
-&
-> input {
+            & > input {
 
-    width: 0;
+                width: 0;
 
-/* auto-sizing */
+                /* auto-sizing */
 
-&
-:first-child {
-    padding-right: 0.1em;
-}
+                &:first-child {
+                    padding-right: 0.1em;
+                }
 
-&
-:last-child {
-    padding-left: 0.5em;
-    border-left-style: solid;
-}
+                &:last-child {
+                    padding-left: 0.5em;
+                    border-left-style: solid;
+                }
 
-}
+            }
 
-}
+        }
 
-&
-.wide {
+        &.wide {
 
-    flex-direction: column;
+            flex-direction: column;
 
-    padding: 0;
+            padding: 0;
 
-&
-> input {
+            & > input {
 
-    padding: 0.3em 0.5em 0.2em;
+                padding: 0.3em 0.5em 0.2em;
 
-&
-:last-child {
-    border-top-style: solid;
-}
+                &:last-child {
+                    border-top-style: solid;
+                }
 
-}
+            }
 
-}
+        }
 
-}
+    }
 
 }

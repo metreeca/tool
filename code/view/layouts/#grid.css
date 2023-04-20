@@ -28,24 +28,21 @@ tool-grid {
 
     overflow: hidden;
 
-&
-> * {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    & > * {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-&
-> dt {
-    text-align: right;
-    font-size: 90%;
-    font-weight: 700;
-    color: var(--tool--color-label);
-}
+    & > dt {
+        text-align: right;
+        font-size: 90%;
+        font-weight: 700;
+        color: var(--tool--color-label);
+    }
 
-&
-> hr {
-    display: block;
-    grid-column: 1 / span 2;
-}
+    & > hr {
+        display: block;
+        grid-column: 1 / span 2;
+    }
 
 }

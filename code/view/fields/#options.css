@@ -18,9 +18,8 @@ tool-options {
 
     overflow: visible !important;
 
-&
-> select.default {
-    color: var(--tool--color-disabled);
-}
+    & > select.default {
+        color: var(--tool--color-disabled);
+    }
 
 }

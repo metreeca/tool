@@ -21,24 +21,21 @@ tool-page {
     grid-template-columns: max-content 20rem 1fr;
     grid-template-rows: 100%;
 
-&
-> * {
+    & > * {
 
-    display: grid;
+        display: grid;
 
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
 
-}
+    }
 
-&
-> nav {
-    border-right-style: solid;
-}
+    & > nav {
+        border-right-style: solid;
+    }
 
-&
-> aside {
-    border-right-style: solid;
-}
+    & > aside {
+        border-right-style: solid;
+    }
 
 }

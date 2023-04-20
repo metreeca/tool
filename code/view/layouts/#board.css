@@ -28,9 +28,8 @@ tool-board {
     grid-gap: var(--gap);
     grid-template-columns: repeat(auto-fit, minmax(var(--width), 1fr));
 
-&
-> * {
-    aspect-ratio: var(--ratio)
-}
+    & > * {
+        aspect-ratio: var(--ratio)
+    }
 
 }

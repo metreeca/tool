@@ -26,95 +26,83 @@ tool-item {
 
     white-space: nowrap;
 
-&
-[disabled] {
+    &[disabled] {
 
-    color: var(--tool--color-disabled);
-    pointer-events: none;
+        color: var(--tool--color-disabled);
+        pointer-events: none;
 
-&
-* {
-    color: inherit;
-}
+        & * {
+            color: inherit;
+        }
 
-}
+    }
 
-&
-:not(:first-of-type) {
-    margin-top: 0.1em;
-}
+    &:not(:first-of-type) {
+        margin-top: 0.1em;
+    }
 
-&
-[expanded]:not(:last-child) {
+    &[expanded]:not(:last-child) {
 
-    margin-bottom: 0.75em;
+        margin-bottom: 0.75em;
 
-}
+    }
 
-&
-.rule > header {
-    padding: 0.25ex 0;
-    border-bottom-style: solid;
-}
+    &.rule > header {
+        padding: 0.25ex 0;
+        border-bottom-style: solid;
+    }
 
-&
-> header {
+    & > header {
 
-    display: grid;
-    align-items: center;
+        display: grid;
+        align-items: center;
 
-    grid-column-gap: 0.5em;
-    grid-template-columns: min-content 1fr min-content;
+        grid-column-gap: 0.5em;
+        grid-template-columns: min-content 1fr min-content;
 
-&
-> :empty {
-    display: none;
-}
+        & > :empty {
+            display: none;
+        }
 
-&
-> span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        & > span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-&
-> nav {
+        & > nav {
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
 
-    grid-column-gap: 0.25em;
+            grid-column-gap: 0.25em;
 
-    z-index: 1;
-    color: #333;
+            z-index: 1;
+            color: #333;
 
-&
-:first-child {
-    grid-column: 1;
-}
+            &:first-child {
+                grid-column: 1;
+            }
 
-&
-:last-child {
-    grid-column: 3;
-    transform: scale(0.9) translateY(5%);
-}
+            &:last-child {
+                grid-column: 3;
+                transform: scale(0.9) translateY(5%);
+            }
 
-}
+        }
 
-}
+    }
 
-&
-> section {
+    & > section {
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
 
-    margin-left: 0.2em;
+        margin-left: 0.2em;
 
-    font-size: 90%;
+        font-size: 90%;
 
-}
+    }
 
 }

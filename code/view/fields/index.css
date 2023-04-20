@@ -23,140 +23,119 @@
     --horizontal-padding: 0.3em;
     --vertical-padding: 0.15em;
 
-&
-> :not(p):not(div) {
-    white-space: nowrap;
-}
+    & > :not(p):not(div) {
+        white-space: nowrap;
+    }
 
 
-&
-> header {
+    & > header {
 
-    display: grid;
-    grid-template-columns: 1fr min-content;
-    grid-template-rows: min-content;
+        display: grid;
+        grid-template-columns: 1fr min-content;
+        grid-template-rows: min-content;
 
-    min-width: 10em;
+        min-width: 10em;
 
-&
-> * {
-    grid-row: 1;
-}
+        & > * {
+            grid-row: 1;
+        }
 
-&
-> input {
-    grid-column: 1 / span 2;
-    padding-right: 1.5em !important;
-}
+        & > input {
+            grid-column: 1 / span 2;
+            padding-right: 1.5em !important;
+        }
 
-&
-> button {
+        & > button {
 
-    grid-column: 2;
-    padding: 0 0.25em;
-    background-color: transparent;
-    transform: scale(0.75);
+            grid-column: 2;
+            padding: 0 0.25em;
+            background-color: transparent;
+            transform: scale(0.75);
 
-&
-:focus {
-    outline-offset: 0;
-}
+            &:focus {
+                outline-offset: 0;
+            }
 
-}
+        }
 
-}
+    }
 
-&
-> section {
+    & > section {
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
 
-    padding: 0.15em 0.2em 0.15em 0.3em;
+        padding: 0.15em 0.2em 0.15em 0.3em;
 
-&
-:first-of-type {
-    margin-top: 0.25em;
-}
+        &:first-of-type {
+            margin-top: 0.25em;
+        }
 
-&
-:nth-child(odd) {
-    background-color: var(--tool--background-color-stripe);
-    border-top-style: solid;
-    border-bottom-style: solid;
-}
+        &:nth-child(odd) {
+            background-color: var(--tool--background-color-stripe);
+            border-top-style: solid;
+            border-bottom-style: solid;
+        }
 
-&
-> button {
-    transform: scale(0.75);
-}
+        & > button {
+            transform: scale(0.75);
+        }
 
-}
+    }
 
-&
-textarea,
+    & textarea,
+    & input {
 
-&
-input {
+        box-sizing: content-box;
+        padding: var(--vertical-padding) var(--horizontal-padding);
+        border-radius: 0.25em;
+        border-style: solid;
 
-    box-sizing: content-box;
-    padding: var(--vertical-padding) var(--horizontal-padding);
-    border-radius: 0.25em;
-    border-style: solid;
+        &:not(:disabled):not(:read-only) {
+            background-color: var(--tool--background-color-edit);
+        }
 
-&
-:not(:disabled):not(:read-only) {
-    background-color: var(--tool--background-color-edit);
-}
-
-}
+    }
 
 
-&
-textarea {
-    resize: vertical;
-}
+    & textarea {
+        resize: vertical;
+    }
 
 
-&
-select {
+    & select {
 
-    box-sizing: content-box;
-    border-style: solid;
-    border-radius: 0.25em;
+        box-sizing: content-box;
+        border-style: solid;
+        border-radius: 0.25em;
 
-&
-:not(:disabled) {
-    background-color: var(--tool--background-color-edit);
-}
+        &:not(:disabled) {
+            background-color: var(--tool--background-color-edit);
+        }
 
-&
-:focus {
-    box-shadow: var(--tool--box-shadow-focus);
-}
+        &:focus {
+            box-shadow: var(--tool--box-shadow-focus);
+        }
 
-&
-:invalid {
-    border-color: var(--tool--color-invalid);
-}
+        &:invalid {
+            border-color: var(--tool--color-invalid);
+        }
 
-&
-> option {
-    padding: var(--vertical-padding) var(--horizontal-padding);
-}
+        & > option {
+            padding: var(--vertical-padding) var(--horizontal-padding);
+        }
 
-}
+    }
 
-&
-small {
-    display: block;
-    white-space: nowrap;
-    color: var(--tool--color-placeholder);
-    transform: scale(0.75);
-    transform-origin: center left;
-}
+    & small {
+        display: block;
+        white-space: nowrap;
+        color: var(--tool--color-placeholder);
+        transform: scale(0.75);
+        transform-origin: center left;
+    }
 
 }
 

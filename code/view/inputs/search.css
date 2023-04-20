@@ -31,98 +31,85 @@ tool-search {
 
     background-color: transparent;
 
-&
-.rule {
+    &.rule {
 
-    overflow: hidden;
+        overflow: hidden;
 
-&
-> input {
-    border-bottom-style: solid;
-    box-shadow: none;
-}
+        & > input {
+            border-bottom-style: solid;
+            box-shadow: none;
+        }
 
-&
-:focus-within::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    box-shadow: var(--tool--box-shadow-focus);
+        &:focus-within::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            box-shadow: var(--tool--box-shadow-focus);
 
-}
+        }
 
-}
+    }
 
-&
-:not(.rule) {
+    &:not(.rule) {
 
-&
-> nav:first-child {
-    margin-left: 0.1em;
-}
+        & > nav:first-child {
+            margin-left: 0.1em;
+        }
 
-&
-> nav:last-child {
-    margin-right: 0.1em;
-}
+        & > nav:last-child {
+            margin-right: 0.1em;
+        }
 
-&
-> input {
-    margin: 0 -0.1em;
-    border-style: solid;
-    border-radius: 2ex;
-}
+        & > input {
+            margin: 0 -0.1em;
+            border-style: solid;
+            border-radius: 2ex;
+        }
 
-}
+    }
 
-&
-> * {
-    grid-row: 1;
-}
+    & > * {
+        grid-row: 1;
+    }
 
-&
-> input {
+    & > input {
 
-    grid-column: 1 / cols 3;
+        grid-column: 1 / cols 3;
 
-    padding: 0.2ex 1.33em 0.25ex;
+        padding: 0.2ex 1.33em 0.25ex;
 
-    font-size: 90%;
+        font-size: 90%;
 
-}
+    }
 
-&
-> nav {
+    & > nav {
 
-    display: grid;
+        display: grid;
 
-    z-index: 1;
-    color: #333;
+        z-index: 1;
+        color: #333;
 
-    background-color: transparent;
-    transform: scale(0.75);
+        background-color: transparent;
+        transform: scale(0.75);
 
-&
-:first-child {
-    grid-column: 1;
-    pointer-events: none;
-    color: #999;
-}
+        &:first-child {
+            grid-column: 1;
+            pointer-events: none;
+            color: #999;
+        }
 
-&
-:last-child {
-    grid-column: 3;
-}
+        &:last-child {
+            grid-column: 3;
+        }
 
-}
+    }
 
-&
-[disabled] > nav {
-    color: var(--tool--color-disabled);
-}
+    & [disabled] > nav {
+        color: var(--tool--color-disabled);
+    }
 
 }

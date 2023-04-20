@@ -22,39 +22,35 @@ tool-select {
     position: relative;
     overflow: visible !important;
 
-&
-> footer {
+    & > footer {
 
-    z-index: 1;
+        z-index: 1;
 
-    position: absolute;
+        position: absolute;
 
-    left: 0;
-    right: 0;
-    top: calc(100% + 0.25em);
+        left: 0;
+        right: 0;
+        top: calc(100% + 0.25em);
 
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
 
-    border-style: solid;
-    border-radius: var(--radius);
+        border-style: solid;
+        border-radius: var(--radius);
 
-    overflow: hidden;
+        overflow: hidden;
 
-    background-color: var(--tool--background-color-edit);
+        background-color: var(--tool--background-color-edit);
 
-    box-shadow: 0 0 0 0.25em var(--tool--background-color);
+        box-shadow: 0 0 0 0.25em var(--tool--background-color);
 
-&
-> tool-spin,
+        & > tool-spin,
+        & > small {
+            margin: 0.25em 0.5em;
+        }
 
-&
-> small {
-    margin: 0.25em 0.5em;
-}
-
-}
+    }
 
 }

@@ -32,84 +32,73 @@ tool-range {
 
     background-color: var(--tool--background-color-edit);
 
-&
-.focused {
-    box-shadow: var(--tool--box-shadow-focus);
-}
+    &.focused {
+        box-shadow: var(--tool--box-shadow-focus);
+    }
 
-&
-:not(:first-child) {
-    margin-top: 0.5em;
-}
+    &:not(:first-child) {
+        margin-top: 0.5em;
+    }
 
-&
-> * {
+    & > * {
 
-    margin: 0;
+        margin: 0;
 
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
 
-&
-:empty {
-    display: none;
-}
+        &:empty {
+            display: none;
+        }
 
-}
+    }
 
-&
-> header {
+    & > header {
 
-    display: grid;
-    align-items: center;
+        display: grid;
+        align-items: center;
 
-    grid-template-columns: 1em 1fr min-content;
-    grid-column-gap: 0.25em;
+        grid-template-columns: 1em 1fr min-content;
+        grid-column-gap: 0.25em;
 
-    padding-top: 0.33em;
-    padding-bottom: 0.25em;
+        padding-top: 0.33em;
+        padding-bottom: 0.25em;
 
-&
-svg {
+        & svg {
 
-    color: var(--tool--color-light);
+            color: var(--tool--color-light);
 
-    background-color: transparent;
-    transform: scale(0.9);
+            background-color: transparent;
+            transform: scale(0.9);
 
-}
+        }
 
-&
-> i {
-    display: grid;
-    margin-left: -0.15em;
-    pointer-events: none;
-}
+        & > i {
+            display: grid;
+            margin-left: -0.15em;
+            pointer-events: none;
+        }
 
-&
-> input {
+        & > input {
 
-    border: none;
+            border: none;
 
-&
-:focus {
-    box-shadow: none;
-}
+            &:focus {
+                box-shadow: none;
+            }
 
-}
+        }
 
-&
-> nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
+        & > nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
 
-}
+    }
 
-&
-> header ~ * {
-    border-top-style: solid;
-}
+    & > header ~ * {
+        border-top-style: solid;
+    }
 
 }
