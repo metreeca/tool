@@ -1,6 +1,6 @@
 {
     "name": "@metreeca/data",
-    "version": "0.0.0-0",
+    "version": "0.0.0",
     "description": "React state components",
     "dependencies": {
         "@metreeca/link": "^0.0.0-0"

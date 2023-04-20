@@ -1,6 +1,6 @@
 {
     "name": "@metreeca/view",
-    "version": "0.0.0-0",
+    "version": "0.0.0",
     "description": "React visual components",
     "main": "index.ts",
     "dependencies": {
