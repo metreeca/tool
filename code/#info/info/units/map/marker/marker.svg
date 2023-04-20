@@ -1,0 +1,23 @@
+<!--
+  - Copyright © 2020-2023 Metreeca srl
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64" width="64pt" height="64pt">
+    <g>
+        <path d="M 55.9016 24.930985 C 55.91918 38.154128 40.999995 55.999993 32.087719 63.91227 C 22.999997 56.999993 8.033711 37.836347 8.0165046 24.867454 C 7.999229 11.8985596 18.779868 .047827177 32.00301 .065404707 C 45.226154 .082914517 55.884092 11.707842 55.9016 24.930985 Z"/>
+        <circle class="outer" fill="white" cx="31.999996" cy="23.999997" r="14"/>
+        <!--<circle class="inner" cx="31.999996" cy="23.999997" r="10"/>-->
+    </g>
+</svg>

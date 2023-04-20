@@ -1,0 +1,10 @@
+{
+    "name": "@metreeca/info",
+    "version": "0.0.0-0",
+    "description": "React infographics components",
+    "main": "index.ts",
+    "dependencies": {
+        "@metreeca/view": "^0.0.8",
+        "d3": "^7.8.4"
+    }
+}

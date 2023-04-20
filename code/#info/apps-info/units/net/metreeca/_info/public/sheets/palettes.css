@@ -1,0 +1,266 @@
+/*
+ * Copyright © 2020-2023 Metreeca srl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**** shade 1 *************************************************************************************************/
+
+.s1 {
+    fill: #DDD;
+    stroke: #DDD;
+}
+
+/**** shade 2 *************************************************************************************************/
+
+.s2._0 {
+    fill: #DDD;
+    stroke: #DDD;
+}
+
+.s2 {
+    fill: #BBB;
+    stroke: #BBB;
+}
+
+/**** shade 3 *************************************************************************************************/
+
+.s3._0 {
+    fill: #DDD;
+    stroke: #DDD;
+}
+
+.s3._1 {
+    fill: #BBB;
+    stroke: #BBB;
+}
+
+.s3 {
+    fill: #999;
+    stroke: #999;
+}
+
+/**** shade 4 *************************************************************************************************/
+
+.s4._0 {
+    fill: #DDD;
+    stroke: #DDD;
+}
+
+.s4._1 {
+    fill: #CCC;
+    stroke: #CCC;
+}
+
+.s3._2 {
+    fill: #BBB;
+    stroke: #BBB;
+}
+
+.s3 {
+    fill: #AAA;
+    stroke: #AAA;
+}
+
+/**** shade 5 *************************************************************************************************/
+
+.s5._0 {
+    fill: #DDD;
+    stroke: #DDD;
+}
+
+.s5._1 {
+    fill: #CCC;
+    stroke: #CCC;
+}
+
+.s5._2 {
+    fill: #BBB;
+    stroke: #BBB;
+}
+
+.s5._3 {
+    fill: #AAA;
+    stroke: #AAA;
+}
+
+.s5 {
+    fill: #999;
+    stroke: #999;
+}
+
+/**** color 10 ************************************************************************************************/
+
+.c10._0 {
+    fill: #1F77B4;
+    stroke: #1F77B4;
+}
+
+.c10._1 {
+    fill: #FF7F0E;
+    stroke: #FF7F0E;
+}
+
+.c10._2 {
+    fill: #2CA02C;
+    stroke: #2CA02C;
+}
+
+.c10._3 {
+    fill: #D62728;
+    stroke: #D62728;
+}
+
+.c10._4 {
+    fill: #9467BD;
+    stroke: #9467BD;
+}
+
+.c10._5 {
+    fill: #8C564B;
+    stroke: #8C564B;
+}
+
+.c10._6 {
+    fill: #E377C2;
+    stroke: #E377C2;
+}
+
+.c10._7 {
+    fill: #7F7F7F;
+    stroke: #7F7F7F;
+}
+
+.c10._8 {
+    fill: #BCBD22;
+}
+
+.c10 {
+    fill: #17BECF;
+    stroke: #17BECF;
+}
+
+/**** color 20b ***********************************************************************************************/
+
+.c20b._0 {
+    fill: #393B79;
+    stroke: #393B79;
+}
+
+.c20b._1 {
+    fill: #5254A3;
+    stroke: #5254A3;
+}
+
+.c20b._2 {
+    fill: #6B6ECF;
+    stroke: #6B6ECF;
+}
+
+.c20b._3 {
+    fill: #9C9EDE;
+    stroke: #9C9EDE;
+}
+
+.c20b._4 {
+    fill: #637939;
+    stroke: #637939;
+}
+
+.c20b._5 {
+    fill: #8CA252;
+    stroke: #8CA252;
+}
+
+.c20b._6 {
+    fill: #B5CF6B;
+    stroke: #B5CF6B;
+}
+
+.c20b._7 {
+    fill: #CEDB9C;
+}
+
+.c20b._8 {
+    fill: #8C6D31;
+    stroke: #8C6D31;
+}
+
+.c20b._9 {
+    fill: #BD9E39;
+    stroke: #BD9E39;
+}
+
+.c20b._10 {
+    fill: #E7BA52;
+    stroke: #E7BA52;
+}
+
+.c20b._11 {
+    fill: #E7CB94;
+    stroke: #E7CB94;
+}
+
+.c20b._12 {
+    fill: #843C39;
+    stroke: #843C39;
+}
+
+.c20b._13 {
+    fill: #AD494A;
+    stroke: #AD494A;
+}
+
+.c20b._14 {
+    fill: #D6616B;
+    stroke: #D6616B;
+}
+
+.c20b._15 {
+    fill: #E7969C;
+    stroke: #E7969C;
+}
+
+.c20b._16 {
+    fill: #7B4173;
+    stroke: #7B4173;
+}
+
+.c20b._17 {
+    fill: #A55194;
+    stroke: #A55194;
+}
+
+.c20b._18 {
+    fill: #CE6DBD;
+    stroke: #CE6DBD;
+}
+
+.c20b {
+    fill: #DE9ED6;
+    stroke: #DE9ED6;
+}
+
+/**** warning 3 *************************************************************************************************/
+
+.palette.w3._1 {
+    background-color: #F80;
+}
+
+.palette.w3._2 {
+    background-color: #FA4;
+}
+
+.palette.w3._3 {
+    background-color: #FC8;
+}

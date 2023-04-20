@@ -1,0 +1,141 @@
+<!--
+  ~ Copyright © 2020-2023 Metreeca srl
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE HTML>
+
+<html>
+
+    <head>
+
+        <title>bar chart</title>
+
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+        <script type="text/javascript" src="../../base/info.test.js"></script>
+        <script type="text/javascript" src="http://localhost:8080/bundle.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.1.3/zepto.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../../base/info.test.css">
+
+    </head>
+
+    <body>
+
+        <script type="text/javascript">
+            $(function () {
+
+                suite(info.chart.bar({
+
+                    key: "letter",
+                    item: "letter",
+                    value: ["english", "italian", "average"],
+
+                    area: {top: 5/100, right: 20/100, bottom: 10/100, left: 10/100, aspect: 21/13}, // plot area
+
+                    layout: "stacked",
+                    orient: "vertical",
+
+
+                    controls: $("<a href=''/>").text("ciao babbo!").css({top: "1em", right: "3em"}),
+
+                    main: {label: "Frequency", offset: 5},
+                    cross: {label: "Letters", offset: 5},
+
+                    detail: function (cell) {
+                        return $("<a/>").text(cell.item+"/"+cell.meta.value+"@"+cell.i+","+cell.j+"="+cell.value).click(function (e) {
+                            document.title=$(e.currentTarget).text()+" (tooltip)";
+                        });
+                    },
+
+                    action: function (cell) {
+                        document.title=cell.item+"/"+cell.meta.value+"="+cell.value+" (cell)";
+                        console.log(cell);
+                    }
+
+                }), {
+
+                    "orient": {
+
+                        "vertical": function () { return {orient: "vertical"} },
+                        "horizontal": function () { return {orient: "horizontal"} }
+
+                    },
+
+                    "layout": {
+
+                        "grouped": function () { return {layout: "grouped"} },
+                        "stacked": function () { return {layout: "stacked"} }
+
+                    },
+
+                    "values": {
+
+                        "shake": function (table) { table.shake() },
+                        "center": function (table) { table.center() }
+
+                    },
+
+                    "record insertion/removal": {
+
+                        "insert": function (table) { table.insert() },
+                        "remove": function (table) { table.remove() }
+
+                    },
+
+                    "series toggling": {
+
+                        "toggle items": function () {
+                            return {item: this.item ? null : "letter"}
+                        },
+
+                        "toggle values": function () {
+                            return {value: this.value.length ? null : ["english", "italian", "average"]}
+                        },
+
+                        "toggle series": function () {
+                            return {
+                                value: this.value.length === 3
+                                    ? ["english", "average"]
+                                    : ["english", "italian", "average"]
+                            }
+                        }
+                    },
+
+                    "lines": {
+
+                        "toggle grid": function () {
+                            return {
+                                main: {grid: this.main.grid ? "false" : "true"} // string-based booleans
+                            }
+                        },
+
+                        "toggle hairs": function () {
+                            return {
+                                main: {hair: !this.main.hair}
+                            }
+                        }
+                    }
+
+                });
+            });
+
+        </script>
+
+    </body>
+
+</html>
+
+
