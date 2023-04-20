@@ -1,0 +1,8 @@
+{
+    "name": "@metreeca/skos",
+    "version": "0.0.0-0",
+    "description": "React SKOS components",
+    "dependencies": {
+        "@metreeca/view": "^0.0.0-0"
+    }
+}

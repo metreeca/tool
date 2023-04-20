@@ -1,0 +1,16 @@
+{
+    "name": "@metreeca/data",
+    "version": "0.0.0-0",
+    "description": "React state components",
+    "dependencies": {
+        "@metreeca/link": "^0.0.0-0"
+    },
+    "peerDependencies": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0"
+    }
+}

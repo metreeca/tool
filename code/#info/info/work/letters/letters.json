@@ -1,0 +1,158 @@
+[
+    {
+        "letter": "A",
+        "english": 0.08167,
+        "italian": 0.1085,
+        "average": 0.1085
+    },
+    {
+        "letter": "B",
+        "english": 0.01492,
+        "italian": 0.0105,
+        "average": 0.0105
+    },
+    {
+        "letter": "C",
+        "english": 0.02782,
+        "italian": 0.043,
+        "average": 0.043
+    },
+    {
+        "letter": "D",
+        "english": 0.04253,
+        "italian": 0.0339,
+        "average": 0.0339
+    },
+    {
+        "letter": "E",
+        "english": 0.12702,
+        "italian": 0.1149,
+        "average": 0.1149
+    },
+    {
+        "letter": "F",
+        "english": 0.02288,
+        "italian": 0.0101,
+        "average": 0.0101
+    },
+    {
+        "letter": "G",
+        "english": 0.02015,
+        "italian": 0.0165,
+        "average": 0.0165
+    },
+    {
+        "letter": "H",
+        "english": 0.06094,
+        "italian": 0.0143,
+        "average": 0.0143
+    },
+    {
+        "letter": "I",
+        "english": 0.06966,
+        "italian": 0.1018,
+        "average": 0.1018
+    },
+    {
+        "letter": "J",
+        "english": 0.00153,
+        "italian": 0,
+        "average": 0
+    },
+    {
+        "letter": "K",
+        "english": 0.00772,
+        "italian": 0,
+        "average": 0
+    },
+    {
+        "letter": "L",
+        "english": 0.04025,
+        "italian": 0.057,
+        "average": 0.057
+    },
+    {
+        "letter": "M",
+        "english": 0.02406,
+        "italian": 0.0287,
+        "average": 0.0287
+    },
+    {
+        "letter": "N",
+        "english": 0.06749,
+        "italian": 0.0702,
+        "average": 0.0702
+    },
+    {
+        "letter": "O",
+        "english": 0.07507,
+        "italian": 0.0997,
+        "average": 0.0997
+    },
+    {
+        "letter": "P",
+        "english": 0.01929,
+        "italian": 0.0296,
+        "average": 0.0296
+    },
+    {
+        "letter": "Q",
+        "english": 0.00095,
+        "italian": 0.0045,
+        "average": 0.0045
+    },
+    {
+        "letter": "R",
+        "english": 0.05987,
+        "italian": 0.0619,
+        "average": 0.0619
+    },
+    {
+        "letter": "S",
+        "english": 0.06327,
+        "italian": 0.0548,
+        "average": 0.0548
+    },
+    {
+        "letter": "T",
+        "english": 0.09056,
+        "italian": 0.0697,
+        "average": 0.0697
+    },
+    {
+        "letter": "U",
+        "english": 0.02758,
+        "italian": 0.0316,
+        "average": 0.0316
+    },
+    {
+        "letter": "V",
+        "english": 0.00978,
+        "italian": 0.0175,
+        "average": 0.0175
+    },
+    {
+        "letter": "W",
+        "english": 0.0236,
+        "italian": 0,
+        "average": 0
+    },
+    {
+        "letter": "X",
+        "english": 0.0015,
+        "italian": 0,
+        "average": 0
+    },
+    {
+        "letter": "Y",
+        "english": 0.01974,
+        "italian": 0,
+        "average": 0
+    },
+    {
+        "letter": "Z",
+        "english": 0.00074,
+        "italian": 0.0085,
+        "average": 0.0085
+    }
+]

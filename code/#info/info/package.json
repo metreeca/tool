@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "name": "metreeca-info",
+    "version": "0.2.0+20141027",
+    "author": "Metreeca <info@metreeca.it>",
+    "description": "A minimalist info visualization library",
+    "keywords": [
+        "infographics",
+        "charts",
+        "maps",
+        "d3"
+    ],
+    "maintainers": [
+        {
+            "name": "Alessandro Bollini",
+            "email": "alessandro.bollini@metreeca.it"
+        }
+    ],
+    "scripts": {
+        "preinstall": "make setup",
+        "test": "make test"
+    },
+    "dependencies": {
+        "d3": "~3",
+        "leaflet": "~0",
+        "metreeca-core": "~0"
+    },
+    "devDependencies": {
+        "karma": "~0",
+        "karma-jasmine": "~0",
+        "karma-webpack": "~1",
+        "style-loader": "*",
+        "css-loader": "*",
+        "url-loader": "~0",
+        "raw-loader": "*"
+    }
+}
