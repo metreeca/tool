@@ -148,11 +148,6 @@ tool-table {
                     text-transform: capitalize;
                     font-weight: 700;
 
-                    & > svg:last-child {
-                        color: #999;
-                        transform: translateY(5%);
-                    }
-
                 }
 
             }

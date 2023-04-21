@@ -26,7 +26,7 @@ import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
 import { classes } from "@metreeca/view";
 import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
 import { ToolMore } from "@metreeca/view/widgets/more";
-import React, { createElement, ReactNode, useState } from "react";
+import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./table.css";
 
 
@@ -123,6 +123,7 @@ export function ToolTable<V extends Frame>({
 
 
 	const [, setRoute]=useRoute();
+	const [widths, setWidths]=useState("");
 
 	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ??
 		isString(sorted) ? { [sorted as string]: "increasing" }
@@ -149,6 +150,24 @@ export function ToolTable<V extends Frame>({
 	const more=items && items.length > limit;
 
 
+	useEffect(() => {
+
+		resize();
+
+		function resize() {
+			setWidths(selection
+				? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
+				: `repeat(${Object.keys(cols).length}, min-content) 1fr`
+			);
+		}
+
+		window.addEventListener("resize", resize);
+
+		return () => { window.removeEventListener("resize", resize); };
+
+	}, []);
+
+
 	function select(value: SelectionDelta<V>): void {
 		setSelection(value);
 	}
@@ -168,25 +187,28 @@ export function ToolTable<V extends Frame>({
 
 	return createElement("tool-table", {}, !items?.length ? <small>{placeholder}</small> : <>
 
-			<table
+		<table ref={table => { // freeze column widths to avoid accordion effects on resorting
 
-				style={{
+			if ( table ) {
+				setWidths(Array.from(table.querySelectorAll("thead > tr > th"))
+					.map(th => `${th.getBoundingClientRect().width}px`)
+					.join(" ")
+				);
+			}
 
-					gridTemplateColumns: selection
-						? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
-						: `repeat(${Object.keys(cols).length}, min-content) 1fr`
+		}}
 
-				}}
+			style={{ gridTemplateColumns: widths }}
 
-			>
+		>
 
-				<thead>
+			<thead>
 
-					<tr>
+				<tr>
 
-						{selection && <th>
+					{selection && <th>
 
-                            <input type={"checkbox"}
+                        <input type={"checkbox"}
 
                                 checked={selection.length > 0}
 
