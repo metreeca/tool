@@ -66,19 +66,25 @@ export function ToolRange<
 	useEffect(() => {
 
 		function focus(e: FocusEvent) {
-			return setFocused(
-				e.target instanceof Node && (element.current?.contains(e.target) || false) && (
-					focused || e.target instanceof HTMLInputElement && e.target.parentElement?.tagName === "HEADER"
-				)
-			);
+
+			if ( element.current && e.target instanceof Node ) {
+				activate(element.current.contains(e.target));
+			}
+
 		}
 
 		window.addEventListener("focus", focus, true);
 
-		return () => window.removeEventListener("focus", focus, true);
+		return () => {
+			window.removeEventListener("focus", focus, true);
+		};
 
 	});
 
+
+	function activate(active: boolean) {
+		setFocused(active);
+	}
 
 	function lower(gte: null | V) {
 		setRange({ gte });
