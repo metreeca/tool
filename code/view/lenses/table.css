@@ -18,14 +18,15 @@ tool-table {
 
     --cell-max-width: 30em;
 
+    display: grid;
     white-space: nowrap;
 
     & > small { /* placeholder */
 
         margin: 50% auto;
 
-        &.lucide {
-            stroke-width: 1px;
+        & .lucide {
+            stroke-width: 0.75px;
             color: var(--tool--color-disabled);
             transform: scale(10);
         }
