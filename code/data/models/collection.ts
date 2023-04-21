@@ -21,7 +21,7 @@ import { useResource } from "@metreeca/data/models/resource";
 import { useState } from "react";
 
 
-export type Collection<V extends Value, R=never>=Readonly<[
+export type Collection<V extends Value>=Readonly<[
 
 	Readonly<{
 
@@ -36,9 +36,7 @@ export type Collection<V extends Value, R=never>=Readonly<[
 
 		query: Frame
 
-	}>>) => void,
-
-	undefined | ((value: V) => R)
+	}>>) => void
 
 ]>
 
@@ -106,17 +104,8 @@ export function useCollection<
 				}
 
 			}
-		},
-
-		undefined
+		}
 
 	];
 
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function map<V extends Value, R>([state, updater]: Collection<V>, mapper: (value: V) => R): Collection<V, R> {
-	return [state, updater, mapper];
 }

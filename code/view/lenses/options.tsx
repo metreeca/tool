@@ -105,7 +105,7 @@ export function ToolOptions<
 	}
 
 	function select(item: { value: null | V, selected: boolean }) {
-		setOptions({ selection: item });
+		setOptions({ selection: item, keywords: "" });
 	}
 
 	function reset() {

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { asOrder, Entry, Frame, isEntry, label, Order } from "@metreeca/core/entry";
+import { isDefined } from "@metreeca/core";
+import { asOrder, Entry, Frame, id, isEntry, label, Order } from "@metreeca/core/entry";
 import { isNumber } from "@metreeca/core/number";
+import { isString } from "@metreeca/core/string";
 import { equals, model } from "@metreeca/core/value";
 import { useRoute } from "@metreeca/data/contexts/router";
 import { useCache } from "@metreeca/data/hooks/cache";
@@ -28,14 +30,33 @@ import React, { createElement, ReactNode, useState } from "react";
 import "./table.css";
 
 
-export type ToolTableRow=Readonly<{
+// see com.metreeca.link.Stash.java
 
-	[expression: string]: ReactNode | {
-		label?: ReactNode,
-		value: ReactNode
+const IdPattern="\\w+";
+const LabelPattern="(?:[^'\\\\]|\\.)*";
+const FieldPattern=`^(?:(?:(?<id>${IdPattern})|'(?<label>${LabelPattern})')=)?(?<expression>.*)$`;
+
+function parse(expression: string): {
+
+	alias?: string
+	expression: string
+
+} {
+
+	const matches=expression.match(FieldPattern);
+
+	if ( !matches ) {
+		throw new RangeError(`malformed expression <${expression}>`);
 	}
 
-}>
+	return {
+
+		alias: matches.groups?.id ?? matches.groups?.label,
+		expression: matches.groups?.expression ?? ""
+
+	};
+
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,27 +65,73 @@ export function ToolTable<V extends Frame>({
 
 	placeholder,
 
-	selection: [selection, setSelection]=[[], () => {}],
+	sorted,
+	fields,
 
-	children: [collection, setCollection, custom]
+	selection: [selection, setSelection]=[[], () => {}],
+	children: [collection, setCollection]
 
 }: {
 
 	placeholder?: ReactNode
 
-	selection?: Selection<V>
+	sorted?: string | Order
+	fields?: { [expression: string]: (item: V) => ReactNode }
 
-	children: Collection<V, ToolTableRow>
+	selection?: Selection<V>
+	children: Collection<V>
 
 }) {
 
-	const renderer=custom ?? (() => ({})); // !!! default renderer
+	const cols: {
+
+		[expression: string]: {
+
+			entry: boolean
+			number: boolean
+
+			label: ReactNode,
+
+			renderer: (item: V) => ReactNode
+
+		}
+
+	}=Object.entries(fields ?? {}).reduce((cols, [field, renderer]) => { // !!! default specs
+
+		const { alias, expression }=parse(field);
+
+		const value=model(collection.model, expression);
+
+		return {
+
+			...cols, [expression]: {
+
+				entry: isEntry(value),
+				number: isNumber(value),
+
+				label: alias ?? expression,
+
+				renderer
+
+			}
+
+		};
+
+	}, {});
+
+	const [expression, { entry }]=Object.entries(cols)[0] ?? [undefined, {}]; // first field
 
 
-	let [, setRoute]=useRoute();
+	const [, setRoute]=useRoute();
 
+	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ??
+		isString(sorted) ? { [sorted as string]: "increasing" }
+			: isDefined(sorted) ? sorted
+				: expression ? { [entry ? `${expression}.label` : expression]: "increasing" }
+					: isEntry(collection.model) ? { label: "increasing" }
+						: {}
+	);
 
-	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ?? isEntry(collection.model) ? { label: "increasing" } : {});
 	const [offset, setOffset]=useState(0); // !!! sliding window (beware of interaction with selection)
 	const [limit, setLimit]=useState(25);
 
@@ -80,36 +147,6 @@ export function ToolTable<V extends Frame>({
 	}));
 
 	const more=items && items.length > limit;
-
-	const rows: undefined | Array<[V, {
-
-		[expression: string]: {
-			label: ReactNode,
-			value: ReactNode
-		}
-
-	}]>=items?.map(value => [value, Object.entries(renderer(value)).reduce((row, [expression, cell]) => ({
-
-		...row,
-
-		[expression]: {
-			label: (cell as any)?.label ?? expression,
-			value: (cell as any)?.value ?? cell
-		}
-
-	}), {})]);
-
-	const cols: {
-
-		[expression: string]: ReactNode
-
-	}=Object.entries(rows?.[0]?.[1] ?? {}).reduce((cols, [expression, { label }]) => ({
-
-		...cols,
-
-		[expression]: label
-
-	}), {});
 
 
 	function select(value: SelectionDelta<V>): void {
@@ -144,6 +181,7 @@ export function ToolTable<V extends Frame>({
 			>
 
 				<thead>
+
 					<tr>
 
 						{selection && <th>
@@ -158,18 +196,11 @@ export function ToolTable<V extends Frame>({
 
                         </th>}
 
-						{Object.entries(cols).map(([expression, label]) =>
+						{Object.entries(cols).map(([expression, { number, label }]) =>
 
-							<th key={expression}
-								className={classes({ right: isNumber(model(collection.model, expression)) })}
-							>
+							<th key={expression} className={classes({ right: number })}>
 
-								<button onClick={e => {
-
-									sort(expression);
-									e.currentTarget.blur();
-
-								}}>
+								<button onClick={e => sort(expression)}>
 
 									{label}
 
@@ -186,38 +217,37 @@ export function ToolTable<V extends Frame>({
 						<th/>
 
 					</tr>
+
 				</thead>
 
-				<tbody>{rows?.map(([value, cells], index) => <tr key={index}>
+				<tbody>{items?.map(item => <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
 
 					{selection && <td>
 
                         <input type={"checkbox"}
 
-                            checked={selection.some(selected => equals(selected, value))}
+                            checked={selection.some(selected => equals(selected, item))}
 
                             onChange={e => {
-								select({ value, selected: e.currentTarget.checked });
+								select({ value: item, selected: e.currentTarget.checked });
 							}}
 
                         />
 
                     </td>}
 
-					{Object.entries(cells).map(([expression, { value }]) =>
+					{Object.entries(cols).map(([expression, { number, renderer }]) =>
 
-						<td key={expression}
-							className={classes({ right: isNumber(model(collection.model, expression)) })}
-						>
+						<td key={expression} className={classes({ right: number })}>
 
-							{value}
+							{renderer(item)}
 
 						</td>
 					)}
 
-					<td>{isEntry(value) && <button title={`Open '${label(value)}'`}
+					<td>{isEntry(item) && <button title={`Open '${label(item)}'`}
 
-                        onClick={() => open(value)}
+                        onClick={() => open(item)}
 
                     >
 
@@ -229,7 +259,7 @@ export function ToolTable<V extends Frame>({
 
 			</table>
 
-		{more && <ToolMore onLoad={load}/>}
+			{more && <ToolMore onLoad={load}/>}
 
 		</>
 	);
