@@ -62,20 +62,20 @@ export function ToolOptions<
 
 
 	const expanded=!compact || focused;
-	const selected=items?.some(({ selected }) => selected);
+	const selected=items && items.some(({ selected }) => selected);
 
 	const matching=items && items.length > 0;
-	const overflow=matching && delta > 0;
+	const overflow=expanded && matching && delta > 0;
 
 
 	useEffect(() => {
 
 		function focus(e: FocusEvent) {
-			return activate(
-				e.target instanceof Node && (element.current?.contains(e.target) || false) && (
-					focused || e.target instanceof HTMLInputElement && e.target.parentElement?.tagName === "HEADER"
-				)
-			);
+
+			if ( element.current && e.target instanceof Node ) {
+				activate(element.current.contains(e.target));
+			}
+
 		}
 
 		window.addEventListener("focus", focus, true);
@@ -87,8 +87,8 @@ export function ToolOptions<
 	});
 
 
-	function activate(activate: boolean) {
-		if ( activate ) {
+	function activate(active: boolean) {
+		if ( active ) {
 
 			setFocused(true);
 
@@ -126,6 +126,12 @@ export function ToolOptions<
 		ref: element,
 		class: classes({ focused, overflow }),
 
+		onMouseLeave: e => {
+
+			e.currentTarget.querySelector("section")?.scrollTo(0, 0);
+
+		},
+
 		onKeyDown: e => {
 			if ( e.key === "Escape" || e.key === "Enter" ) {
 
@@ -136,6 +142,7 @@ export function ToolOptions<
 				}
 
 				activate(false);
+
 			}
 		}
 
@@ -171,7 +178,13 @@ export function ToolOptions<
 
 		</header>
 
-		<section>{matching && <> {/* retain section to preserve computed height */}
+		{!expanded && selected && <section>
+
+            <ul>{items.filter(({ selected }) => selected).map(Option)}</ul>
+
+        </section>}
+
+		<section>{expanded && matching && <> {/* retain section to preserve computed height */}
 
             <ul ref={ul => {
 
