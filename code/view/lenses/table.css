@@ -18,6 +18,8 @@ tool-table {
 
     --cell-max-width: 30em;
 
+    position: relative; /* stack shadows above other content */
+
     display: grid;
     grid-template-columns: 1fr;
 
