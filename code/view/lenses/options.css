@@ -18,62 +18,83 @@
 
 tool-options {
 
-    & > section {
+    --tool-options-box-shadow-size: 1em;
 
-        display: grid;
-        grid-template-columns: min-content 1fr  min-content;
-        align-items: center;
-        justify-items: stretch;
+    &.overflow {
 
-        grid-column-gap: 0.5em;
-
-        padding-top: 0.33em;
-        padding-bottom: 0.33em;
-
-        & > small {
-
-            grid-column: 1 / span 3;
-
-            padding: 0.25em 0;
-
-            font-size: 90%;
-            color: var(--tool--color-label);
-
+        & > section { /* end of content cue */
+            padding-bottom: calc(0.75 * var(--tool-options-box-shadow-size));
         }
 
-        & > div {
+        &::after { /* more content cue */
+            content: '';
+            box-shadow: 0 0 var(--tool-options-box-shadow-size) var(--tool-options-box-shadow-size) var(--tool--background-color);
+        }
 
-            display: contents;
+    }
 
-            &.unavailable > * {
-                color: var(--tool--color-disabled) !important;
+    & > small { /* placeholder */
+
+        padding: 0.5em 0.5em;
+
+        font-size: 90%;
+        color: var(--tool--color-label);
+
+    }
+
+    & > section {
+
+        overflow-y: auto;
+
+        & > ul {
+
+            display: grid;
+            grid-template-columns: min-content 1fr  min-content;
+            align-items: center;
+            justify-items: stretch;
+
+            grid-column-gap: 0.5em;
+
+            margin: 0;
+            padding: 0;
+
+            padding-top: 0.33em;
+            padding-bottom: 0.33em;
+
+            & > li {
+
+                display: contents;
+
+                &.unavailable > * {
+                    color: var(--tool--color-disabled) !important;
+                }
+
+                & > input {
+                    align-self: center;
+                }
+
+                & > a,
+                & > span {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                & > button,
+                & > small {
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: end;
+
+                    grid-column-gap: 0.25em;
+
+                    font-size: 80%;
+                    color: #999;
+                }
+
             }
-
-            & > input {
-                align-self: center;
-            }
-
-            & > a,
-            & > span {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            & > button,
-            & > small {
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: end;
-
-                grid-column-gap: 0.25em;
-
-                font-size: 80%;
-                color: #999;
-            }
-
         }
 
     }

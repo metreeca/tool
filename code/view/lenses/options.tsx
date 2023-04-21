@@ -21,9 +21,9 @@ import { useCache } from "@metreeca/data/hooks/cache";
 import { useTrailing } from "@metreeca/data/hooks/events";
 import { Option, Options } from "@metreeca/data/models/options";
 import { AutoDelay, classes } from "@metreeca/view";
-import { Check, CheckSquare, ChevronsLeft, ClearIcon, X } from "@metreeca/view/widgets/icon";
+import { Check, CheckSquare, ClearIcon, X } from "@metreeca/view/widgets/icon";
 import { ToolLink } from "@metreeca/view/widgets/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, useEffect, useRef, useState } from "react";
 import "./options.css";
 
@@ -51,24 +51,32 @@ export function ToolOptions<
 
 }) {
 
-	const [{ type, more, keywords, offset, limit, items }]=useCache(options);
-
+	const [{ type, more, keywords, limit, items }]=useCache(options);
 
 	const element=useRef<Element>(null);
 
 	const [focused, setFocused]=useState(false);
 	const [input, setInput]=useCache(keywords);
 
+	const [delta]=useState(limit); // progressive loading window size set to initial limit
+
+
+	const expanded=!compact || focused;
+	const selected=items?.some(({ selected }) => selected);
+
+	const matching=items && items.length > 0;
+	const overflow=matching && delta > 0;
+
 
 	useEffect(() => {
 
-		const focus=(e: FocusEvent) => {
+		function focus(e: FocusEvent) {
 			return activate(
 				e.target instanceof Node && (element.current?.contains(e.target) || false) && (
 					focused || e.target instanceof HTMLInputElement && e.target.parentElement?.tagName === "HEADER"
 				)
 			);
-		};
+		}
 
 		window.addEventListener("focus", focus, true);
 
@@ -100,10 +108,6 @@ export function ToolOptions<
 		setOptions({ keywords: "" });
 	}
 
-	function scroll(delta: number) {
-		if ( delta !== 0 ) {setOptions({ offset: Math.max(0, offset+delta*limit) }); }
-	}
-
 	function select(item: { value: null | V, selected: boolean }) {
 		setOptions({ selection: item, keywords: "" });
 	}
@@ -112,16 +116,15 @@ export function ToolOptions<
 		setOptions();
 	}
 
+	function load() {
+		setOptions({ limit: limit+delta });
+	}
 
-	const expanded=!compact || focused;
-	const paging=more || offset > 0;
-
-	const selected=items?.some(({ selected }) => selected);
 
 	return createElement("tool-options", {
 
 		ref: element,
-		class: classes({ focused }),
+		class: classes({ focused, overflow }),
 
 		onKeyDown: e => {
 			if ( e.key === "Escape" || e.key === "Enter" ) {
@@ -158,49 +161,37 @@ export function ToolOptions<
 
 			/>
 
-			<nav>
+			<nav>{
 
-				{expanded && paging && <>
-
-                    <button type={"button"} title={"First Page"}
-                        disabled={offset === 0} onClick={() => scroll(0)}
-                    ><ChevronsLeft/></button>
-
-                    <button type={"button"} title={"Previous Page"}
-                        disabled={offset === 0} onClick={() => scroll(-1)}
-                    ><ChevronLeft/></button>
-
-                    <button type={"button"} title={"Next Page"}
-                        disabled={!more} onClick={() => scroll(+1)} // !!! disabled
-                    ><ChevronRight/></button>
-
-                </>}
-
-				{keywords ? <button title={"Clear"} onClick={clear}><ClearIcon/></button>
+				keywords ? <button title={"Clear"} onClick={clear}><ClearIcon/></button>
 					: selected ? <button title={"Reset"} onClick={reset}><ClearIcon/></button>
-						: null}
+						: undefined
 
-			</nav>
+			}</nav>
 
 		</header>
 
-		<section>
+		<section>{matching && <> {/* retain section to preserve computed height */}
 
-			{
-				items === undefined ? undefined
-					: items.length ? items.filter(({ selected }) => expanded || selected).map(Option)
-						: expanded && <small>No Matches</small>
-			}
+            <ul ref={ul => {
 
-			{/*<ToolLoad more={more} onLoad={() => { setOptions({ offset: offset+1 });}}/>*/}
+				if ( limit && ul && !ul.parentElement!.style.height ) {
+					ul.parentElement!.style.height=`${ul.getBoundingClientRect().height}px`;
+				}
 
-		</section>
+			}}>{items.filter(({ selected }) => expanded || selected).map(Option)}</ul>
+
+			{more && <ToolMore onLoad={load}/>}
+
+        </>}</section>
+
+		{expanded && !matching && <small>No Matches</small>}
 
 	</>);
 
 
 	function Option({ selected, value, count }: Option<V>) {
-		return <div key={value === null ? "" : type.write(value)} className={count > 0 ? "available" : "unavailable"}>
+		return <li key={value === null ? "" : type.write(value)} className={count > 0 ? "available" : "unavailable"}>
 
 			<input type="checkbox" checked={selected} disabled={!selected && count === 0}
 
@@ -216,7 +207,7 @@ export function ToolOptions<
 
 			<small>{toValueString(count)}</small>
 
-		</div>;
+		</li>;
 	}
 
 }

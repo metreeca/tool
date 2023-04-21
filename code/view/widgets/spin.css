@@ -29,6 +29,8 @@ tool-spin {
 
     font-size: var(--tool-spin-size);
 
+    background-color: transparent;
+
     & > * {
 
         margin: auto;

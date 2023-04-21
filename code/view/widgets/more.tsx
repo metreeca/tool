@@ -16,6 +16,7 @@
 
 import { ToolSpin } from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useRef } from "react";
+import "./more.css";
 
 
 /**
@@ -41,6 +42,7 @@ export function ToolMore({
 }) {
 
 	const loader=useRef<HTMLElement>(null);
+
 
 	useEffect(() => {
 
@@ -72,6 +74,6 @@ export function ToolMore({
 	}, [onLoad]);
 
 
-	return createElement("tool-load", { ref: loader }, children ?? <ToolSpin/>);
+	return createElement("tool-more", { ref: loader }, children ?? <ToolSpin/>);
 
 }
