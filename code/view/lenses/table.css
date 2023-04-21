@@ -19,6 +19,8 @@ tool-table {
     --cell-max-width: 30em;
 
     display: grid;
+    grid-template-columns: 1fr;
+
     white-space: nowrap;
 
     & > small { /* placeholder */
@@ -50,18 +52,24 @@ tool-table {
 
                 display: contents;
 
-                & > * {
+                & > th,
+                & > td {
 
                     z-index: 1; /* above page header */
-
-                    flex-shrink: 1;
 
                     display: flex;
                     flex-direction: row;
                     align-items: center;
+                    justify-content: space-between;
+                    grid-column-gap: 0.25em;
 
                     padding: 0.4rem 0.5rem;
-                    border-bottom: solid 1px #EEE;
+                    border-bottom: solid 1px #DDD;
+
+                    &.right {
+                        flex-direction: row-reverse;
+                        justify-content: end;
+                    }
 
                     &:first-child {
 
@@ -80,11 +88,7 @@ tool-table {
                     }
 
                     &:last-child {
-
-                        & > * {
-                            margin-left: auto;
-                        }
-
+                        justify-content: flex-end;
                     }
 
                     & > * {
@@ -93,12 +97,24 @@ tool-table {
                         text-overflow: ellipsis;
                     }
 
+                }
 
-                    & .right > * {
-                        margin-left: auto;
-                        margin-right: 1em; /* align with sorting placeholder in th */
-                    }
+            }
 
+            &:nth-child(odd) {
+
+                & > :first-child,
+                & > :last-child {
+                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #FFF;*/
+                }
+
+            }
+
+            &:nth-child(even) {
+
+                & > :first-child,
+                & > :last-child {
+                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #F4F4F4;*/
                 }
 
             }
@@ -116,10 +132,6 @@ tool-table {
                 position: sticky;
                 top: 0;
 
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-
                 border-bottom-style: solid;
                 margin-bottom: 0.75rem;
 
@@ -131,13 +143,7 @@ tool-table {
 
                 & > button {
 
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: space-between;
-
-                    grid-column-gap: 0.25em;
+                    display: contents;
 
                     text-transform: capitalize;
                     font-weight: 700;
@@ -147,32 +153,6 @@ tool-table {
                         transform: translateY(5%);
                     }
 
-                }
-
-                &.right > button {
-                    justify-content: end;
-                }
-
-            }
-
-        }
-
-        & > tbody > tr {
-
-            &:nth-child(odd) {
-
-                & > :first-child,
-                & > :last-child {
-                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #FFF;*/
-                }
-
-            }
-
-            &:nth-child(even) {
-
-                & > :first-child,
-                & > :last-child {
-                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #F4F4F4;*/
                 }
 
             }

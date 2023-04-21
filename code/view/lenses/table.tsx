@@ -200,9 +200,9 @@ export function ToolTable<V extends Frame>({
 
 							<th key={expression} className={classes({ right: number })}>
 
-								<button onClick={e => sort(expression)}>
+								<button onClick={() => sort(expression)}>
 
-									{label}
+									<span>{label}</span>
 
 									{order[expression] === "increasing" ? <IncreasingIcon/>
 										: order[expression] === "decreasing" ? <DecreasingIcon/>
