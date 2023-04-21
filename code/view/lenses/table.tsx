@@ -187,28 +187,28 @@ export function ToolTable<V extends Frame>({
 
 	return createElement("tool-table", {}, !items?.length ? <small>{placeholder}</small> : <>
 
-		<table ref={table => { // freeze column widths to avoid accordion effects on resorting
+			<table ref={table => { // freeze column widths to avoid accordion effects on resorting
 
-			if ( table ) {
-				setWidths(Array.from(table.querySelectorAll("thead > tr > th"))
-					.map(th => `${th.getBoundingClientRect().width}px`)
-					.join(" ")
-				);
-			}
+				if ( table ) {
+					setWidths(Array.from(table.querySelectorAll("thead > tr > th"))
+						.map(th => `${th.getBoundingClientRect().width}px`)
+						.join(" ")
+					);
+				}
 
-		}}
+			}}
 
-			style={{ gridTemplateColumns: widths }}
+				style={{ gridTemplateColumns: widths }}
 
-		>
+			>
 
-			<thead>
+				<thead>
 
-				<tr>
+					<tr>
 
-					{selection && <th>
+						{selection && <th>
 
-                        <input type={"checkbox"}
+                            <input type={"checkbox"}
 
                                 checked={selection.length > 0}
 
@@ -242,42 +242,65 @@ export function ToolTable<V extends Frame>({
 
 				</thead>
 
-				<tbody>{items?.map(item => <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
+				<tbody>{items?.map((item, index) => {
 
-					{selection && <td>
+					const skip=head(item, index ? items[index-1] : {} as Frame);
 
-                        <input type={"checkbox"}
 
-                            checked={selection.some(selected => equals(selected, item))}
+					function head(x: Frame, y: Frame): number { // returns the length of the initial shared row head
 
-                            onChange={e => {
-								select({ value: item, selected: e.currentTarget.checked });
-							}}
+						let n=0;
 
-                        />
+						for (const k in cols) {
+							if ( equals(x[k], y[k]) ) { ++n; } else { return n; }
+						}
 
-                    </td>}
+						return n;
 
-					{Object.entries(cols).map(([expression, { number, renderer }]) =>
+					}
 
-						<td key={expression} className={classes({ right: number })}>
 
-							{renderer(item)}
+					return <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
 
-						</td>
-					)}
+						{selection && <td>
 
-					<td>{isEntry(item) && <button title={`Open '${label(item)}'`}
+                            <input type={"checkbox"}
 
-                        onClick={() => open(item)}
+                                checked={selection.some(selected => equals(selected, item))}
 
-                    >
+                                onChange={e => {
+									select({ value: item, selected: e.currentTarget.checked });
+								}}
 
-                        <OpenIcon/>
+                            />
 
-                    </button>}</td>
+                        </td>}
 
-				</tr>)}</tbody>
+						{Object.entries(cols).map(([expression, { number, renderer }], index) =>
+
+							<td key={expression} className={classes({
+								right: number,
+								placeholder: index < skip
+							})}>
+
+								{renderer(item)}
+
+							</td>
+						)}
+
+						<td>{isEntry(item) && <button title={`Open '${label(item)}'`}
+
+                            onClick={() => open(item)}
+
+                        >
+
+                            <OpenIcon/>
+
+                        </button>}</td>
+
+					</tr>;
+
+				})}</tbody>
 
 			</table>
 

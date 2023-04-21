@@ -79,8 +79,10 @@ export function toValueString(value: Value, {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function equals(x: Value, y: Value): boolean {
-	return isEntry(x) && isEntry(y) ? x.id === y.id : x === y;
+export function equals(x: Frame[string], y: Frame[string]): boolean {
+	return isArray<null | Value>(x) && isArray<null | Value>(y) ? x.length === y.length && x.every((v, i) => equals(v, y[i]))
+		: isEntry(x) && isEntry(y) ? x.id === y.id
+			: x === y;
 }
 
 export function model(value: Value, expression: string): undefined | Value {

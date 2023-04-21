@@ -154,6 +154,18 @@ tool-table {
 
         }
 
+        & > tbody {
+
+            & > tr > td {
+
+                &.placeholder > * {
+                    filter: opacity(15%);
+                }
+
+            }
+
+        }
+
     }
 
 }
