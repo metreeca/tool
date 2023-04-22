@@ -67,6 +67,7 @@ function parse(expression: string): {
 
 export function ToolTable<V extends Frame>({
 
+	hierarchy,
 	placeholder,
 
 	sorted,
@@ -77,6 +78,7 @@ export function ToolTable<V extends Frame>({
 
 }: {
 
+	hierarchy?: boolean
 	placeholder?: ReactNode
 
 	sorted?: string | Order
@@ -283,7 +285,7 @@ export function ToolTable<V extends Frame>({
 
 							<td key={expression} className={classes({
 								right: number,
-								placeholder: index < skip
+								placeholder: hierarchy && index < skip
 							})}>
 
 								{renderer(item)}
