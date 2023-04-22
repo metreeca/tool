@@ -30,6 +30,10 @@ import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./table.css";
 
 
+const LimitInit=25;
+const LimitNext=10;
+
+
 // see com.metreeca.link.Stash.java
 
 const IdPattern="\\w+";
@@ -123,7 +127,7 @@ export function ToolTable<V extends Frame>({
 
 
 	const [, setRoute]=useRoute();
-	const [widths, setWidths]=useState("");
+	const [widths, setWidths]=useState(""); // frozen column widths
 
 	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ??
 		isString(sorted) ? { [sorted as string]: "increasing" }
@@ -134,7 +138,7 @@ export function ToolTable<V extends Frame>({
 	);
 
 	const [offset, setOffset]=useState(0); // !!! sliding window (beware of interaction with selection)
-	const [limit, setLimit]=useState(25);
+	const [limit, setLimit]=useState(LimitInit);
 
 	const [items]=useCache(collection.items({
 
@@ -152,14 +156,7 @@ export function ToolTable<V extends Frame>({
 
 	useEffect(() => {
 
-		resize();
-
-		function resize() {
-			setWidths(selection
-				? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
-				: `repeat(${Object.keys(cols).length}, min-content) 1fr`
-			);
-		}
+		function resize() { setWidths(""); }
 
 		window.addEventListener("resize", resize);
 
@@ -181,7 +178,7 @@ export function ToolTable<V extends Frame>({
 	}
 
 	function load() {
-		setLimit(limit+10);
+		setLimit(limit+LimitNext);
 	}
 
 
@@ -198,7 +195,13 @@ export function ToolTable<V extends Frame>({
 
 			}}
 
-				style={{ gridTemplateColumns: widths }}
+				style={{
+
+					gridTemplateColumns: widths || selection
+						? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
+						: `repeat(${Object.keys(cols).length}, min-content) 1fr`
+
+				}}
 
 			>
 
