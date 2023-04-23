@@ -16,11 +16,12 @@
 
 tool-pane {
 
-    --tool-pane-header-padding: 0.75rem;
+    --tool-pane-header-height: 5rem;
     --tool-pane-header-font-size: 2rem;
 
-    --tool-pane-footer-padding: 0.75rem;
+    --tool-pane-footer-height: 3rem;
     --tool-pane-footer-font-size: 1.1rem;
+
 
     display: flex;
     flex-direction: column;
@@ -46,10 +47,6 @@ tool-pane {
             display: none;
         }
 
-        &::before {
-            content: '​ '; /* prevent vertical collapsing*/
-        }
-
         & > a {
             display: contents;
         }
@@ -65,8 +62,7 @@ tool-pane {
         position: sticky;
         top: 0;
 
-        padding-top: var(--tool-pane-header-padding);
-        padding-bottom: var(--tool-pane-header-padding);
+        height: var(--tool-pane-header-height);
 
         font-size: var(--tool-pane-header-font-size);
 
@@ -88,8 +84,7 @@ tool-pane {
         position: sticky;
         bottom: 0;
 
-        padding-top: var(--tool-pane-footer-padding);
-        padding-bottom: var(--tool-pane-footer-padding);
+        height: var(--tool-pane-footer-height);
 
         font-size: var(--tool-pane-footer-font-size);
 
@@ -119,7 +114,6 @@ tool-pane {
 
         & > footer {
             font-size: var(--tool-pane-header-font-size);
-            transform: translateY(10%);
         }
 
     }
