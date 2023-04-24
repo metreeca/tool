@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { app } from "@metreeca/view";
-import * as React from "react";
-import { createElement } from "react";
+import { app }                      from "@metreeca/view";
+import * as React                   from "react";
+import { createElement, ReactNode } from "react";
 import "./logo.css";
 
 
@@ -27,21 +27,25 @@ import "./logo.css";
  */
 export function ToolLogo({
 
-	onClick
+	children
 
 }: {
 
-	onClick?: () => void;
+	children?: ReactNode
 
 }) {
 
 	return createElement("tool-logo", {
 
-		onClick,
+		title: app.name
 
-		style: { backgroundImage: `url(${(app.icon)})` }
+	}, <>
 
-	}, <></>);
+		<i style={{ backgroundImage: `url(${(app.icon)})` }}/>
+
+		{children && <span>{children}</span>}
+
+	</>);
 
 }
 
