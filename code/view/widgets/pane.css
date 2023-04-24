@@ -27,8 +27,7 @@ tool-pane {
     flex-direction: column;
     align-items: stretch;
 
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: auto;
 
     & > * {
 
@@ -38,6 +37,10 @@ tool-pane {
 
     & > header,
     & > footer {
+
+        position: sticky; /* horizontal scrolling */
+        left: 0;
+        right: 0;
 
         display: flex;
         flex-direction: row;
@@ -59,8 +62,7 @@ tool-pane {
 
     & > header {
 
-        position: sticky;
-        top: 0;
+        top: 0; /* vertical scrolling */
 
         height: var(--tool-pane-header-height);
 
@@ -81,8 +83,7 @@ tool-pane {
 
     & > footer {
 
-        position: sticky;
-        bottom: 0;
+        bottom: 0; /* vertical scrolling */
 
         height: var(--tool-pane-footer-height);
 

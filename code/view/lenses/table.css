@@ -23,8 +23,6 @@ tool-table {
     display: grid;
     grid-template-columns: 1fr;
 
-    overflow-x: auto;
-
     white-space: nowrap;
 
 
