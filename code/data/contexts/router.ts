@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { isString, normalize } from "@metreeca/core/string";
+import { isString, normalize }  from "@metreeca/core/string";
 import { toValueString, Value } from "@metreeca/core/value";
-import { app } from "@metreeca/view";
+import { app }                  from "@metreeca/view";
 import {
 	createContext,
 	createElement,
@@ -27,7 +27,7 @@ import {
 	useEffect,
 	useMemo,
 	useReducer
-} from "react";
+}                               from "react";
 
 
 /**
@@ -274,10 +274,9 @@ export function ToolRouter({
 				const href=anchor.href;
 				const file="file:///";
 
-				const route=href.startsWith(app.base) ? href.substring(app.base.length-1)
-					: href.startsWith(app.root) ? href.substring(app.root.length-1)
-						: href.startsWith(file) ? href.substring(file.length-1)
-							: "";
+				const route = href.startsWith(app.root) ? href.substring(app.root.length - 1)
+					: href.startsWith(file) ? href.substring(file.length - 1)
+						: "";
 
 				if ( route ) { // internal routes
 

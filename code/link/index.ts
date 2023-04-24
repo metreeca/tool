@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { immutable } from "@metreeca/core";
+import { immutable }    from "@metreeca/core";
 import { Entry, Trace } from "@metreeca/core/entry";
 
 
@@ -41,7 +41,7 @@ export function errors(response: Response): Promise<Response> {
 
 	} else {
 
-		const mime=response.headers.get("Content-Type");
+		const mime = response.headers.get("Content-Type");
 
 		if ( mime?.match(/^text\/plain\b/i) ) {
 
