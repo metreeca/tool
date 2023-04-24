@@ -109,7 +109,7 @@ export interface Table {
 /**
  * The value component of the router context state.
  */
-export type Route=string
+export type Route = string
 
 /**
  * The updater component of the router context state.
@@ -123,11 +123,11 @@ export interface SetRoute {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const ActiveAttribute="active";
-const NativeAttribute="native";
-const TargetAttribute="target";
+const ActiveAttribute = "active";
+const NativeAttribute = "native";
+const TargetAttribute = "target";
 
-const Context=createContext<{
+const Context = createContext<{
 
 	store: Store,
 	update: () => void,
@@ -147,7 +147,7 @@ const Context=createContext<{
  *
  * @return a function managing routes as relative-relative paths including search and hash
  */
-export const path=(route?: string) => {
+export const path = (route?: string) => {
 
 	if ( route === undefined ) {
 
@@ -166,7 +166,7 @@ export const path=(route?: string) => {
  *
  * @return a function managing routes as hashes
  */
-export const hash=(route?: string) => {
+export const hash = (route?: string) => {
 
 	if ( route === undefined ) {
 
@@ -191,9 +191,9 @@ export const hash=(route?: string) => {
  */
 export function active(route: string): { href: string, [ActiveAttribute]?: "" } {
 
-	const wild=route.endsWith("*");
+	const wild = route.endsWith("*");
 
-	const href=wild ? route.substring(0, route.length-1) : route;
+	const href = wild ? route.substring(0, route.length - 1) : route;
 
 	function matches(target: string, current: string) {
 		return wild ? current.startsWith(target) : current === target;
@@ -218,7 +218,7 @@ export function native(route: string): { href: string, [NativeAttribute]?: "" } 
 export function title(value: undefined | Value): void {
 
 	if ( value !== undefined ) {
-		document.title=normalizeTitle(isString(value) ? value : toValueString(value));
+		document.title = normalizeTitle(isString(value) ? value : toValueString(value));
 	}
 
 }
@@ -228,7 +228,7 @@ export function title(value: undefined | Value): void {
 
 export function ToolRouter({
 
-	store=path,
+	store = path,
 
 	children
 
@@ -245,24 +245,24 @@ export function ToolRouter({
 
 }) {
 
-	const table=useMemo(() => {
+	const table = useMemo(() => {
 
 		return children instanceof Function ? children : compile(children);
 
 	}, [children]);
 
 
-	const update=useReducer(v => v+1, 0)[1];
+	const update = useReducer(v => v + 1, 0)[1];
 
-	const click=useCallback((e: MouseEvent) => {
+	const click = useCallback((e: MouseEvent) => {
 
 		if ( !(e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) ) { // only plain events
 
-			const anchor=(e.target as Element).closest("a");
-			const image=(e.target as Element).closest("img");
+			const anchor = (e.target as Element).closest("a");
+			const image = (e.target as Element).closest("img");
 
-			const native=anchor?.getAttribute(NativeAttribute);
-			const target=anchor?.getAttribute(TargetAttribute);
+			const native = anchor?.getAttribute(NativeAttribute);
+			const target = anchor?.getAttribute(TargetAttribute);
 
 			if ( anchor && !anchor.getAttribute("href")?.startsWith("#")
 				&& native === null // only non-native anchors
@@ -271,8 +271,8 @@ export function ToolRouter({
 
 				e.preventDefault();
 
-				const href=anchor.href;
-				const file="file:///";
+				const href = anchor.href;
+				const file = "file:///";
 
 				const route = href.startsWith(app.root) ? href.substring(app.root.length - 1)
 					: href.startsWith(file) ? href.substring(file.length - 1)
@@ -339,29 +339,29 @@ export function ToolRouter({
 
 export function useRoute(): [Route, SetRoute] {
 
-	const { store, update }=useContext(Context);
+	const { store, update } = useContext(Context);
 
 	return [store(), (entry, replace) => {
 
-		const { route, title, state }=(typeof entry === "string")
+		const { route, title, state } = (typeof entry === "string")
 			? { route: entry, title: undefined, state: undefined }
 			: entry;
 
-		const _route=normalizeRoute(route, store);
-		const _title=normalizeTitle(title);
-		const _state=normalizeState(state);
+		const _route = normalizeRoute(route, store);
+		const _title = normalizeTitle(title);
+		const _state = normalizeState(state);
 
-		const modified=_route !== location.href || _state !== history.state;
+		const modified = _route !== location.href || _state !== history.state;
 
 		try {
 
 			if ( replace || _route === location.href ) {
 
-				history.replaceState(_state, document.title=_title, _route);
+				history.replaceState(_state, document.title = _title, _route);
 
 			} else {
 
-				history.pushState(state, document.title=_title, _route);
+				history.pushState(state, document.title = _title, _route);
 
 			}
 
@@ -392,7 +392,7 @@ function compile(table: Table): Switch {
 	}
 
 
-	const entries: [string, string | FunctionComponent][]=Object
+	const entries: [string, string | FunctionComponent][] = Object
 		.entries(table)
 		.map(([glob, entry]) => [pattern(glob), entry]);
 
@@ -401,7 +401,7 @@ function compile(table: Table): Switch {
 
 		for (const [pattern, entry] of entries) {
 
-			const match=new RegExp(pattern).exec(route);
+			const match = new RegExp(pattern).exec(route);
 
 			if ( match ) {
 				if ( typeof entry === "string" ) {
@@ -429,13 +429,13 @@ function compile(table: Table): Switch {
 
 function lookup(route: string, table: Switch) {
 
-	const redirects=new Set([route]);
+	const redirects = new Set([route]);
 
-	var current=route;
+	var current = route;
 
 	while ( true ) {
 
-		const component=table(current);
+		const component = table(current);
 
 		if ( component === undefined ) {
 
@@ -450,7 +450,7 @@ function lookup(route: string, table: Switch) {
 
 			}
 
-			redirects.add(current=component);
+			redirects.add(current = component);
 
 		} else {
 

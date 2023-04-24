@@ -26,9 +26,9 @@ import "./card.css";
  *
  * @param wrap
  * @param size
- * @param name
+ * @param title
  * @param tags
- * @param icon
+ * @param image
  * @param children
  * @constructor
  */
@@ -36,10 +36,11 @@ export function ToolCard({
 
 	wrap,
 	size = "10rem",
+	side = "start",
 
-	name,
 	tags,
-	icon,
+	title,
+	image,
 
 	children
 
@@ -47,10 +48,11 @@ export function ToolCard({
 
 	wrap?: boolean
 	size?: string
+	side?: "start" | "end"
 
-	name?: ReactNode
 	tags?: ReactNode
-	icon?: ReactNode
+	title?: ReactNode
+	image?: ReactNode
 
 	children?: ReactNode
 
@@ -60,25 +62,26 @@ export function ToolCard({
 
 	return createElement("tool-card", {
 
+		class: classes({ start: side === "start", end: side === "end" }),
 		style: { "--tool-card-size": size }
 
 	}, <>
 
-		{(name || tags) && <header>
+		{(title || tags) && <header>
 
             <nav>{tags}</nav>
 
-            <h1>{name}</h1>
+            <h1>{title}</h1>
 
         </header>}
 
 		<section>
 
-			{isString(icon) ? <img hidden={!loaded} src={icon}
+			{isString(image) ? <img hidden={!loaded} src={image}
 
 				onLoad={() => setLoaded(true)}
 
-			/> : icon}
+			/> : image}
 
 			<div className={classes({ wrap })}>{children}</div>
 

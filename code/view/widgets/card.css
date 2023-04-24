@@ -18,6 +18,7 @@
 tool-card {
 
     --tool-card-size: 0;
+    --tool-card-gap: 1.5rem;
 
     display: flex;
     flex-direction: column;
@@ -30,11 +31,31 @@ tool-card {
 
     & > * {
 
-        & > nav,
+        :is(tool-card.start) > & {
+
+            & > nav,
+            & > img {
+                margin-right: var(--tool-card-gap);
+            }
+
+        }
+
+        :is(tool-card.end) > & {
+
+            & > nav,
+            & > img {
+                margin-left: var(--tool-card-gap);
+            }
+
+        }
+
+        & > nav {
+            min-width: var(--tool-card-size);
+            overflow: visible;
+        }
+
         & > img {
             width: var(--tool-card-size);
-            margin-right: 1em;
-            overflow: visible;
         }
 
     }
@@ -42,10 +63,19 @@ tool-card {
     & > header {
 
         display: flex;
-        flex-direction: row;
         align-items: center;
 
-        margin-bottom: 0.5em;
+        margin-bottom: 0.75em;
+
+
+        :is(tool-card.start) > & {
+            flex-direction: row;
+        }
+
+        :is(tool-card.end) > & {
+            flex-direction: row-reverse;
+        }
+
 
         & > nav {
             text-align: end;
@@ -65,7 +95,16 @@ tool-card {
     & > section {
 
         & > img {
-            float: left;
+
+
+            :is(tool-card.start > section) > & {
+                float: left;
+            }
+
+            :is(tool-card.end > section) > & {
+                float: right;
+            }
+
             margin-bottom: 1.5em;
         }
 
@@ -75,39 +114,7 @@ tool-card {
 
     }
 
-
     @media only screen and (min-width: 960px), print {
-
-        &.compact {
-            & > section {
-                & > figure {
-                    width: 25vmin;
-                }
-            }
-        }
-
-        & > header {
-
-            flex-direction: row;
-            align-items: baseline;
-
-            margin-bottom: 0.75em;
-
-
-        }
-
-        & > section {
-
-            & > figure {
-
-                float: right;
-                width: 40vmin;
-
-                margin-left: 1em;
-                margin-bottom: 0.5em;
-            }
-
-        }
 
     }
 
