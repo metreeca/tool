@@ -16,26 +16,124 @@
 
 tool-page {
 
+    --tool-page-side-width: 0; /* set by page.tsx */
+
+    --tool-page-header-height: 5rem;
+    --tool-page-header-font-size: 2rem;
+
+    --tool-page-footer-height: 3rem;
+    --tool-page-footer-font-size: 1.1rem;
+
+    --tool-page-pane-padding: 1.25rem;
+
+    --tool-page-main-max-width: 75rem;
+    --tool-page-main-padding: 1.5rem;
+
     display: grid;
 
-    grid-template-columns: max-content 20rem 1fr;
-    grid-template-rows: 100%;
+    grid-template-columns: var(--tool-page-side-width) 1fr;
+    grid-template-rows: 1fr;
 
     & > * {
 
-        display: grid;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
 
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
+        overflow: auto;
 
-    }
+        & > * {
+            flex: auto 0 0;
+        }
 
-    & > nav {
-        border-right-style: solid;
+        & > header,
+        & > footer {
+
+            position: sticky; /* horizontal scrolling */
+            left: 0;
+            right: 0;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            grid-column-gap: 0.25em;
+
+            &:empty {
+                display: none;
+            }
+
+            & > :not(nav) {
+                flex-grow: 1;
+            }
+
+        }
+
+        & > header {
+
+            top: 0; /* vertical scrolling */
+
+            height: var(--tool-page-header-height);
+
+            font-size: var(--tool-page-header-font-size);
+
+            box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
+
+        }
+
+        & > section {
+
+            flex-grow: 1;
+
+            margin-top: calc(0.75 * var(--tool-page-header-font-size));
+            margin-bottom: calc(0.75 * var(--tool-page-footer-font-size));
+
+        }
+
+        & > footer {
+
+            bottom: 0; /* vertical scrolling */
+
+            height: var(--tool-page-footer-height);
+
+            font-size: var(--tool-page-footer-font-size);
+
+            box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
+
+        }
+
     }
 
     & > aside {
+
+        --tool--background-color: var(--tool--background-color-edit);
+
         border-right-style: solid;
+
+        background-color: var(--tool--background-color);
+
+        & > * {
+            padding-left: var(--tool-page-pane-padding);
+            padding-right: var(--tool-page-pane-padding);
+        }
+
+        & > section {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+    }
+
+    & > main {
+
+        & > * {
+            max-width: var(--tool-page-main-max-width);
+            padding-left: var(--tool-page-main-padding);
+            padding-right: var(--tool-page-main-padding);
+        }
+
     }
 
 }
+

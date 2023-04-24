@@ -18,71 +18,109 @@ import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./page.css";
 
 
-export type ToolPane={
-
-    header?: ReactNode
-    footer?: ReactNode
-
-    children?: ReactNode
-
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 export function ToolPage({
 
-    side,
-    tray,
+	side,
 
-    children
+	logo,
+	tray,
+
+	back,
+	done,
+
+	name,
+	menu,
+
+	pane,
+	info,
+	copy,
+
+	children
 
 }: {
 
-    side?: ReactNode
-    tray?: ReactNode
+	side?: string
 
-    children: ReactNode
+	logo?: ReactNode
+	tray?: ReactNode
+
+	back?: ReactNode
+	done?: ReactNode
+
+	name?: ReactNode
+	menu?: ReactNode
+
+	pane?: ReactNode
+	info?: ReactNode
+	copy?: ReactNode
+
+	children: ReactNode
 
 }) {
 
 
-    const [expanded, setExpanded]=useState<boolean>();
+	const [expanded, setExpanded]=useState<boolean>();
 
-    useEffect(() => {
+	useEffect(() => {
 
-        const resize=() => setExpanded(undefined);
+		function resize() { setExpanded(undefined); }
 
-        window.addEventListener("resize", resize);
+		window.addEventListener("resize", resize);
 
-        return () => window.removeEventListener("resize", resize);
+		return () => window.removeEventListener("resize", resize);
 
-    });
+	});
 
 
-    return createElement("tool-page", {
+	return createElement("tool-page", {
 
-        // onClick: e => {
-        //
-        //     if ( tray ) { setTray(!(e.target === e.currentTarget || (e.target as Element).closest("a"))); }
-        //
-        // },
+		style: {
 
-        // onKeyDown: (e) => {
-        //     if ( e && e.key === "Enter" ) {
-        //         e.cancelable=true;
-        //         if ( e.stopPropagation ) {
-        //             e.stopPropagation();
-        //             e.preventDefault();
-        //         }
-        //     }
-        // }
+			"--tool-page-side-width": side || "20rem"
 
-    }, <>
+		}
 
-        <nav>{side}</nav>
-        <aside>{tray}</aside>
-        <main>{children}</main>
+		// onClick: e => {
+		//
+		//     if ( tray ) { setTray(!(e.target === e.currentTarget || (e.target as Element).closest("a"))); }
+		//
+		// },
 
-    </>);
+		// onKeyDown: (e) => {
+		//     if ( e && e.key === "Enter" ) {
+		//         e.cancelable=true;
+		//         if ( e.stopPropagation ) {
+		//             e.stopPropagation();
+		//             e.preventDefault();
+		//         }
+		//     }
+		// }
+
+	}, <>
+
+		<aside>
+
+			<header>
+				{logo && <span>{logo}</span>}
+				{tray && <span>{tray}</span>}
+			</header>
+
+			<section>{pane}</section>
+			<footer>{info}</footer>
+
+		</aside>
+
+		<main>
+
+			<header>
+				{back ? <nav>{back}</nav> : name ? <span>{name}</span> : undefined}
+				{done ? <nav>{done}</nav> : menu ? <nav>{menu}</nav> : undefined}
+			</header>
+
+			<section>{children}</section>
+			<footer>{copy}</footer>
+
+		</main>
+
+	</>);
 }

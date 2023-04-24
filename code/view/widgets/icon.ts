@@ -20,32 +20,37 @@ import "./icon.css";
 export * from "lucide-react";
 
 export { LogOut as LogOutIcon } from "lucide-react";
-export { LogIn as LogInIcon } from "lucide-react";
+export { LogIn as LogInIcon }   from "lucide-react";
 
-export { Plus as CreateIcon } from "lucide-react";
-export { Edit as UpdateIcon } from "lucide-react";
+export { Plus as CreateIcon }   from "lucide-react";
+export { Edit as UpdateIcon }   from "lucide-react";
 export { Trash2 as DeleteIcon } from "lucide-react";
 
 export { Plus as InsertIcon } from "lucide-react";
-export { X as RemoveIcon } from "lucide-react";
+export { X as RemoveIcon }    from "lucide-react";
 
 export { Check as AcceptIcon } from "lucide-react";
-export { X as CancelIcon } from "lucide-react";
-export { X as CloseIcon } from "lucide-react";
+export { X as CancelIcon }     from "lucide-react";
+export { X as CloseIcon }      from "lucide-react";
 
 export { Search as SearchIcon } from "lucide-react";
 export { XCircle as ClearIcon } from "lucide-react";
 
+export { Heart as AboutIcon }         from "lucide-react";
+export { Info as InfoIcon }           from "lucide-react";
 export { AlertTriangle as AlertIcon } from "lucide-react";
-export { HelpCircle as HelpIcon } from "lucide-react";
+export { HelpCircle as HelpIcon }     from "lucide-react";
 
-export { ChevronRight as ExpandIcon } from "lucide-react";
+export { ChevronRight as ExpandIcon }  from "lucide-react";
 export { ChevronDown as CollapseIcon } from "lucide-react";
 
-export { Link2 as LinkIcon } from "lucide-react";
+export { Link2 as LinkIcon }        from "lucide-react";
 export { ChevronRight as BackIcon } from "lucide-react";
 export { ChevronRight as OpenIcon } from "lucide-react";
 
-export { ChevronsUpDown as SortIcon } from "lucide-react";
+export { ChevronsUpDown as SortIcon }    from "lucide-react";
 export { ChevronDown as IncreasingIcon } from "lucide-react";
-export { ChevronUp as DecreasingIcon } from "lucide-react";
+export { ChevronUp as DecreasingIcon }   from "lucide-react";
+
+export { Menu as MenuIcon } from "lucide-react";
+export { X as DoneIcon }    from "lucide-react";

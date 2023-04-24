@@ -18,8 +18,6 @@ tool-search {
 
     position: relative;
 
-    flex-grow: 1;
-
     display: grid;
     align-items: center;
 
@@ -80,7 +78,7 @@ tool-search {
 
         grid-column: 1 / cols 3;
 
-        padding: 0.2ex 1.33em 0.25ex;
+        padding: 0.33ex 1.33em;
 
         font-size: 90%;
 

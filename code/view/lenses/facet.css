@@ -17,11 +17,11 @@
 tool-options,
 tool-range {
 
+    --tool--border-color: #BBB;
+
     display: flex;
     flex-direction: column;
     align-items: stretch;
-
-    margin: 0 -0.25em;
 
     border-style: solid;
     border-radius: 0.5em;
@@ -37,7 +37,7 @@ tool-range {
     }
 
     &:not(:first-child) {
-        margin-top: 0.5em;
+        margin-top: 0.75em;
     }
 
     & > * {

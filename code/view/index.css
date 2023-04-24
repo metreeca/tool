@@ -25,7 +25,7 @@
 
     --tool--color-light: #BBB;
     --tool--color-label: #999;
-    --tool--color-placeholder: #BBB;
+    --tool--color-placeholder: #AAA;
     --tool--color-enabled: #567;
     --tool--color-disabled: #CCC;
     --tool--color-invalid: #D60;
@@ -34,7 +34,7 @@
     --tool--color-focus: #789;
 
     --tool--background-color: #FFF;
-    --tool--background-color-edit: #F1F2F4;
+    --tool--background-color-edit: #FAFAFA;
     --tool--background-color-stripe: #F4F4F4;
 
     --tool--border-style: solid;

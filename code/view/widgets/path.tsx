@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { isArray } from "@metreeca/core";
-import { id, isEntry } from "@metreeca/core/entry";
+import { isArray }                       from "@metreeca/core";
+import { id, isEntry }                   from "@metreeca/core/entry";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
-import { ToolLink } from "@metreeca/view/widgets/link";
-import * as React from "react";
-import { createElement, ReactNode } from "react";
+import { ToolLink }                      from "@metreeca/view/widgets/link";
+import * as React                        from "react";
+import { createElement, ReactNode }      from "react";
 import "./path.css";
 
 
@@ -32,14 +32,14 @@ export function ToolPath({
 
 }: {
 
-	children: Value | ReactNode | Array<Value | ReactNode>
+	children: undefined | Value | ReactNode | Array<undefined | Value | ReactNode>
 
 }) {
 
 	const steps=isArray<Value | ReactNode>(children) ? children : [children];
 
 	return createElement("tool-path", {}, steps.map((step, index) =>
-		isEntry(step) && index+1 < steps.length ? <ToolLink key={id(step)}>{step}</ToolLink>
+		isEntry(step) && index + 1 < steps.length ? <ToolLink key={id(step)}>{step}</ToolLink>
 			: isValue(step) ? <span key={toValueString(step)}>{toValueString(step)}</span>
 				: <React.Fragment key={index}>{step}</React.Fragment>
 	));

@@ -37,15 +37,11 @@ export function ToolLogo({
 
 	return createElement("tool-logo", {
 
-		title: app.name
+		title: app.name,
 
-	}, <>
+		style: { backgroundImage: `url(${(app.icon)})` }
 
-		<i style={{ backgroundImage: `url(${(app.icon)})` }}/>
-
-		{children && <span>{children}</span>}
-
-	</>);
+	});
 
 }
 

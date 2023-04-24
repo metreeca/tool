@@ -16,23 +16,13 @@
 
 tool-logo {
 
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
+    display: inline-block;
 
-    grid-column-gap: 0.25em;
+    width: 1em;
+    aspect-ratio: 1;
 
-    & > i {
-
-        display: inline-block;
-
-        width: 1em;
-        aspect-ratio: 1;
-
-        background-position: center;
-        background-size: contain;
-        background-repeat: no-repeat;
-
-    }
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 
 }
