@@ -348,7 +348,8 @@ img {
         width: 100%;
         height: 100%;
 
-        margin: auto;
+        margin: 0;
+        padding: 2rem;
 
         box-shadow: 0 0 0 100vmax var(--tool--background-color);
 
