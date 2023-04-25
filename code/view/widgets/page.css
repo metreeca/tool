@@ -127,6 +127,7 @@ tool-page {
             display: flex;
             flex-direction: column;
             align-items: stretch;
+            grid-row-gap: 0.1em;
         }
 
     }

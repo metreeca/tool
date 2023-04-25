@@ -68,6 +68,8 @@ export function ToolLink({
 
 		const route=isString(target) ? target : target.id;
 
+		// query picked up by target page from history state (see for instance useQuery())
+
 		return () => setRoute({ route, state: query });
 	}
 

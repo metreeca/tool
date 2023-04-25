@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isString, normalize }  from "@metreeca/core/string";
+import { normalize }            from "@metreeca/core/string";
 import { toValueString, Value } from "@metreeca/core/value";
 import { app }                  from "@metreeca/view";
 import {
@@ -218,7 +218,7 @@ export function native(route: string): { href: string, [NativeAttribute]?: "" } 
 export function title(value: undefined | Value): void {
 
 	if ( value !== undefined ) {
-		document.title=normalizeTitle(isString(value) ? value : toValueString(value));
+		document.title=normalizeTitle(toValueString(value));
 	}
 
 }

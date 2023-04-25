@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { immutable } from "@metreeca/core";
-import { Frame } from "@metreeca/core/entry";
-import { Value } from "@metreeca/core/value";
-import { useResource } from "@metreeca/data/models/resource";
-import { useState } from "react";
+import { immutable }    from "@metreeca/core";
+import { clean, Frame } from "@metreeca/core/entry";
+import { Value }        from "@metreeca/core/value";
+import { Setter }       from "@metreeca/data/hooks";
+import { useResource }  from "@metreeca/data/models/resource";
+import { useState }     from "react";
 
 
 export type Collection<V extends Value>=Readonly<[
@@ -50,17 +51,19 @@ export function useCollection<
 
 >(resource: Frame & { [key in K]: undefined | V[] }, field: K & keyof typeof resource, {
 
-	id=""
+	id="",
 
-	// !!! persistence
+	store
 
 }: Partial<{
 
 	id: string
 
+	store: [Frame, Setter<Frame>]
+
 }>={}): Collection<V> {
 
-	const model=immutable(resource?.[field]?.[0]);
+	const model=immutable(resource?.[field]?.[0]); // the first item in the collection model array
 
 
 	if ( model === undefined ) {
@@ -68,7 +71,8 @@ export function useCollection<
 	}
 
 
-	const [query, setQuery]=useState<Readonly<Frame>>(immutable({}));
+	const [query, setQuery]=store ?? useState(immutable({}));
+
 
 	return [
 
@@ -96,16 +100,14 @@ export function useCollection<
 			} else {
 
 				if ( delta.query !== undefined ) {
-					setQuery(Object.entries({ ...query, ...delta.query }).reduce((query, [field, value]) => {
-
-						return value === undefined ? query : { ...query, [field]: value }; // remove undefineds
-
-					}, {}));
+					setQuery(clean({ ...query, ...delta.query }));
 				}
 
 			}
+
 		}
 
 	];
 
 }
+
