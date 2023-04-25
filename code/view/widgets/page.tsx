@@ -20,7 +20,7 @@ import "./page.css";
 
 export function ToolPage({
 
-	side,
+	side="20rem",
 
 	logo,
 	tray,
@@ -39,7 +39,7 @@ export function ToolPage({
 
 }: {
 
-	side?: string
+	side?: string // side area preferred width
 
 	logo?: ReactNode
 	tray?: ReactNode
@@ -76,7 +76,7 @@ export function ToolPage({
 
 		style: {
 
-			"--tool-page-side-width": side || "20rem"
+			"--tool-page-side-width": side
 
 		}
 
@@ -113,8 +113,8 @@ export function ToolPage({
 		<main>
 
 			<header>
-				{back ? <nav>{back}</nav> : name ? <span>{name}</span> : undefined}
-				{done ? <nav>{done}</nav> : menu ? <nav>{menu}</nav> : undefined}
+				{back ? <span>{back}</span> : name ? <span>{name}</span> : undefined}
+				{done ? <span>{done}</span> : menu ? <span>{menu}</span> : undefined}
 			</header>
 
 			<section>{children}</section>

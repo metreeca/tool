@@ -59,12 +59,10 @@ tool-page {
             justify-content: space-between;
             grid-column-gap: 0.25em;
 
+            white-space: nowrap;
+
             &:empty {
                 display: none;
-            }
-
-            & > :not(nav) {
-                flex-grow: 1;
             }
 
         }
@@ -72,12 +70,17 @@ tool-page {
         & > header {
 
             top: 0; /* vertical scrolling */
-
             height: var(--tool-page-header-height);
 
             font-size: var(--tool-page-header-font-size);
 
             box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
+
+            & > * {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
 
         }
 
@@ -93,7 +96,6 @@ tool-page {
         & > footer {
 
             bottom: 0; /* vertical scrolling */
-
             height: var(--tool-page-footer-height);
 
             font-size: var(--tool-page-footer-font-size);
