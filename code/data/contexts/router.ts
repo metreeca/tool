@@ -470,9 +470,9 @@ function normalizeTitle(title: undefined | string) {
 }
 
 function normalizeRoute(route: string | undefined, store: Store) {
-	return normalize(route === undefined ? location.href : route === null ? location.origin : store(route));
+	return route === undefined ? location.href : route === null ? location.origin : store(route);
 }
 
 function normalizeState(state: any) {
-	return (state === undefined) ? history.state : (state === null) ? undefined : state;
+	return state === undefined ? history.state : state === null ? undefined : state;
 }

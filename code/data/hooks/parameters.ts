@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { equals, Primitive } from "@metreeca/core";
-import { useRoute } from "@metreeca/data/contexts/router";
-import { useStorage } from "@metreeca/data/hooks/storage";
+import { equals, Primitive }   from "@metreeca/core";
+import { useRoute }            from "@metreeca/data/contexts/router";
+import { useStorage }          from "@metreeca/data/hooks/storage";
 import { useEffect, useState } from "react";
 
 
 /**
- * Search parameters string.
+ * Search parameters.
  */
 export interface Parameters {
 

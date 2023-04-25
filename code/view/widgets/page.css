@@ -102,6 +102,10 @@ tool-page {
 
             box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
 
+            & > :only-child {
+                flex-grow: 1;
+            }
+
         }
 
     }
