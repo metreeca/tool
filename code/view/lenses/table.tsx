@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-import { isDefined } from "@metreeca/core";
-import { asOrder, Entry, Frame, id, isEntry, label, Order } from "@metreeca/core/entry";
-import { isNumber } from "@metreeca/core/number";
-import { isString } from "@metreeca/core/string";
-import { equals, model } from "@metreeca/core/value";
-import { useRoute } from "@metreeca/data/contexts/router";
-import { useCache } from "@metreeca/data/hooks/cache";
-import { Collection } from "@metreeca/data/models/collection";
-import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
-import { classes } from "@metreeca/view";
-import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
-import { ToolMore } from "@metreeca/view/widgets/more";
+import { isDefined }                                            from "@metreeca/core";
+import { asOrder, Entry, Frame, id, isEntry, label, Order }     from "@metreeca/core/entry";
+import { isNumber }                                             from "@metreeca/core/number";
+import { isString }                                             from "@metreeca/core/string";
+import { equals, model }                                        from "@metreeca/core/value";
+import { useRoute }                                             from "@metreeca/data/contexts/router";
+import { useCache }                                             from "@metreeca/data/hooks/cache";
+import { Collection }                                           from "@metreeca/data/models/collection";
+import { Selection, SelectionDelta }                            from "@metreeca/data/models/selection";
+import { classes }                                              from "@metreeca/view";
+import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon }   from "@metreeca/view/widgets/icon";
+import { ToolMore }                                             from "@metreeca/view/widgets/more";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./table.css";
 
@@ -199,9 +199,10 @@ export function ToolTable<V extends Frame>({
 
 				style={{
 
-					gridTemplateColumns: widths || selection
-						? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
-						: `repeat(${Object.keys(cols).length}, min-content) 1fr`
+					gridTemplateColumns: widths || (selection
+							? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
+							: `repeat(${Object.keys(cols).length}, min-content) 1fr`
+					)
 
 				}}
 
