@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { ToolSpin } from "@metreeca/view/widgets/spin";
+import { ToolSpin }                                           from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useRef } from "react";
 import "./more.css";
 
 
 /**
- * Incremental loading trigger.
+ * Creates an incremental loading trigger.
  *
  * @param onLoad
  * @param children

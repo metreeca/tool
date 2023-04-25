@@ -15,23 +15,36 @@
  */
 
 
-import { useTrailing } from "@metreeca/data/hooks/events";
-import { AutoDelay, AutoLength, AutoSize, keys } from "@metreeca/view";
-import { createPlaceholder, ToolFieldClass } from "@metreeca/view/fields";
+import { useTrailing }                               from "@metreeca/data/hooks/events";
+import { AutoDelay, AutoLength, AutoSize, keys }     from "@metreeca/view";
+import { createPlaceholder, ToolFieldClass }         from "@metreeca/view/fields";
 import "@metreeca/view/fields/index.css";
-import { focus, input } from "@metreeca/view/widgets/form";
-import { ClearIcon } from "@metreeca/view/widgets/icon";
-import { ToolSpin } from "@metreeca/view/widgets/spin";
+import { focus, input }                              from "@metreeca/view/widgets/form";
+import { ClearIcon }                                 from "@metreeca/view/widgets/icon";
+import { ToolSpin }                                  from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useState } from "react";
-import "./select.css";
+import "./auto.css";
 
+
+export type Source=(keywords: string) => Promise<undefined | null | Option[]>
 
 export type Option={ value: string, label: string }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function ToolSelect({
+/**
+ * Creates an auto-completing input field.
+ *
+ * @param disabled
+ * @param required
+ * @param placeholder
+ * @param auto
+ * @param onSelect
+ * @param source
+ * @constructor
+ */
+export function ToolAuto<V>({
 
 	disabled,
 	required,
@@ -61,7 +74,7 @@ export function ToolSelect({
 
 	onSelect: (option: Option) => void
 
-	children: (keywords: string) => Promise<undefined | null | Option[]>
+	children: Source
 
 }) {
 
