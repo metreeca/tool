@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { isBoolean, toBooleanString } from "@metreeca/core/boolean";
-import { date, isDate, toDateString } from "@metreeca/core/date";
-import { dateTime, isDateTime, toDateTimeString } from "@metreeca/core/dateTime";
+import { isBoolean, toBooleanString }                            from "@metreeca/core/boolean";
+import { date, isDate, toDateString }                            from "@metreeca/core/date";
+import { dateTime, isDateTime, toDateTimeString }                from "@metreeca/core/dateTime";
 import { Frame, isEntry, isFrame, toEntryString, toFrameString } from "@metreeca/core/entry";
-import { isArray } from "@metreeca/core/index";
-import { isLocal, Local, toLocalString } from "@metreeca/core/local";
-import { isNumber, toNumberString } from "@metreeca/core/number";
-import { isString } from "@metreeca/core/string";
-import { isTime, time, toTimeString } from "@metreeca/core/time";
-import { isYear, toYearString, year } from "@metreeca/core/year";
+import { isArray }                                               from "@metreeca/core/index";
+import { isLocal, Local, toLocalString }                         from "@metreeca/core/local";
+import { isNumber, toNumberString }                              from "@metreeca/core/number";
+import { isString }                                              from "@metreeca/core/string";
+import { isTime, time, toTimeString }                            from "@metreeca/core/time";
+import { isYear, toYearString, year }                            from "@metreeca/core/year";
 
 
 export type Value=boolean | number | string | Local | Frame
@@ -79,15 +79,15 @@ export function toValueString(value: Value, {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function equals(x: Frame[string], y: Frame[string]): boolean {
-	return isArray<null | Value>(x) && isArray<null | Value>(y) ? x.length === y.length && x.every((v, i) => equals(v, y[i]))
+export function equals(x: unknown, y: unknown): boolean {
+	return isArray(x) && isArray(y) ? x.length === y.length && x.every((v, i) => equals(v, y[i]))
 		: isEntry(x) && isEntry(y) ? x.id === y.id
 			: x === y;
 }
 
-export function model(value: Value, expression: string): undefined | Value {
+export function model(value: unknown, expression: string): undefined | Value {
 
-	let _value: Frame[string]=value;
+	let _value=value;
 	let _expression=expression;
 
 	while ( true ) {
@@ -105,7 +105,7 @@ export function model(value: Value, expression: string): undefined | Value {
 			_value=_value[_expression];
 			_expression="";
 
-		} else if ( isArray<null | Value>(_value) ) {
+		} else if ( isArray(_value) ) {
 
 			_value=_value[0];
 			// !!! expression?

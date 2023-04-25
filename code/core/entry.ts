@@ -21,15 +21,6 @@ import { isValue, Value }                 from "@metreeca/core/value";
 
 
 /**
- * Linked data frame.
- */
-export interface Frame {
-
-	readonly [field: string]: undefined | null | Value | ReadonlyArray<null | Value>;
-
-}
-
-/**
  * Graph entry point.
  */
 export interface Entry extends Frame {
@@ -39,6 +30,15 @@ export interface Entry extends Frame {
 	readonly label?: string | Local;
 	readonly brief?: string | Local;
 	readonly image?: string | Entry;
+
+}
+
+/**
+ * Linked data frame.
+ */
+export interface Frame {
+
+	readonly [field: string]: undefined | null | Value | ReadonlyArray<null | Value>;
 
 }
 
@@ -116,7 +116,8 @@ export function isEntry(value: unknown): value is Entry {
 
 export function isFrame(value: unknown): value is Frame {
 	return isObject(value) && Object.entries(value).every(([key, value]) => isString(key) && (
-		value === undefined || null || isValue(value) || isArray(value) && value.every(value => null || isValue(value))
+		value === undefined || value === null || isValue(value)
+		|| isArray(value) && value.every(value => value === null || isValue(value))
 	));
 }
 
@@ -194,4 +195,41 @@ export function guess(id: string): string {
 		.replace(/([a-z-0-9])([A-Z])/g, "$1 $2") // split camel-case words
 		.replace(/[-_]+/g, " ") // split kebab-case words
 		.replace(/\b[a-z]/g, $0 => $0.toUpperCase()); // capitalize words
+}
+
+
+/**
+ * Cleans frames, recursively removing undefined values and non-id fields from nested frames.
+ *
+ * @param frame
+ */
+export function clean<F extends Frame>(frame: F): typeof frame {
+
+	return Object.entries(frame).reduce((f, [label, value]) => {
+
+		const v=clean(value);
+
+		return v === undefined ? f : { ...f, [label]: v };
+
+	}, {} as F);
+
+
+	function clean(value: Frame[string]): typeof value { // retain only entry identifiers
+
+		if ( isObject(value) && "id" in value ) {
+
+			return { id: value.id };
+
+		} else if ( isArray<Value>(value) ) {
+
+			return value.map(clean) as Value[];
+
+		} else {
+
+			return value;
+
+		}
+
+	}
+
 }

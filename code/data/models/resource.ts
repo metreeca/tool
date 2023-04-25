@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-import { isArray, isEmpty, isObject } from "@metreeca/core";
-import { Frame, isEntry } from "@metreeca/core/entry";
-import { Value } from "@metreeca/core/value";
-import { useGraph } from "@metreeca/data/contexts/graph";
-import { prune } from "@metreeca/data/models/index";
-import { useEffect, useState } from "react";
+import { isEmpty }               from "@metreeca/core";
+import { clean, Frame, isEntry } from "@metreeca/core/entry";
+import { useGraph }              from "@metreeca/data/contexts/graph";
+import { prune }                 from "@metreeca/data/models/index";
+import { useEffect, useState }   from "react";
 
 
 export type Resource<T extends Frame, C extends Frame>=Readonly<[
@@ -107,40 +106,4 @@ export function useResource<
 
 }
 
-
-//// !!! to Graph //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Clean frames, recursively removing non-id fields from nested frames.
- *
- * @param frame
- */
-function clean<F extends Frame>(frame: F): typeof frame {
-
-	return Object.entries(frame).reduce((f, [label, value]) => {
-
-		return { ...f, [label]: clean(value) };
-
-	}, {} as F);
-
-
-	function clean(value: Frame[string]): typeof value { // retain only entry identifiers
-
-		if ( isObject(value) && "id" in value ) {
-
-			return { id: value.id };
-
-		} else if ( isArray<Value>(value) ) {
-
-			return value.map(clean) as Value[];
-
-		} else {
-
-			return value;
-
-		}
-
-	}
-
-}
 
