@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-import { Setter } from "@metreeca/data/hooks";
-import { useCache } from "@metreeca/data/hooks/cache";
-import { useTrailing } from "@metreeca/data/hooks/events";
-import { Keywords } from "@metreeca/data/models/keywords";
-import { AutoDelay } from "@metreeca/view";
+import { useCache }              from "@metreeca/data/hooks/cache";
+import { useTrailing }           from "@metreeca/data/hooks/events";
+import { Keywords }              from "@metreeca/data/models/keywords";
+import { AutoDelay }             from "@metreeca/view";
 import { ClearIcon, SearchIcon } from "@metreeca/view/widgets/icon";
-import * as React from "react";
-import { createElement, ReactNode } from "react";
-import "./search.css";
+import * as React                from "react";
+import { createElement }         from "react";
+import "./keywords.css";
 
 
 /**
@@ -30,12 +29,9 @@ import "./search.css";
  *
  * @constructor
  */
-export function ToolSearch({
+export function ToolKeywords({
 
 	disabled,
-
-	icon,
-	menu,
 
 	placeholder,
 
@@ -47,9 +43,6 @@ export function ToolSearch({
 
 	disabled?: boolean
 
-	icon?: boolean | ReactNode
-	menu?: ReactNode
-
 	placeholder?: string
 
 	/**
@@ -57,20 +50,25 @@ export function ToolSearch({
 	 */
 	auto?: number
 
-	children: [string, Setter<string>] | Keywords
+	children: Keywords
 
 }) {
 
 	const [input, setInput]=useCache(keywords);
 
 
-	return createElement("tool-search", {
+	function clear() {
+		setKeywords("")
+	}
+
+
+	return createElement("tool-keywords", {
 
 		disabled: disabled ? "disabled" : undefined
 
 	}, <>
 
-		{icon && <nav>{icon === true ? <SearchIcon/> : icon}</nav>}
+		<nav><SearchIcon/></nav>
 
 		<input type="text" disabled={disabled}
 
@@ -88,10 +86,7 @@ export function ToolSearch({
 
 		/>
 
-		<nav>{input
-			? <button title="Clear" onClick={() => setKeywords("")}><ClearIcon/></button>
-			: menu
-		}</nav>
+		<nav>{input && <button title="Clear" onClick={clear}><ClearIcon/></button>}</nav>
 
 	</>);
 }

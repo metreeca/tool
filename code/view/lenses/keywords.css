@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-tool-search {
+tool-keywords {
 
     position: relative;
 
@@ -22,53 +22,9 @@ tool-search {
     align-items: center;
 
     grid-template-columns: min-content 1fr min-content;
+    grid-template-rows: min-content;
 
     white-space: nowrap;
-
-    font-weight: 300 !important;
-
-    background-color: transparent;
-
-    &.rule {
-
-        overflow: hidden;
-
-        & > input {
-            border-bottom-style: solid;
-            box-shadow: none;
-        }
-
-        &:focus-within::after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 1px;
-            box-shadow: var(--tool--box-shadow-focus);
-
-        }
-
-    }
-
-    &:not(.rule) {
-
-        & > nav:first-child {
-            margin-left: 0.1em;
-        }
-
-        & > nav:last-child {
-            margin-right: 0.1em;
-        }
-
-        & > input {
-            margin: 0 -0.1em;
-            border-style: solid;
-            border-radius: 2ex;
-        }
-
-    }
 
     & > * {
         grid-row: 1;
@@ -78,7 +34,10 @@ tool-search {
 
         grid-column: 1 / cols 3;
 
-        padding: 0.33ex 1.33em;
+        padding: 0.25em 1.5em;
+        margin: 0 -0.1em;
+        border-style: solid;
+        border-radius: 2ex;
 
         font-size: 90%;
 
@@ -96,18 +55,20 @@ tool-search {
 
         &:first-child {
             grid-column: 1;
+            margin-left: 0.25em;
             pointer-events: none;
             color: #999;
         }
 
         &:last-child {
             grid-column: 3;
+            margin-right: 0.1em;
         }
 
-    }
+        :is(tool-keywords[disabled]) > & {
+            color: var(--tool--color-disabled);
+        }
 
-    & [disabled] > nav {
-        color: var(--tool--color-disabled);
     }
 
 }
