@@ -14,54 +14,76 @@
  * limitations under the License.
  */
 
-import { isEmpty } from "@metreeca/core";
-import { Entry, isEntry } from "@metreeca/core/entry";
-import { toValueString, Value } from "@metreeca/core/value";
-import React from "react";
+import { Entry, Frame, id, isEntry }     from "@metreeca/core/entry";
+import { isString }                      from "@metreeca/core/string";
+import { isValue, toValueString, Value } from "@metreeca/core/value";
+import { useRoute }                      from "@metreeca/data/contexts/router";
+import { Collection }                    from "@metreeca/data/models/collection";
+import React, { ReactNode }              from "react";
 
 
 export function ToolLink({
 
-	search,
+	icon,
 
-	children
+	filter,
+
+	children: value
 
 }: {
 
-	search?: [string | Entry, { readonly [path: string]: undefined | Value; }]
+	icon?: ReactNode
 
-	children: Entry
+	filter?: [string | Entry | Collection<Value>, Frame]
+
+	children: Value // reasonable when considering filtering links…
 
 }) {
 
-	if ( children ) {
+	const handler=(filter === undefined) ? undefined : action(filter);
 
-		const label=toValueString(children);
+	return <a href={isEntry(value) ? id(value) : undefined}
 
-		if ( search ) {
+		onClick={e => {
 
-			const target=search[0];
-			const collection=isEntry(target) ? target.id : target;
-			const constraints=search[1];
+			if ( handler ) {
+				try { handler(); } finally { e.preventDefault(); }
+			}
 
-			const query=Object.entries(constraints)
-				.filter(([, value]) => value !== undefined && value !== "")
-				.reduce((query, [key, value]) => Object.assign(query, { [key]: isEntry(value) ? value.id : value }), {});
+		}}
 
-			const href=isEmpty(query) ? collection : `${collection}?${encodeURI(JSON.stringify(query))}`;
+	>{icon ?
+		<>{icon} <span>{toValueString(value)}</span></>
+		: toValueString(value)
+	}</a>;
 
-			return <a href={href} title={label}>{label}</a>;
 
-		} else {
+	function action([target, query]: Exclude<typeof filter, undefined>) {
+		return isValue(target) ? global([target, query]) : local([target, query]);
+	}
 
-			return <a href={children.id} title={label}>{label}</a>;
+	function global([target, query]: [string | Entry, Frame]) {
 
-		}
+		const [, setRoute]=useRoute();
 
-	} else {
+		const route=isString(target) ? target : target.id;
 
-		return null;
+		return () => setRoute({ route, state: query });
+	}
 
+	function local([[collection, setCollection], query]: [Collection<Value>, Frame]) {
+
+		const reset=Object.keys(collection.query).reduce((query, key) => ({
+
+			...query, [key]: undefined
+
+		}), {});
+
+		return () => setCollection({
+
+			query: { ...reset, ...query } // !!! review reset protocol
+
+		});
 	}
 
 }
