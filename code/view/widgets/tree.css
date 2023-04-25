@@ -14,83 +14,35 @@
  * limitations under the License.
  */
 
-tool-item {
-
-    width: 100%;
+tool-tree {
 
     display: flex;
     flex-direction: column;
     align-items: stretch;
-
     grid-gap: 0.25em;
 
     white-space: nowrap;
-
-    &[disabled] {
-
-        color: var(--tool--color-disabled);
-        pointer-events: none;
-
-        & * {
-            color: inherit;
-        }
-
-    }
 
     &:not(:first-of-type) {
         margin-top: 0.1em;
     }
 
-    &[expanded]:not(:last-child) {
-
-        margin-bottom: 0.75em;
-
-    }
-
-    &.rule > header {
-        padding: 0.25ex 0;
-        border-bottom-style: solid;
+    &.expanded:not(:last-child) {
+        margin-bottom: 0.25em;
     }
 
     & > header {
 
-        display: grid;
+        display: flex;
+        flex-direction: row;
         align-items: center;
-
-        grid-column-gap: 0.5em;
-        grid-template-columns: min-content 1fr min-content;
-
-        & > :empty {
-            display: none;
-        }
+        grid-column-gap: 0.25em;
 
         & > span {
+            flex-grow: 1;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-        & > nav {
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-
-            grid-column-gap: 0.25em;
-
-            z-index: 1;
-            color: #333;
-
-            &:first-child {
-                grid-column: 1;
-            }
-
-            &:last-child {
-                grid-column: 3;
-                transform: scale(0.9) translateY(5%);
-            }
-
-        }
-
     }
 
     & > section {
@@ -99,7 +51,7 @@ tool-item {
         flex-direction: column;
         align-items: stretch;
 
-        margin-left: 0.2em;
+        margin-left: 1em;
 
         font-size: 90%;
 
