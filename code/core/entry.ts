@@ -209,7 +209,13 @@ export function clean<F extends Frame>(frame: F): typeof frame {
 
 		const v=clean(value);
 
-		return v === undefined ? f : { ...f, [label]: v };
+		return v === undefined ? f : {
+
+			...f,
+
+			[label]: label.startsWith("?") && !isArray(v) ? [v] : v  // handle single values for <any> constraints
+
+		};
 
 	}, {} as F);
 
