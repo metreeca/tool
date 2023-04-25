@@ -266,7 +266,7 @@ button {
     align-items: center;
     grid-column-gap: 0.25em;
 
-    border-radius: 0.1em;
+    border-radius: 1em;
     background-color: transparent;
 
     &:disabled {
@@ -278,9 +278,9 @@ button {
 
         cursor: pointer;
 
-        &:focus {
-            outline: solid 2px var(--tool--color-focus);
-            outline-offset: 0.25em;
+        &:focus-visible {
+            outline: solid 1px var(--tool--color-focus);
+            outline-offset: 0.1em;
         }
 
         &:hover {
@@ -361,12 +361,18 @@ img {
 
 a, a:visited {
 
+    display: inline-flex;
+    align-items: center;
+    grid-column-gap: 0.5em;
+
     text-decoration: none;
+    text-decoration-thickness: 1px;
+
     color: var(--tool--color-enabled);
 
     cursor: pointer;
 
-    &:focus {
+    &:focus-visible {
         text-decoration: underline !important;
     }
 
@@ -375,6 +381,7 @@ a, a:visited {
     }
 
     &:active {
+        text-decoration: underline !important;
         color: var(--tool--color-focus) !important;
     }
 
