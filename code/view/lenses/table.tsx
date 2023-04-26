@@ -149,11 +149,12 @@ export function ToolTable<V extends Frame>({
 
 		"^": order,
 		"@": offset,
-		"#": limit+1
+		"#": limit + 1
 
 	}));
 
 	const more=items && items.length > limit;
+	const empty=!items?.length;
 
 
 	useEffect(() => {
@@ -180,11 +181,15 @@ export function ToolTable<V extends Frame>({
 	}
 
 	function load() {
-		setLimit(limit+LimitNext);
+		setLimit(limit + LimitNext);
 	}
 
 
-	return createElement("tool-table", {}, !items?.length ? <small>{placeholder}</small> : <>
+	return createElement("tool-table", {
+
+			class: classes({ empty })
+
+		}, empty ? <small>{placeholder}</small> : <>
 
 			<table ref={table => { // freeze column widths to avoid accordion effects on resorting
 
@@ -210,47 +215,47 @@ export function ToolTable<V extends Frame>({
 
 				<thead>
 
-					<tr>
+				<tr>
 
-						{selection && <th>
+					{selection && <th>
 
-                            <input type={"checkbox"}
+                        <input type={"checkbox"}
 
-                                checked={selection.length > 0}
+                            checked={selection.length > 0}
 
-                                onChange={e => select(e.target.checked ? items ?? [] : [])}
+                            onChange={e => select(e.target.checked ? items ?? [] : [])}
 
-                            />
+                        />
 
-                        </th>}
+                    </th>}
 
-						{Object.entries(cols).map(([expression, { number, label }]) =>
+					{Object.entries(cols).map(([expression, { number, label }]) =>
 
-							<th key={expression} className={classes({ right: number })}>
+						<th key={expression} className={classes({ right: number })}>
 
-								<button onClick={() => sort(expression)}>
+							<button onClick={() => sort(expression)}>
 
-									<span>{label}</span>
+								<span>{label}</span>
 
-									{order[expression] === "increasing" ? <IncreasingIcon/>
-										: order[expression] === "decreasing" ? <DecreasingIcon/>
-											: <SortIcon stroke={"transparent"}/> // keep spacing stable
-									}
+								{order[expression] === "increasing" ? <IncreasingIcon/>
+									: order[expression] === "decreasing" ? <DecreasingIcon/>
+										: <SortIcon stroke={"transparent"}/> // keep spacing stable
+								}
 
-								</button>
+							</button>
 
-							</th>
-						)}
+						</th>
+					)}
 
-						<th/>
+					<th/>
 
-					</tr>
+				</tr>
 
 				</thead>
 
 				<tbody>{items?.map((item, index) => {
 
-					const skip=head(item, index ? items[index-1] : {} as Frame);
+					const skip=head(item, index ? items[index - 1] : {} as Frame);
 
 
 					function head(x: Frame, y: Frame): number { // returns the length of the initial shared row head

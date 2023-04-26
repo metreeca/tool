@@ -25,10 +25,13 @@ tool-table {
 
     white-space: nowrap;
 
+    &.empty {
+        margin: auto;
+    }
 
     & > small { /* placeholder */
 
-        margin: 50% auto 0;
+        margin: auto;
 
         color: var(--tool--color-disabled);
         transform: scale(10);
