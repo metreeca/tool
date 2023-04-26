@@ -62,7 +62,7 @@ export function useResource<
 	const [entry, setEntry]=useState<T>();
 
 
-	useEffect(() => { retrieve(); }, [JSON.stringify(model)]);
+	useEffect(() => { retrieve(); }, [id, location.href, JSON.stringify(model)]);
 
 
 	function retrieve() {
