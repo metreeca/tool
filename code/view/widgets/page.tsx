@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+import { useFetcher }                                           from "@metreeca/data/contexts/fetcher";
 import { classes }                                              from "@metreeca/view";
+import { ToolSpin }                                             from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./page.css";
 
@@ -63,8 +65,17 @@ export function ToolPage({
 
 }) {
 
+	const fetcher=useFetcher();
 
+	const [active, setActive]=useState(false);
 	const [expanded, setExpanded]=useState<boolean>();
+
+
+	useEffect(() => {
+
+		return fetcher.observe(setActive);
+
+	}, [fetcher]);
 
 	useEffect(() => {
 
@@ -76,12 +87,12 @@ export function ToolPage({
 
 	});
 
-
 	return createElement("tool-page", {
 
 		class: classes({
 
-			locked
+			locked,
+			active
 
 		}),
 
@@ -125,7 +136,7 @@ export function ToolPage({
 
 			<header>
 				{done ? <span>{done}</span> : name ? <span>{name}</span> : undefined}
-				{back ? <span>{back}</span> : menu ? <span>{menu}</span> : undefined}
+				{active ? <ToolSpin/> : back ? <span>{back}</span> : menu ? <span>{menu}</span> : undefined}
 			</header>
 
 			<section>{children}</section>

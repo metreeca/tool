@@ -34,6 +34,11 @@ tool-page {
     grid-template-columns: var(--tool-page-side-width) 1fr;
     grid-template-rows: 1fr;
 
+    &.active {
+        pointer-events: none;
+        filter: opacity(0.9);
+    }
+
     & > * {
 
         display: flex;
@@ -133,7 +138,6 @@ tool-page {
         :is(tool-page.locked) > & {
             pointer-events: none;
             filter: blur(1.5px) brightness(0.9);
-
         }
 
     }

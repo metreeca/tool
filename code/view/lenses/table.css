@@ -28,12 +28,13 @@ tool-table {
 
     & > small { /* placeholder */
 
-        margin: 50% auto;
+        margin: 50% auto 0;
+
+        color: var(--tool--color-disabled);
+        transform: scale(10);
 
         & .lucide {
             stroke-width: 0.75px;
-            color: var(--tool--color-disabled);
-            transform: scale(10);
         }
 
     }
