@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
+import { classes }                                              from "@metreeca/view";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./page.css";
 
 
 export function ToolPage({
 
+	locked=false,
+
 	side="20rem",
 
 	logo,
 	tray,
 
-	back,
 	done,
+	back,
 
 	name,
 	menu,
@@ -39,13 +42,15 @@ export function ToolPage({
 
 }: {
 
+	locked?: boolean
+
 	side?: string // side area preferred width
 
 	logo?: ReactNode
 	tray?: ReactNode
 
-	back?: ReactNode
 	done?: ReactNode
+	back?: ReactNode
 
 	name?: ReactNode
 	menu?: ReactNode
@@ -73,6 +78,12 @@ export function ToolPage({
 
 
 	return createElement("tool-page", {
+
+		class: classes({
+
+			locked
+
+		}),
 
 		style: {
 
@@ -113,8 +124,8 @@ export function ToolPage({
 		<main>
 
 			<header>
-				{back ? <span>{back}</span> : name ? <span>{name}</span> : undefined}
-				{done ? <span>{done}</span> : menu ? <span>{menu}</span> : undefined}
+				{done ? <span>{done}</span> : name ? <span>{name}</span> : undefined}
+				{back ? <span>{back}</span> : menu ? <span>{menu}</span> : undefined}
 			</header>
 
 			<section>{children}</section>

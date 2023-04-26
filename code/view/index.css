@@ -264,10 +264,12 @@ button {
     display: flex;
     flex-direction: row;
     align-items: center;
-    grid-column-gap: 0.25em;
+    grid-column-gap: 0.33em;
 
     border-radius: 1em;
     background-color: transparent;
+
+    white-space: nowrap;
 
     &:disabled {
         color: var(--tool--color-disabled);
