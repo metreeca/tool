@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Setter } from "@metreeca/data/hooks";
+import { Setter }                                                from "@metreeca/data/hooks";
 import { createField, createPlaceholder, Field, ToolFieldClass } from "@metreeca/view/fields/index";
-import { ClearIcon } from "@metreeca/view/widgets/icon";
-import * as React from "react";
-import { createElement, useState } from "react";
+import { ClearIcon }                                             from "@metreeca/view/widgets/icon";
+import * as React                                                from "react";
+import { createElement, useState }                               from "react";
 import "./email.css";
 import "./index.css";
 
@@ -83,7 +83,7 @@ export function ToolEmail({
 
                 value={value ?? ""}
                 placeholder={placeholder}
-                pattern={"\\w[-\\w]*(\\.\\w[-\\w]*)*@\\w[-\\w]*(\\.\\w[-\\w]*)+"}
+                pattern={"\\w[\\-\\w]*(\\.\\w[\\-\\w]*)*@\\w[\\-\\w]*(\\.\\w[\\-\\w]*)+"}
 
                 onChange={e => setValue(e.currentTarget.value || undefined)}
 
