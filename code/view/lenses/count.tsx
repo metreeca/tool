@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import { Value } from "@metreeca/core/value";
-import { useCache } from "@metreeca/data/hooks/cache";
-import { Stats } from "@metreeca/data/models/stats";
-import { ClearIcon } from "@metreeca/view/widgets/icon";
+import { Value }                from "@metreeca/core/value";
+import { useCache }             from "@metreeca/data/hooks/cache";
+import { Stats }                from "@metreeca/data/models/stats";
 import React, { createElement } from "react";
 import "./count.css";
 
@@ -28,7 +27,7 @@ export function ToolCount<
 
 >({
 
-	children: [stats, reset]
+	children: [stats]
 
 }: {
 
@@ -42,14 +41,13 @@ export function ToolCount<
 	return createElement("tool-count", {}, <>
 
         <span>{
-	        count === undefined ? ""
-		        : count === 0 ? "no matches"
-			        : count === 1 ? "1 match"
-				        : `${count} matches`
-        }</span>
-
-		<button title={"Clear Filters"} disabled={!filtered} onClick={reset}><ClearIcon/></button>
+			count === undefined ? ""
+				: count === 0 ? `no ${filtered ? "matches" : "items"}`
+					: count === 1 ? `1 ${filtered ? "match" : "item"}`
+						: `${count} ${filtered ? "matches" : "items"}`
+		}</span>
 
 	</>);
 
 }
+

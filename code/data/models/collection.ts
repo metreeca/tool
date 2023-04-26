@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-import { immutable }    from "@metreeca/core";
-import { clean, Frame } from "@metreeca/core/entry";
-import { Value }        from "@metreeca/core/value";
-import { Setter }       from "@metreeca/data/hooks";
-import { useResource }  from "@metreeca/data/models/resource";
-import { useState }     from "react";
+import { immutable, isEmpty } from "@metreeca/core";
+import { clean, Frame }       from "@metreeca/core/entry";
+import { Value }              from "@metreeca/core/value";
+import { Setter }             from "@metreeca/data/hooks";
+import { useResource }        from "@metreeca/data/models/resource";
+import { useState }           from "react";
 
 
 export type Collection<V extends Value>=Readonly<[
 
 	Readonly<{
+
+		filtered: boolean
 
 		model: V
 		query: Readonly<Frame>
@@ -77,6 +79,8 @@ export function useCollection<
 	return [
 
 		{
+
+			filtered: !isEmpty(query),
 
 			model,
 			query,

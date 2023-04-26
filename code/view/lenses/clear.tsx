@@ -15,66 +15,28 @@
  */
 
 import { Value }      from "@metreeca/core/value";
-import { useCache }   from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
+import { ClearIcon }  from "@metreeca/view/widgets/icon";
+import React          from "react";
 
+export function ToolClear<
 
-export type Stats=Readonly<[
+	V extends Value
 
-		undefined | Readonly<{
+>({
 
-		filtered: boolean
+	children: [{ filtered }, setCollection]
 
-		count: number;
+}: {
 
-	}>,
+	children: Collection<V>
 
-	() => void
+}) {
 
-]>
+	function reset() {
+		setCollection();
+	}
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function useStats<
-
-	T extends Value
-
->([{ filtered, query, items }, setCollection]: Collection<T>, {
-
-	//
-
-}: Partial<{
-
-	//
-
-}>={}): Stats {
-
-	const results=items({
-
-		...query,
-
-		count: undefined,
-
-		["count=count:"]: 0
-
-	});
-
-	const [count]=useCache(results?.[0]?.count);
-
-
-	return [
-
-		{
-
-			filtered,
-
-			count: count ?? 0
-
-		},
-
-		() => setCollection()
-
-	];
+	return <button title={"Clear Filters"} disabled={!filtered} onClick={reset}><ClearIcon/></button>;
 
 }

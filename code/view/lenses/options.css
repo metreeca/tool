@@ -65,8 +65,14 @@ tool-options {
 
                 display: contents;
 
-                &.unavailable > * {
-                    color: var(--tool--color-disabled) !important;
+                &.unavailable {
+
+                    color: var(--tool--color-disabled);
+
+                    & > * {
+                        color: inherit;
+                    }
+
                 }
 
                 & > input {

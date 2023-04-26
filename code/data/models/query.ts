@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { isArray, isEmpty }    from "@metreeca/core";
-import { Frame, isEntry }      from "@metreeca/core/entry";
-import { isString }            from "@metreeca/core/string";
-import { isValue, Value }      from "@metreeca/core/value";
-import { useRouter }           from "@metreeca/data/contexts/router";
-import { Setter }              from "@metreeca/data/hooks";
-import { useEffect, useState } from "react";
+import { isArray, isEmpty }        from "@metreeca/core";
+import { asFrame, Frame, isEntry } from "@metreeca/core/entry";
+import { isString }                from "@metreeca/core/string";
+import { isValue, Value }          from "@metreeca/core/value";
+import { useRouter }               from "@metreeca/data/contexts/router";
+import { Setter }                  from "@metreeca/data/hooks";
+import { useEffect, useState }     from "react";
 
 /**
  * Persistent query storage.
@@ -37,9 +37,9 @@ export function useQuery(): [Frame, Setter<Frame>] {
 
 	const key=`${route}#query`;
 
-	const value=/*asFrame(history.state)
-	 ??*/ decode(location.search.substring(1))
-		// ?? decode(sessionStorage.getItem(key))
+	const value=asFrame(history.state)
+		?? decode(location.search.substring(1))
+		?? decode(sessionStorage.getItem(key))
 		?? {};
 
 
