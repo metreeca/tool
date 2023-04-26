@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { asFrame, clean, Frame } from "@metreeca/core/entry";
-import { useRoute }              from "@metreeca/data/contexts/router";
-import { Setter }                from "@metreeca/data/hooks";
-import { useState }              from "react";
+import { asFrame, Frame } from "@metreeca/core/entry";
+import { useRoute }       from "@metreeca/data/contexts/router";
+import { Setter }         from "@metreeca/data/hooks";
+import { useState }       from "react";
 
 
 export function useQuery(): [Frame, Setter<Frame>] {
 
 	const [route]=useRoute();
 
-	const [query, setQuery]=useState(clean(asFrame(history.state) ?? {}));
+	const [query, setQuery]=useState(asFrame(history.state) ?? {});
 
 	function setStore(query: Frame) {
 		history.replaceState(query, document.title);
