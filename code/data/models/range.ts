@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { error, toType, Type } from "@metreeca/core";
+import { error, toType, Type }               from "@metreeca/core";
 import { isValue, model as getModel, Value } from "@metreeca/core/value";
-import { useCache } from "@metreeca/data/hooks/cache";
-import { Collection } from "@metreeca/data/models/collection";
+import { useCache }                          from "@metreeca/data/hooks/cache";
+import { Collection }                        from "@metreeca/data/models/collection";
 
 
 export type Range<V extends Value>=Readonly<[
@@ -43,7 +43,7 @@ export type Range<V extends Value>=Readonly<[
 
 ]>
 
-export type RangeOptions=Partial<Readonly<{
+export type RangeOpts=Partial<Readonly<{
 
 	type: Type
 
@@ -63,7 +63,7 @@ export function useRange<
 >(
 	collection: Collection<T>,
 	expression: string,
-	opts: RangeOptions & Readonly<{ type: Type<V> }>
+	opts: RangeOpts & Readonly<{ type: Type<V> }>
 ): Range<V>;
 
 /*
@@ -78,14 +78,14 @@ export function useRange<
 >(
 	collection: Collection<T & { [key in K]: undefined | V }>,
 	expression: K & keyof T,
-	opts?: RangeOptions
+	opts?: RangeOpts
 ): Range<V>;
 
 export function useRange<V extends Value>(collection: Collection<V>, expression: string, {
 
 	type
 
-}: RangeOptions={}): Range<V> {
+}: RangeOpts={}): Range<V> {
 
 	const [{ model, query, items }, setCollection]=collection;
 

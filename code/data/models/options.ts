@@ -15,12 +15,12 @@
  */
 
 import { asArray, error, isArray, toType, Type } from "@metreeca/core";
-import { isEntry } from "@metreeca/core/entry";
-import { isNumber } from "@metreeca/core/number";
-import { model as getModel, Value } from "@metreeca/core/value";
-import { useCache } from "@metreeca/data/hooks/cache";
-import { Collection } from "@metreeca/data/models/collection";
-import { useState } from "react";
+import { isEntry }                               from "@metreeca/core/entry";
+import { isNumber }                              from "@metreeca/core/number";
+import { model as getModel, Value }              from "@metreeca/core/value";
+import { useCache }                              from "@metreeca/data/hooks/cache";
+import { Collection }                            from "@metreeca/data/models/collection";
+import { useState }                              from "react";
 
 
 export interface Option<V> {
@@ -60,7 +60,7 @@ export type Options<V extends Value>=Readonly<[
 
 ]>
 
-export type OptionsOptions=Partial<Readonly<{
+export type OptionsOpts=Partial<Readonly<{
 
 	type: Type
 	size: number
@@ -81,7 +81,7 @@ export function useOptions<
 >(
 	collection: Collection<T>,
 	expression: string,
-	opts: OptionsOptions & Readonly<{ type: Type<V> }>
+	opts: OptionsOpts & Readonly<{ type: Type<V> }>
 ): Options<V>;
 
 /*
@@ -96,7 +96,7 @@ export function useOptions<
 >(
 	collection: Collection<T & { [key in K]: undefined | V }>,
 	expression: K & keyof T,
-	opts?: OptionsOptions
+	opts?: OptionsOpts
 ): Options<V>;
 
 export function useOptions<
@@ -110,7 +110,7 @@ export function useOptions<
 	type,
 	size=0
 
-}: OptionsOptions={}): Options<V> {
+}: OptionsOpts={}): Options<V> {
 
 	const [{ model, query, items }, setCollection]=collection;
 

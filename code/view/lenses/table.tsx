@@ -19,7 +19,7 @@ import { asOrder, Entry, Frame, id, isEntry, label, Order }     from "@metreeca/
 import { isNumber }                                             from "@metreeca/core/number";
 import { isString }                                             from "@metreeca/core/string";
 import { equals, model }                                        from "@metreeca/core/value";
-import { useRoute }                                             from "@metreeca/data/contexts/router";
+import { useRouter }                                            from "@metreeca/data/contexts/router";
 import { useCache }                                             from "@metreeca/data/hooks/cache";
 import { Collection }                                           from "@metreeca/data/models/collection";
 import { Selection, SelectionDelta }                            from "@metreeca/data/models/selection";
@@ -128,7 +128,7 @@ export function ToolTable<V extends Frame>({
 	const [expression, { entry }]=Object.entries(cols)[0] ?? [undefined, {}]; // first field
 
 
-	const [, setRoute]=useRoute();
+	const [, setRoute]=useRouter();
 	const [widths, setWidths]=useState(""); // frozen column widths
 
 	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ??

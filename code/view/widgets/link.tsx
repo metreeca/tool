@@ -17,7 +17,7 @@
 import { Entry, Frame, id, isEntry }     from "@metreeca/core/entry";
 import { isString }                      from "@metreeca/core/string";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
-import { useRoute }                      from "@metreeca/data/contexts/router";
+import { useRouter }                     from "@metreeca/data/contexts/router";
 import { Collection }                    from "@metreeca/data/models/collection";
 import React, { ReactNode }              from "react";
 
@@ -64,7 +64,7 @@ export function ToolLink({
 
 	function global([target, query]: [string | Entry, Frame]) {
 
-		const [, setRoute]=useRoute();
+		const [, setRoute]=useRouter();
 
 		const route=isString(target) ? target : target.id;
 

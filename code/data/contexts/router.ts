@@ -47,7 +47,7 @@ export interface Store {
 	 *
 	 * @returns the current route as extracted from the current browser location
 	 */
-	(): Route;
+	(): string;
 
 	/**
 	 * Converts a route to a browser location.
@@ -56,7 +56,7 @@ export interface Store {
 	 *
 	 * @returns a root-relative string representing `route`
 	 */
-	(route: Route): string;
+	(route: string): string;
 
 }
 
@@ -106,19 +106,13 @@ export interface Table {
 }
 
 
-/**
- * The value component of the router context state.
- */
-export type Route=string
+export type Router=[
 
-/**
- * The updater component of the router context state.
- */
-export interface SetRoute {
+	string, // current route
 
-	(route: string | { route?: string, title?: string, state?: any }, replace?: boolean): void;
+	(route: string | { route?: string, title?: string, state?: any }, replace?: boolean) => void
 
-}
+]
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,6 +175,8 @@ export const hash=(route?: string) => {
 };
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Creates an attribute spread for active links.
  *
@@ -214,6 +210,8 @@ export function native(route: string): { href: string, [NativeAttribute]?: "" } 
 	return { href: route, [NativeAttribute]: "" };
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function title(value: undefined | Value): void {
 
@@ -339,7 +337,7 @@ export function ToolRouter({
 }
 
 
-export function useRoute(): [Route, SetRoute] {
+export function useRouter(): Router {
 
 	const { store, update }=useContext(Context);
 

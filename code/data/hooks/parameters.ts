@@ -15,7 +15,7 @@
  */
 
 import { equals, Primitive }   from "@metreeca/core";
-import { useRoute }            from "@metreeca/data/contexts/router";
+import { useRouter }           from "@metreeca/data/contexts/router";
 import { useStorage }          from "@metreeca/data/hooks/storage";
 import { useEffect, useState } from "react";
 
@@ -32,7 +32,7 @@ export interface Parameters {
 
 export function useParameters<T extends Parameters=Parameters>(initial: T, storage?: Storage): [T, (parameters: T) => void] {
 
-	const [route]=useRoute();
+	const [route]=useRouter();
 
 	const [state, setState]=(storage === undefined)
 		? useState(initial)
