@@ -55,6 +55,8 @@ export function useResource<
 
 }>={}): Resource<T, C> {
 
+	// !!! validate model (e.g. query well=formedness)
+
 	const graph=useGraph();
 
 	const [entry, setEntry]=useState<T>();
@@ -65,7 +67,7 @@ export function useResource<
 
 	function retrieve() {
 
-		return graph.retrieve({ ...model, id: new URL(id, location.href).href }).then(entry => {
+		return graph.retrieve({ ...model, id: new URL(id, location.href).pathname }).then(entry => {
 
 			setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
 
@@ -90,11 +92,11 @@ export function useResource<
 
 				return graph.delete({ id });
 
-			} else if ( isEntry(delta) ) {
+			} else if ( isEntry(delta) ) { // !!! validate model (e.g. no queries)
 
 				return graph.update(clean({ ...model, ...delta, id }));
 
-			} else {
+			} else { // !!! validate model (e.g. no queries)
 
 				return graph.create(clean({ ...delta, id }));
 
