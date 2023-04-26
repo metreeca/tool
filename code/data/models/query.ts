@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { isEmpty }             from "@metreeca/core";
-import { asFrame, Frame }      from "@metreeca/core/entry";
+import { isArray, isEmpty }    from "@metreeca/core";
+import { Frame, isEntry }      from "@metreeca/core/entry";
+import { isString }            from "@metreeca/core/string";
+import { isValue, Value }      from "@metreeca/core/value";
 import { useRouter }           from "@metreeca/data/contexts/router";
 import { Setter }              from "@metreeca/data/hooks";
 import { useEffect, useState } from "react";
@@ -35,10 +37,11 @@ export function useQuery(): [Frame, Setter<Frame>] {
 
 	const key=`${route}#query`;
 
-	const value=asFrame(history.state)
-		?? decode(location.search.substring(1))
-		?? decode(sessionStorage.getItem(key))
+	const value=/*asFrame(history.state)
+	 ??*/ decode(location.search.substring(1))
+		// ?? decode(sessionStorage.getItem(key))
 		?? {};
+
 
 	const [query, setQuery]=useState(value);
 
@@ -68,17 +71,115 @@ export function useQuery(): [Frame, Setter<Frame>] {
 // !!! compact encoding / handle versioning
 
 function encode(query: Frame): string {
-	return isEmpty(query) ? "" : encodeURI(JSON.stringify(query));
+
+	if ( isEmpty(query) ) {
+
+		return "";
+
+	} else {
+
+		const params=new URLSearchParams();
+
+		Object.entries(query).forEach(([label, value]) => {
+
+			if ( label.startsWith("<=") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith(">=") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith("<") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith(">") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith("~") && isString(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith("?") && isArray<null | Value>(value) ) {
+
+				value.filter(v => v === null || isValue(v)).forEach(v =>
+					params.append(label.substring(1), encode(v))
+				);
+
+			}
+
+		});
+
+		return params.toString();
+
+
+		function encode(value: null | Value): string {
+			return isEntry(value) ? value.id : JSON.stringify(value);
+		}
+
+	}
+
 }
 
-function decode(query: undefined | null | string): undefined | Frame {
+function decode(search: undefined | null | string): undefined | Frame {
 	try {
 
-		return query ? JSON.parse(decodeURI(query)) : undefined;
+		if ( search ) {
+
+			const query: { [label: string]: Frame[string] }={};
+
+			new URLSearchParams(search).forEach((value, label) => {
+
+				if ( label.startsWith("<=") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith(">=") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith("<") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith(">") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith("~") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith("?") ) {
+
+					query[label]=[...(query[label] as [] ?? []), decode(value)];
+
+				} else {
+
+					query[`?${label}`]=[...(query[label] as [] ?? []), decode(value)];
+
+				}
+
+			});
+
+			return query;
+
+
+			function decode(value: string): null | Value {
+				return value.match(/^\/|^\w+:/) ? { id: value } : JSON.parse(value);
+			}
+
+		} else {
+
+			return undefined;
+
+		}
 
 	} catch ( e ) {
 
-		console.warn("malformed query sting <%o> / %o", query, e);
+		console.warn("malformed search string <%o> / %o", search, e);
 
 		return undefined;
 

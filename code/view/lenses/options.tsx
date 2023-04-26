@@ -208,7 +208,7 @@ export function ToolOptions<
 	function Option({ selected, value, count }: Option<V>) {
 		return <li key={value === null ? "" : type.write(value)} className={count > 0 ? "available" : "unavailable"}>
 
-			<input type="checkbox" checked={selected} disabled={!selected && count === 0}
+			<input type="checkbox" checked={selected}
 
 				onChange={e => select({ value, selected: e.currentTarget.checked })}
 
