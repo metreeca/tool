@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, toType, Type }               from "@metreeca/core";
+import { error, isDefined, toType, Type }    from "@metreeca/core";
 import { isValue, model as getModel, Value } from "@metreeca/core/value";
 import { useCache }                          from "@metreeca/data/hooks/cache";
 import { Collection }                        from "@metreeca/data/models/collection";
@@ -118,11 +118,11 @@ export function useRange<V extends Value>(collection: Collection<V>, expression:
 
 			type: effective,
 
-			min: isValue(min) ? effective.decode(min) : undefined,
-			max: isValue(max) ? effective.decode(max) : undefined,
+			min: isDefined(min) && isValue(min) ? effective.decode(min) : undefined,
+			max: isDefined(max) && isValue(max) ? effective.decode(max) : undefined,
 
-			gte: isValue(gte) ? effective.decode(gte) : undefined,
-			lte: isValue(lte) ? effective.decode(lte) : undefined
+			gte: isDefined(gte) && isValue(gte) ? effective.decode(gte) : undefined,
+			lte: isDefined(lte) && isValue(lte) ? effective.decode(lte) : undefined
 
 		},
 
