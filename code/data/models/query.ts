@@ -102,11 +102,9 @@ function encode(query: Frame): string {
 
 				params.set(label, encode(value));
 
-			} else if ( label.startsWith("?") && isArray<null | Value>(value) ) {
+			} else if ( label.startsWith("?") && isArray(value, isValue) ) {
 
-				value.filter(v => v === null || isValue(v)).forEach(v =>
-					params.append(label.substring(1), encode(v))
-				);
+				value.forEach(v => params.append(label.substring(1), encode(v)));
 
 			}
 

@@ -21,17 +21,17 @@
  */
 
 
-import { boolean, isBoolean } from "@metreeca/core/boolean";
-import { date, isDate } from "@metreeca/core/date";
+import { boolean, isBoolean }   from "@metreeca/core/boolean";
+import { date, isDate }         from "@metreeca/core/date";
 import { dateTime, isDateTime } from "@metreeca/core/dateTime";
-import { decimal, isDecimal } from "@metreeca/core/decimal";
-import { entry, isEntry } from "@metreeca/core/entry";
-import { integer, isInteger } from "@metreeca/core/integer";
-import { isLocal, local } from "@metreeca/core/local";
-import { isString, string } from "@metreeca/core/string";
-import { isTime, time } from "@metreeca/core/time";
-import { isValue, Value } from "@metreeca/core/value";
-import { isYear, year } from "@metreeca/core/year";
+import { decimal, isDecimal }   from "@metreeca/core/decimal";
+import { entry, isEntry }       from "@metreeca/core/entry";
+import { integer, isInteger }   from "@metreeca/core/integer";
+import { isLocal, local }       from "@metreeca/core/local";
+import { isString, string }     from "@metreeca/core/string";
+import { isTime, time }         from "@metreeca/core/time";
+import { isValue, Value }       from "@metreeca/core/value";
+import { isYear, year }         from "@metreeca/core/year";
 
 
 /**
@@ -92,8 +92,8 @@ export function isObject(value: unknown): value is Record<any, any> & ({ bind?: 
 /**
  * Checks if a value is an array.
  */
-export function isArray<T=unknown>(value: unknown): value is T[] {
-	return Array.isArray(value);
+export function isArray<T=unknown>(value: unknown, is?: (value: unknown) => value is T): value is T[] {
+	return Array.isArray(value) && (is === undefined || value.every(is));
 }
 
 /**

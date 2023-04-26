@@ -26,13 +26,14 @@ import { isTime, time, toTimeString }                            from "@metreeca
 import { isYear, toYearString, year }                            from "@metreeca/core/year";
 
 
-export type Value=boolean | number | string | Local | Frame
+export type Value=null | boolean | number | string | Local | Frame
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function isValue(value: unknown): value is Value {
-	return isBoolean(value)
+	return value === null
+		|| isBoolean(value)
 		|| isNumber(value)
 		|| isString(value)
 		|| isFrame(value)
@@ -60,20 +61,21 @@ export function toValueString(value: Value, {
 
 }={}): string {
 
-	return isBoolean(value) ? toBooleanString(value, { locales })
+	return value === null ? "null"
 
-		: isNumber(value) ? toNumberString(value, { locales, ...asNumber })
+		: isBoolean(value) ? toBooleanString(value, { locales })
+			: isNumber(value) ? toNumberString(value, { locales, ...asNumber })
 
-			: isDateTime(value) ? toDateTimeString(dateTime.parse(value) ?? new Date(), { locales, ...asDateTime })
-				: isDate(value) ? toDateString(date.parse(value) ?? new Date(), { locales, ...asDateTime })
-					: isTime(value) ? toTimeString(time.parse(value) ?? new Date(), { locales, ...asDateTime })
-						: isYear(value) ? toYearString(year.parse(value) ?? new Date(), { locales, ...asDateTime })
+				: isDateTime(value) ? toDateTimeString(dateTime.parse(value) ?? new Date(), { locales, ...asDateTime })
+					: isDate(value) ? toDateString(date.parse(value) ?? new Date(), { locales, ...asDateTime })
+						: isTime(value) ? toTimeString(time.parse(value) ?? new Date(), { locales, ...asDateTime })
+							: isYear(value) ? toYearString(year.parse(value) ?? new Date(), { locales, ...asDateTime })
 
-							: isString(value) ? value
-								: isLocal(value) ? toLocalString(value, { locales })
+								: isString(value) ? value
+									: isLocal(value) ? toLocalString(value, { locales })
 
-									: isEntry(value) ? toEntryString(value, { locales })
-										: toFrameString(value, { locales });
+										: isEntry(value) ? toEntryString(value, { locales })
+											: toFrameString(value, { locales });
 }
 
 

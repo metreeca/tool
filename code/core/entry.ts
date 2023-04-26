@@ -38,7 +38,7 @@ export interface Entry extends Frame {
  */
 export interface Frame {
 
-	readonly [field: string]: undefined | null | Value | ReadonlyArray<null | Value>;
+	readonly [field: string]: undefined | Value | ReadonlyArray<Value>;
 
 }
 
@@ -116,8 +116,7 @@ export function isEntry(value: unknown): value is Entry {
 
 export function isFrame(value: unknown): value is Frame {
 	return isObject(value) && Object.entries(value).every(([key, value]) => isString(key) && (
-		value === undefined || value === null || isValue(value)
-		|| isArray(value) && value.every(value => value === null || isValue(value))
+		value === undefined || isValue(value) || isArray(value, isValue)
 	));
 }
 
