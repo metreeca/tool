@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { isBoolean } from "@metreeca/core/boolean";
-import { isEntry } from "@metreeca/core/entry";
-import { toValueString, Value } from "@metreeca/core/value";
-import { useCache } from "@metreeca/data/hooks/cache";
-import { useTrailing } from "@metreeca/data/hooks/events";
-import { Option, Options } from "@metreeca/data/models/options";
-import { AutoDelay, classes } from "@metreeca/view";
-import { Check, CheckSquare, ClearIcon, X } from "@metreeca/view/widgets/icon";
-import { ToolLink } from "@metreeca/view/widgets/link";
-import { ToolMore } from "@metreeca/view/widgets/more";
-import React, { createElement, useEffect, useRef, useState } from "react";
+import { isBoolean }                                                    from "@metreeca/core/boolean";
+import { isEntry }                                                      from "@metreeca/core/entry";
+import { toValueString, Value }                                         from "@metreeca/core/value";
+import { useCache }                                                     from "@metreeca/data/hooks/cache";
+import { useTrailing }                                                  from "@metreeca/data/hooks/events";
+import { Option, Options }                                              from "@metreeca/data/models/options";
+import { AutoDelay, classes }                                           from "@metreeca/view";
+import { Check, CheckSquare, ClearIcon, X }                             from "@metreeca/view/widgets/icon";
+import { ToolLink }                                                     from "@metreeca/view/widgets/link";
+import { ToolMore }                                                     from "@metreeca/view/widgets/more";
+import React, { createElement, ReactNode, useEffect, useRef, useState } from "react";
 import "./options.css";
 
 
@@ -38,6 +38,8 @@ export function ToolOptions<
 	compact,
 	placeholder,
 
+	as,
+
 	children: [options, setOptions]
 
 }: {
@@ -45,7 +47,7 @@ export function ToolOptions<
 	compact?: boolean
 	placeholder?: string
 
-	// !!! option renderer
+	as?: (value: V) => ReactNode
 
 	children: Options<V>
 
@@ -117,7 +119,7 @@ export function ToolOptions<
 	}
 
 	function load() {
-		setOptions({ limit: limit+delta });
+		setOptions({ limit: limit + delta });
 	}
 
 
@@ -213,9 +215,11 @@ export function ToolOptions<
 			/>
 
 			{
-				isBoolean(value) ? value ? <Check/> : <X/>
-					: isEntry(value) ? <ToolLink>{value}</ToolLink>
-						: <span>{value === null ? "‹blank›" : type.format(value)}</span>
+				value === null ? <span>‹blank›</span>
+					: as ? as(value)
+						: isBoolean(value) ? value ? <Check/> : <X/>
+							: isEntry(value) ? <ToolLink>{value}</ToolLink>
+								: <span>{type.format(value)}</span>
 			}
 
 			<small>{toValueString(count)}</small>
