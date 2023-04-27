@@ -15,23 +15,15 @@
  */
 
 
+import { toValueString, Value }                      from "@metreeca/core/value";
 import { useTrailing }                               from "@metreeca/data/hooks/events";
+import { Matches }                                   from "@metreeca/data/models/matches";
 import { AutoDelay, AutoLength, AutoSize, keys }     from "@metreeca/view";
-import { createPlaceholder }                         from "@metreeca/view/fields";
-import "@metreeca/view/fields/index.css";
 import { focus, input }                              from "@metreeca/view/widgets/form";
 import { ClearIcon }                                 from "@metreeca/view/widgets/icon";
 import { ToolSpin }                                  from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useState } from "react";
 import "./auto.css";
-
-
-export type Source=(keywords: string) => Promise<undefined | null | Option[]>
-
-export type Option={ value: string, label: string }
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Creates an auto-completing input field.
@@ -44,7 +36,7 @@ export type Option={ value: string, label: string }
  * @param source
  * @constructor
  */
-export function ToolAuto<V>({
+export function ToolAuto<V extends Value>({
 
 	disabled,
 	required,
@@ -72,26 +64,30 @@ export function ToolAuto<V>({
 	 */
 	auto?: number
 
-	onSelect: (option: Option) => void
+	onSelect: (value: V) => void
 
-	children: Source
+	children: Matches<V>
 
 }) {
 
 	const [keywords, setKeywords]=useState("");
-	const [options, setOptions]=useState<Awaited<ReturnType<typeof source>> | ReturnType<typeof source>>();
+	const [offset, setOffset]=useState(0);
+	const [limit, setLimit]=useState(AutoSize);
+
+	const [options, setOptions]=useState<V[]>();
 
 
-	function doClear() {
+	function clear() {
 		setKeywords("");
 		setOptions(undefined);
 	}
 
-	function doSelect(option: undefined | Option) {
+	function select(option: V) {
 
-		if ( option ) { onSelect(option); }
+		onSelect(option);
 
-		doClear();
+		setKeywords("");
+		setOptions(undefined);
 
 	}
 
@@ -101,7 +97,7 @@ export function ToolAuto<V>({
 
 			"Escape": e => {
 
-				doClear();
+				clear();
 
 				e.currentTarget.querySelector("input")?.focus();
 
@@ -136,7 +132,7 @@ export function ToolAuto<V>({
 
 			setTimeout(() => {
 
-				if ( !memo.currentTarget.contains(document.activeElement) ) { doClear(); }
+				if ( !memo.currentTarget.contains(document.activeElement) ) { clear(); }
 
 			});
 
@@ -155,27 +151,27 @@ export function ToolAuto<V>({
 
 				onInputCapture={useTrailing(auto || AutoDelay,
 
-					e => setOptions(e.currentTarget.value.length < AutoLength
+					e => {
 
-						? undefined
+						const keywords=e.currentTarget.value.trim();
 
-						: source(e.currentTarget.value).then(options => {
+						if ( keywords.length >= AutoLength ) {
+							source({ keywords, offset, limit }).then(setOptions);
+						}
 
-							setOptions(options);
+						setOptions(undefined);
 
-							return options;
+					},
 
-						})
-					),
-
-					[source, setOptions]
+					[source]
 				)}
 
 			/>
 
-			{(keywords || options) && <button title={"Clear"} onClick={e => {
+			{keywords && <button title={"Clear"} onClick={e => {
 
-				doClear();
+				clear();
+
 				focus(e.currentTarget.previousSibling);
 
 			}}><ClearIcon/></button>}
@@ -184,32 +180,44 @@ export function ToolAuto<V>({
 
 		{options !== undefined && <footer>{
 
-			options instanceof Promise ? <ToolSpin/>
-				: options === null ? createPlaceholder("No Matches")
-					: Select(options)
+			keywords && !options ? <ToolSpin/>
+				: options?.length ? Select(options)
+					: <small>No Matches</small>
 
 		}</footer>}
 
 	</>);
 
 
-	function Select(options: Option[]) {
+	function Select(options: V[]) {
 
 		return <select
 
 			size={Math.min(Math.max(2, options.length), AutoSize)} // ;( force scrollable list
 
-			onClick={e => { doSelect(options[e.currentTarget.selectedIndex]); }}
+			onClick={e => {
+
+				select(options[e.currentTarget.selectedIndex]);
+
+				focus(e.currentTarget.closest("tool-auto")?.querySelector("input"));
+
+			}}
 
 			onKeyDown={keys({
 
-				"Enter": e => doSelect(options[e.currentTarget.selectedIndex])
+				"Enter": e => {
+
+					select(options[e.currentTarget.selectedIndex]);
+
+					focus(e.currentTarget.closest("tool-auto")?.querySelector("input"));
+
+				}
 
 			})}
 
-		>{options.map(({ value, label }) => {
+		>{options.map((value, index) => {
 
-			return <option key={value} value={value}>{label}</option>;
+			return <option key={index}>{toValueString(value)}</option>;
 
 		})}</select>;
 	}

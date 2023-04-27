@@ -80,12 +80,6 @@ tool-entry {
             margin-top: 0.25em;
         }
 
-        &:nth-child(odd) {
-            background-color: var(--tool--background-color-stripe);
-            border-top-style: solid;
-            border-bottom-style: solid;
-        }
-
         & > button {
             transform: scale(0.75);
         }
@@ -155,5 +149,3 @@ tool-string {
     }
 
 }
-
-

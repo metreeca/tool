@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-import { Setter }                  from "@metreeca/data/hooks";
-import { createField, Field }      from "@metreeca/view/fields/index";
-import { focus, input }            from "@metreeca/view/widgets/form";
-import { ClearIcon }               from "@metreeca/view/widgets/icon";
-import * as React                  from "react";
-import { createElement, useState } from "react";
+import { Setter }                             from "@metreeca/data/hooks";
+import { createField, Field, ToolFieldClear } from "@metreeca/view/fields/index";
+import { input }                              from "@metreeca/view/widgets/form";
+import * as React                             from "react";
+import { createElement }                      from "react";
 import "./index.css";
 
 
@@ -72,30 +71,9 @@ export function ToolString({
 
 	}) {
 
-		const [initial]=useState(value);
-
-
-		function clear() {
-			setValue(undefined);
-		}
-
-
 		return <>
 
-			{initial && initial === value && <button title={"Clear"} // before input to drive css
-
-                onClick={e => {
-
-					try { clear(); } finally {
-
-						input(e.currentTarget);
-						focus(e.currentTarget.previousSibling);
-
-					}
-
-				}}
-
-            ><ClearIcon/></button>}
+			<ToolFieldClear>{[value, setValue]}</ToolFieldClear> {/* before inputs to drive css */}
 
 			{rows && rows > 1
 

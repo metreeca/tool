@@ -78,18 +78,7 @@ export function ToolEmail({
 
 		return <>
 
-			<input type={"email"} readOnly={readonly} required={required}
-
-				value={value ?? ""}
-				placeholder={placeholder}
-				pattern={"\\w[\\-\\w]*(\\.\\w[\\-\\w]*)*@\\w[\\-\\w]*(\\.\\w[\\-\\w]*)+"}
-
-				onChange={e => setValue(e.currentTarget.value || undefined)}
-
-
-			/>
-
-			{initial && initial === value && <button title={"Clear"} onClick={e => {
+			{initial && initial === value && <button title={"Clear"} onClick={e => { // !!! factor
 
 				try { doClear(); } finally {
 
@@ -102,6 +91,22 @@ export function ToolEmail({
 				}
 
 			}}><ClearIcon/></button>}
+
+			<input type={"email"} readOnly={readonly} required={required}
+
+				value={value ?? ""}
+				placeholder={placeholder}
+				pattern={"\\w[\\-\\w]*(\\.\\w[\\-\\w]*)*@\\w[\\-\\w]*(\\.\\w[\\-\\w]*)+"}
+
+				onChange={e => setValue(e.currentTarget.value || undefined)}
+
+				style={{
+
+					minWidth: "15em"
+
+				}}
+
+			/>
 
 		</>;
 

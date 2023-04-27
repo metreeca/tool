@@ -22,6 +22,35 @@ tool-auto {
     position: relative;
     overflow: visible !important;
 
+    & > header {
+
+        display: grid;
+        grid-template-columns: 1fr min-content;
+        grid-template-rows: min-content;
+
+        & > * {
+            grid-row: 1;
+        }
+
+        & > input {
+            grid-column: 1 / span 2;
+        }
+
+        & > button {
+
+            grid-column: 2;
+            padding: 0 0.25em;
+            background-color: transparent;
+            transform: scale(0.75);
+
+            &:focus {
+                outline-offset: 0;
+            }
+
+        }
+
+    }
+
     & > footer {
 
         z-index: 1;

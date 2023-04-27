@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import { Setter }              from "@metreeca/data/hooks";
-import { RemoveIcon }          from "@metreeca/view/widgets/icon";
-import * as React              from "react";
-import { Fragment, ReactNode } from "react";
+import { Setter }                        from "@metreeca/data/hooks";
+import { focus, input }                  from "@metreeca/view/widgets/form";
+import { ClearIcon, RemoveIcon }         from "@metreeca/view/widgets/icon";
+import * as React                        from "react";
+import { Fragment, ReactNode, useState } from "react";
 
 
 /**
@@ -266,4 +267,38 @@ export function createField<V>({
 
 export function createPlaceholder(label?: string) {
 	return <small>{label || "No Value"}</small>;
+}
+
+export function ToolFieldClear({
+
+	children: [value, setValue]
+
+}: {
+
+	children: [undefined | string, Setter<undefined | string>],
+
+}) {
+
+	const [initial]=useState(value);
+
+
+	function clear() {
+		setValue(undefined);
+	}
+
+
+	return !(initial && initial === value) ? null : <button title={"Clear"}
+
+		onClick={e => {
+
+			try { clear(); } finally {
+
+				input(e.currentTarget);
+				focus(e.currentTarget.previousSibling);
+
+			}
+
+		}}
+
+	><ClearIcon/></button>;
 }

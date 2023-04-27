@@ -86,6 +86,20 @@ export function ToolDecimal({
 
 		return <>
 
+			{initial && initial === value && <button title={"Clear"} onClick={e => { // !!! factor
+
+				try { clear(); } finally {
+
+					const previous=e.currentTarget.previousElementSibling;
+
+					if ( previous instanceof HTMLElement ) {
+						previous.focus();
+					}
+
+				}
+
+			}}><ClearIcon/></button>}
+
 			<input type={"number"} readOnly={readonly} required={required}
 
 				size={digits}
@@ -108,20 +122,6 @@ export function ToolDecimal({
 				}}
 
 			/>
-
-			{initial && initial === value && <button title={"Clear"} onClick={e => {
-
-				try { clear(); } finally {
-
-					const previous=e.currentTarget.previousElementSibling;
-
-					if ( previous instanceof HTMLElement ) {
-						previous.focus();
-					}
-
-				}
-
-			}}><ClearIcon/></button>}
 
 		</>;
 

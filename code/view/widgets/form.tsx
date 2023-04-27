@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Frame } from "@metreeca/core/entry";
+import { Frame }            from "@metreeca/core/entry";
 import React, { ReactNode } from "react";
 
 
@@ -41,7 +41,7 @@ export function input(target: HTMLElement) {
  *
  * @param target
  */
-export function focus(target: null | ChildNode) {
+export function focus(target: undefined | null | ChildNode) {
 
 	if ( target instanceof HTMLElement ) {
 		target.focus();

@@ -15,21 +15,18 @@
  */
 
 
-import { Entry, id, label }   from "@metreeca/core/entry";
-import { useGraph }           from "@metreeca/data/contexts/graph";
-import { useTrace }           from "@metreeca/data/contexts/trace";
-import { Setter }             from "@metreeca/data/hooks";
-import { AutoSize }           from "@metreeca/view";
-import { createField, Field } from "@metreeca/view/fields/index";
-import { ToolAuto }           from "@metreeca/view/widgets/auto";
-import { input }              from "@metreeca/view/widgets/form";
-import { ClearIcon }          from "@metreeca/view/widgets/icon";
-import * as React             from "react";
-import { createElement }      from "react";
+import { Entry, id, label }     from "@metreeca/core/entry";
+import { Setter }               from "@metreeca/data/hooks";
+import { Matches }              from "@metreeca/data/models/matches";
+import { createField, Field }   from "@metreeca/view/fields/index";
+import { ToolAuto }             from "@metreeca/view/widgets/auto";
+import { input }                from "@metreeca/view/widgets/form";
+import { ClearIcon }            from "@metreeca/view/widgets/icon";
+import React, { createElement } from "react";
 import "./index.css";
 
 
-export function ToolEntry<E extends Entry>({
+export function ToolEntry({
 
 	disabled,
 	readonly,
@@ -41,18 +38,18 @@ export function ToolEntry<E extends Entry>({
 
 	...field
 
-}: Field<E> & Readonly<{
+}: Field<Entry> & Readonly<{
 
-	source: string
+	source: Matches<Entry>
 
 }>) {
 
 	return createElement("tool-entry", {},
-		createField<E>({ field, reader, editor })
+		createField<Entry>({ field, reader, editor })
 	);
 
 
-	function reader({ value }: { value: E }) { // wrap in span to manage clipping
+	function reader({ value }: { value: Entry }) { // wrap in span to manage clipping
 		return readonly
 			? <span key={id(value)}>{label(value)}</span>
 			: <span key={id(value)}><a href={id(value)}>{label(value)}</a></span>;
@@ -68,20 +65,16 @@ export function ToolEntry<E extends Entry>({
 
 		required?: boolean
 
-		state: [undefined | E, Setter<undefined | E>],
+		state: [undefined | Entry, Setter<undefined | Entry>],
 
 	}) {
 
-		const graph=useGraph();
 
-		const [, setTrace]=useTrace();
-
-
-		function doInsert(entry: E) {
+		function insert(entry: Entry) {
 			setValue(entry);
 		}
 
-		function doRemove() {
+		function remove() {
 			setValue(undefined);
 		}
 
@@ -92,11 +85,11 @@ export function ToolEntry<E extends Entry>({
 
 				<input type={"text"} readOnly required={required} value={label(value)}/>
 
-				<button title={"Clear"} onClick={e => {
+				<button title={"Remove"} onClick={e => {
 
 					try {
 
-						doRemove();
+						remove();
 
 					} finally {
 
@@ -110,41 +103,12 @@ export function ToolEntry<E extends Entry>({
 
 			: <ToolAuto required={required}
 
-				onSelect={({ value, label }) => doInsert({ id: value, label } as E)}
+				onSelect={value => insert(value)}
 
-			>{keywords => graph
-
-				.retrieve({
-
-					id: source,
-
-					"~label": keywords,
-					".order": "label",
-					".limit": AutoSize,
-
-					contains: [{
-						id: "",
-						label: ""
-					}]
-
-				})
-
-				.then(entries => entries.contains?.length
-					? entries.contains.map(entry => ({ value: id(entry), label: label(entry) }))
-					: null
-				)
-
-				.catch(trace => {
-
-					setTrace(trace);
-
-					throw trace;
-
-				})
-
-
-			}</ToolAuto>;
+			>{source}</ToolAuto>;
 
 	}
 
 }
+
+
