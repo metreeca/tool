@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-import { ToolPage } from "@metreeca/view/widgets/page";
-import { ToolLogo } from "@metreeca/view/widgets/logo";
-import * as React from "react";
-import { ReactNode } from "react";
-import { DND } from "@metreeca/demo/pages/dnd";
 import { id, label } from "@metreeca/core/entry";
-import { About } from "@metreeca/demo/pages/about";
-import { Home } from "@metreeca/demo/pages/home";
-import { ToolPane } from "@metreeca/view/widgets/pane";
+import { About }     from "@metreeca/demo/pages/about";
+import { Home }      from "@metreeca/demo/pages/home";
+import { ToolPage }  from "@metreeca/view/layouts/page";
+import { ToolLogo }  from "@metreeca/view/widgets/logo";
+import * as React    from "react";
+import { ReactNode } from "react";
 
 
 export function DemoPage({
@@ -41,26 +39,15 @@ export function DemoPage({
 
 	return <ToolPage
 
-		side={<ToolPane header={<a href={id(Home)}><ToolLogo/></a>}/>}
+		logo={<a href={id(Home)}><ToolLogo/></a>}
+		meta={<a href={id(About)}>{label(About)}</a>}
 
-		tray={tray ?? <ToolPane header={<a href={id(About)}>{label(About)}</a>}>
+		tray={tray}
 
-            <a href={id(DND)}>{label(DND)}</a>
+	>{
 
-        </ToolPane>}
+		children
 
-	>
-
-		<ToolPane
-
-			header={<span/>}
-
-		>{
-
-			children
-
-		}</ToolPane>
-
-	</ToolPage>;
+	}</ToolPage>;
 
 }

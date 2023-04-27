@@ -25,39 +25,39 @@ export function ToolPage({
 
 	locked=false,
 
-	side="20rem",
-
 	logo,
-	tray,
+	meta,
 
 	done,
 	back,
 
 	name,
 	menu,
+	more,
 
-	pane,
+	tray,
+
 	info,
 	copy,
 
-	children
+	children: main
 
 }: {
 
 	locked?: boolean
 
-	side?: string // side area preferred width
-
 	logo?: ReactNode
-	tray?: ReactNode
+	meta?: ReactNode
 
 	done?: ReactNode
 	back?: ReactNode
 
 	name?: ReactNode
 	menu?: ReactNode
+	more?: ReactNode
 
-	pane?: ReactNode
+	tray?: ReactNode
+
 	info?: ReactNode
 	copy?: ReactNode
 
@@ -94,13 +94,7 @@ export function ToolPage({
 			locked,
 			active
 
-		}),
-
-		style: {
-
-			"--tool-page-side-width": side
-
-		}
+		})
 
 		// onClick: e => {
 		//
@@ -124,10 +118,10 @@ export function ToolPage({
 
 			<header>
 				{logo && <span>{logo}</span>}
-				{tray && <span>{tray}</span>}
+				{meta && <span>{meta}</span>}
 			</header>
 
-			<section>{pane}</section>
+			<section>{tray}</section>
 			<footer>{info}</footer>
 
 		</aside>
@@ -139,7 +133,7 @@ export function ToolPage({
 				{active ? <ToolSpin/> : back ? <span>{back}</span> : menu ? <span>{menu}</span> : undefined}
 			</header>
 
-			<section>{children}</section>
+			<section>{main}</section>
 			<footer>{copy}</footer>
 
 		</main>

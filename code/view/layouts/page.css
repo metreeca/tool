@@ -16,7 +16,7 @@
 
 tool-page {
 
-    --tool-page-side-width: 0; /* set by page.tsx */
+    --tool-page-side-width: 20rem;
 
     --tool-page-header-height: 5rem;
     --tool-page-header-font-size: 2rem;
@@ -90,6 +90,7 @@ tool-page {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+                grid-column-gap: 0.25em;
             }
 
         }
@@ -115,8 +116,8 @@ tool-page {
 
             box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
 
-            & > :only-child {
-                flex-grow: 1;
+            & > :first-child {
+                margin-right: auto;
             }
 
         }
@@ -151,6 +152,17 @@ tool-page {
             max-width: var(--tool-page-main-max-width);
             padding-left: var(--tool-page-main-padding);
             padding-right: var(--tool-page-main-padding);
+        }
+
+        & > header {
+
+            & > span:first-child:not(:last-child) > button[title]::after {
+                content: attr(title);
+                text-transform: lowercase;
+                font-variant: small-caps;
+                transform: translateY(-5%);
+            }
+
         }
 
     }

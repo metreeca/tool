@@ -264,7 +264,7 @@ button {
     display: flex;
     flex-direction: row;
     align-items: center;
-    grid-column-gap: 0.33em;
+    grid-column-gap: 0.25em;
 
     border-radius: 1em;
     background-color: transparent;
@@ -321,7 +321,7 @@ blockquote {
 }
 
 hr {
-    margin: 0.75em 0;
+    margin: 1.5em 0;
     border-bottom: solid 1px #CCC;
 }
 
