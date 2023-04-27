@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { error, isArray, isObject, Type } from "@metreeca/core";
-import { isLocal, Local, text }           from "@metreeca/core/local";
-import { isString }                       from "@metreeca/core/string";
-import { isValue, Value }                 from "@metreeca/core/value";
+import { error, immutable, isArray, isObject, Type } from "@metreeca/core";
+import { isLocal, Local, text }                      from "@metreeca/core/local";
+import { isString }                                  from "@metreeca/core/string";
+import { isValue, Value }                            from "@metreeca/core/value";
 
 
 /**
@@ -79,7 +79,7 @@ export interface Trace {
 export const entry: Type<Entry>={
 
 	label: "entry",
-	model: { id: "", label: "" },
+	model: immutable({ id: "", label: "" }),
 
 
 	encode(value) {

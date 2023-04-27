@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { isEmpty }               from "@metreeca/core";
-import { clean, Frame, isEntry } from "@metreeca/core/entry";
-import { useGraph }              from "@metreeca/data/contexts/graph";
-import { useTrace }              from "@metreeca/data/contexts/trace";
-import { prune }                 from "@metreeca/data/models/index";
-import { useEffect, useState }   from "react";
+import { isEmpty }                      from "@metreeca/core";
+import { clean, Frame, isEntry, Trace } from "@metreeca/core/entry";
+import { useGraph }                     from "@metreeca/data/contexts/graph";
+import { useTrace }                     from "@metreeca/data/contexts/trace";
+import { prune }                        from "@metreeca/data/models/index";
+import { useEffect, useState }          from "react";
 
 
 export type Resource<T extends Frame, C extends Frame>=Readonly<[
@@ -64,28 +64,26 @@ export function useResource<
 	const [entry, setEntry]=useState<T>();
 
 
-	useEffect(() => { retrieve(); }, [id, location.href, JSON.stringify(model)]);
+	useEffect(() => { retrieve().catch(report); }, [id, location.href, JSON.stringify(model)]);
 
 
 	function retrieve() {
 
-		return graph.retrieve({ ...model, id: new URL(id, location.href).pathname })
+		return graph.retrieve({ ...model, id: new URL(id, location.href).pathname }).then(entry => {
 
-			.then(entry => {
+			setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
 
-				setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
+			return id;
 
-				return id;
+		});
 
-			})
+	}
 
-			.catch(trace => {
+	function report(trace: Trace) {
 
-				setTrace(trace);
+		setTrace(trace);
 
-				return id;
-
-			});
+		return id;
 
 	}
 
@@ -98,19 +96,19 @@ export function useResource<
 
 			if ( delta === undefined ) {
 
-				return retrieve();
+				return retrieve().catch(report);
 
 			} else if ( isEmpty(delta) ) {
 
-				return graph.delete({ id });
+				return graph.delete({ id }).catch(report);
 
 			} else if ( isEntry(delta) ) { // !!! validate model (e.g. no queries)
 
-				return graph.update(clean({ ...model, ...delta, id }));
+				return graph.update(clean({ ...model, ...delta, id })).then(retrieve).catch(report);
 
 			} else { // !!! validate model (e.g. no queries)
 
-				return graph.create(clean({ ...delta, id }));
+				return graph.create(clean({ ...delta, id })).catch(report);
 
 			}
 
