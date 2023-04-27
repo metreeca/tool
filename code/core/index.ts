@@ -114,8 +114,8 @@ export function asObject(value: unknown): undefined | Record<any, any> & ({ bind
 	return isObject(value) ? value : undefined;
 }
 
-export function asArray<T>(value: unknown): undefined | T[] {
-	return isArray<T>(value) ? value : undefined;
+export function asArray<T>(value: unknown, is?: (value: unknown) => value is T): undefined | T[] {
+	return isArray<T>(value, is) ? value : undefined;
 }
 
 
