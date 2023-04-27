@@ -17,6 +17,7 @@
 import { isEmpty }               from "@metreeca/core";
 import { clean, Frame, isEntry } from "@metreeca/core/entry";
 import { useGraph }              from "@metreeca/data/contexts/graph";
+import { useTrace }              from "@metreeca/data/contexts/trace";
 import { prune }                 from "@metreeca/data/models/index";
 import { useEffect, useState }   from "react";
 
@@ -58,6 +59,7 @@ export function useResource<
 	// !!! validate model (e.g. query well=formedness)
 
 	const graph=useGraph();
+	const [, setTrace]=useTrace();
 
 	const [entry, setEntry]=useState<T>();
 
@@ -67,13 +69,23 @@ export function useResource<
 
 	function retrieve() {
 
-		return graph.retrieve({ ...model, id: new URL(id, location.href).pathname }).then(entry => {
+		return graph.retrieve({ ...model, id: new URL(id, location.href).pathname })
 
-			setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
+			.then(entry => {
 
-			return id;
+				setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
 
-		});
+				return id;
+
+			})
+
+			.catch(trace => {
+
+				setTrace(trace);
+
+				return id;
+
+			});
 
 	}
 
