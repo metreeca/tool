@@ -26,7 +26,6 @@ import { input }              from "@metreeca/view/widgets/form";
 import { ClearIcon }          from "@metreeca/view/widgets/icon";
 import * as React             from "react";
 import { createElement }      from "react";
-import "./entry.css";
 import "./index.css";
 
 
@@ -42,11 +41,11 @@ export function ToolEntry<E extends Entry>({
 
 	...field
 
-}: Field<E> & {
+}: Field<E> & Readonly<{
 
 	source: string
 
-}) {
+}>) {
 
 	return createElement("tool-entry", {},
 		createField<E>({ field, reader, editor })

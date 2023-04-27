@@ -15,7 +15,7 @@
  */
 
 import { error, Type } from "@metreeca/core/index";
-import { isNumber } from "@metreeca/core/number";
+import { isNumber }    from "@metreeca/core/number";
 
 
 export const decimal: Type<number>={
@@ -64,10 +64,10 @@ export const decimal: Type<number>={
  * Checks if a value is a decimal number.
  */
 export function isDecimal(value: unknown): value is number {
-	return isNumber(value);
+	return Number.isFinite(value);
 }
 
-export function asInteger(value: unknown): undefined | number {
+export function asDecimal(value: unknown): undefined | number {
 	return isDecimal(value) ? value : undefined;
 }
 

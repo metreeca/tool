@@ -86,7 +86,7 @@ export function isOptionalField<V>(field: Field<V>): field is OptionalField<V> {
 	return !field.required && !field.multiple;
 }
 
-export function isRequiredField<V>(field: Field<V>): field is  RequiredField<V> {
+export function isRequiredField<V>(field: Field<V>): field is RequiredField<V> {
 	return !!field.required && !field.multiple;
 }
 
@@ -94,7 +94,7 @@ export function isMultipleField<V>(field: Field<V>): field is MultipleField<V> {
 	return !field.required && !!field.multiple;
 }
 
-export function isRepeatableField<V>(field: Field<V>): field is  RepeatableField<V> {
+export function isRepeatableField<V>(field: Field<V>): field is RepeatableField<V> {
 	return !!field.required && !!field.multiple;
 }
 

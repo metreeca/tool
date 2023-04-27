@@ -19,7 +19,6 @@ import { createField, createPlaceholder, Field } from "@metreeca/view/fields/ind
 import { ClearIcon }                             from "@metreeca/view/widgets/icon";
 import * as React                                from "react";
 import { createElement, useState }               from "react";
-import "./email.css";
 import "./index.css";
 
 
@@ -35,17 +34,17 @@ export function ToolEmail({
 
 	...field
 
-}: Field<string> & {
+}: Field<string> & Readonly<{
 
 	cols?: number
 	rows?: number
 
 	pattern?: string | RegExp
 
-}) {
+}>) {
 
 	return createElement("tool-email", {},
-		createField<string>({ field: { placeholder, ...field }, reader, editor })
+		createField<string>({ field, reader, editor })
 	);
 
 
@@ -103,7 +102,6 @@ export function ToolEmail({
 				}
 
 			}}><ClearIcon/></button>}
-
 
 		</>;
 

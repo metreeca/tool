@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+tool-integer,
+tool-decimal,
 tool-email,
-tool-entry,
-tool-string {
+tool-string,
+tool-entry {
 
     display: inline-flex;
     flex-direction: column;
@@ -108,11 +110,9 @@ tool-string {
 
     }
 
-
     & textarea {
         resize: vertical;
     }
-
 
     & select {
 
@@ -144,6 +144,14 @@ tool-string {
         color: var(--tool--color-placeholder);
         transform: scale(0.75);
         transform-origin: center left;
+    }
+
+}
+
+tool-string {
+
+    & > div {
+        white-space: pre-line;
     }
 
 }

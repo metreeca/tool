@@ -16,10 +16,10 @@
 
 
 /**
- * Checks if a value is a number.
+ * Checks if a value is a finite number.
  */
 export function isNumber(value: unknown): value is number {
-	return typeof value === "number";
+	return Number.isFinite(value);
 }
 
 export function asNumber(value: unknown): undefined | number {

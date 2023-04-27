@@ -21,7 +21,6 @@ import { ClearIcon }               from "@metreeca/view/widgets/icon";
 import * as React                  from "react";
 import { createElement, useState } from "react";
 import "./index.css";
-import "./string.css";
 
 
 export function ToolString({
@@ -39,14 +38,14 @@ export function ToolString({
 
 	...field
 
-}: Field<string> & {
+}: Field<string> & Readonly<{
 
 	cols?: number
 	rows?: number
 
 	pattern?: string | RegExp
 
-}) {
+}>) {
 
 	return createElement("tool-string", {},
 		createField<string>({ field, reader, editor })
@@ -122,7 +121,7 @@ export function ToolString({
 					onFocus={e => e.target.select()}
 					onChange={e => setValue(e.target.value || undefined)}
 
-					style={{ // ;(css) no calc(attr()) (see https://developer.mozilla.org/en-US/docs/Web/CSS/attr)
+					style={{
 
 						width: cols ? `${cols}em` : undefined
 
