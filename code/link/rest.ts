@@ -19,20 +19,20 @@ import { Entry, Trace }       from "@metreeca/core/entry";
 import { errors, Graph }      from "@metreeca/link";
 
 
-export function RESTGraph(fetcher: typeof fetch = fetch): Graph {
+export function RESTGraph(fetcher: typeof fetch=fetch): Graph {
 
 	// !!! TTL / size limits / …
 
-	const cache = new Map<string, Promise<any>>();
+	const cache=new Map<string, Promise<any>>();
 
 
 	return immutable({
 
 		retrieve<E extends Entry>(model: E): Promise<E> {
 
-			const key = encodeURI(JSON.stringify(model));
+			const key=encodeURI(JSON.stringify(model));
 
-			const cached = cache.get(key);
+			const cached=cache.get(key);
 
 			if ( cached ) {
 
@@ -40,14 +40,14 @@ export function RESTGraph(fetcher: typeof fetch = fetch): Graph {
 
 			} else {
 
-				const id = model.id;
-				const query = { ...model, id: undefined };
+				const id=model.id;
+				const query={ ...model, id: undefined };
 
-				const input = isEmpty(query) ? id : `${id}?${(encodeURIComponent(JSON.stringify(query)))}`;
+				const input=isEmpty(query) ? id : `${id}?${(encodeURIComponent(JSON.stringify(query)))}`;
 
-				const controller = new AbortController();
+				const controller=new AbortController();
 
-				const promise = fetcher(input, {
+				const promise=fetcher(input, {
 
 					headers: { "Accept": "application/json" },
 
@@ -87,8 +87,8 @@ export function RESTGraph(fetcher: typeof fetch = fetch): Graph {
 
 		create(entry: Entry): Promise<string> {
 
-			const id = entry.id;
-			const controller = new AbortController();
+			const id=entry.id;
+			const controller=new AbortController();
 
 			return fetcher(id, {
 
@@ -119,8 +119,8 @@ export function RESTGraph(fetcher: typeof fetch = fetch): Graph {
 
 		update(entry: Entry): Promise<string> {
 
-			const id = entry.id;
-			const controller = new AbortController();
+			const id=entry.id;
+			const controller=new AbortController();
 
 			return fetcher(id, {
 
@@ -152,8 +152,8 @@ export function RESTGraph(fetcher: typeof fetch = fetch): Graph {
 
 		delete(entry: Entry): Promise<string> {
 
-			const id = entry.id;
-			const controller = new AbortController();
+			const id=entry.id;
+			const controller=new AbortController();
 
 			return fetcher(id, {
 

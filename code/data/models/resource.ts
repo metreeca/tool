@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { isEmpty }                      from "@metreeca/core";
-import { clean, Frame, isEntry, Trace } from "@metreeca/core/entry";
-import { useGraph }                     from "@metreeca/data/contexts/graph";
-import { useTrace }                     from "@metreeca/data/contexts/trace";
-import { prune }                        from "@metreeca/data/models/index";
-import { useEffect, useState }          from "react";
+import { isEmpty }                             from "@metreeca/core";
+import { clean, Entry, Frame, isEntry, Trace } from "@metreeca/core/entry";
+import { useGraph }                            from "@metreeca/data/contexts/graph";
+import { useTrace }                            from "@metreeca/data/contexts/trace";
+import { prune }                               from "@metreeca/data/models/index";
+import { useEffect, useState }                 from "react";
 
 
 export type Resource<T extends Frame, C extends Frame>=Readonly<[
@@ -43,35 +43,29 @@ export type Resource<T extends Frame, C extends Frame>=Readonly<[
 
 export function useResource<
 
-	T extends Frame,
+	T extends Entry,
 	C extends Frame
 
->(model: T, {
+>(entry: T): Resource<T, C> {
 
-	id=""
-
-}: Partial<{
-
-	id: string
-
-}>={}): Resource<T, C> {
+	const id=new URL(entry.id, location.href).pathname; // normalize relative ids
 
 	// !!! validate model (e.g. query well=formedness)
 
 	const graph=useGraph();
 	const [, setTrace]=useTrace();
 
-	const [entry, setEntry]=useState<T>();
+	const [cache, setCache]=useState<T>();
 
 
-	useEffect(() => { retrieve().catch(report); }, [id, location.href, JSON.stringify(model)]);
+	useEffect(() => { retrieve().catch(report); }, [JSON.stringify(entry)]);
 
 
 	function retrieve() {
 
-		return graph.retrieve({ ...model, id: new URL(id, location.href).pathname }).then(entry => {
+		return graph.retrieve({ ...entry, id: id }).then(frame => {
 
-			setEntry({ ...prune(model), ...entry }); // retain undefined field placeholders to drive editing
+			setCache({ ...prune(entry), ...frame, id: id }); // retain undefined field placeholders to drive editing
 
 			return id;
 
@@ -90,7 +84,7 @@ export function useResource<
 
 	return [
 
-		entry,
+		cache,
 
 		(delta?) => {
 
@@ -100,15 +94,15 @@ export function useResource<
 
 			} else if ( isEmpty(delta) ) {
 
-				return graph.delete({ id }).catch(report);
+				return graph.delete({ id: id }).catch(report);
 
 			} else if ( isEntry(delta) ) { // !!! validate model (e.g. no queries)
 
-				return graph.update(clean({ ...model, ...delta, id })).then(retrieve).catch(report);
+				return graph.update(clean({ ...entry, ...delta, id: id })).then(retrieve).catch(report);
 
 			} else { // !!! validate model (e.g. no queries)
 
-				return graph.create(clean({ ...delta, id })).catch(report);
+				return graph.create(clean({ ...delta, id: id })).catch(report);
 
 			}
 

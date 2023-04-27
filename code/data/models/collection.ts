@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { immutable, isEmpty } from "@metreeca/core";
-import { clean, Frame }       from "@metreeca/core/entry";
-import { Value }              from "@metreeca/core/value";
-import { Setter }             from "@metreeca/data/hooks";
-import { useResource }        from "@metreeca/data/models/resource";
-import { useState }           from "react";
+import { immutable, isEmpty }  from "@metreeca/core";
+import { clean, Entry, Frame } from "@metreeca/core/entry";
+import { Value }               from "@metreeca/core/value";
+import { Setter }              from "@metreeca/data/hooks";
+import { useResource }         from "@metreeca/data/models/resource";
+import { useState }            from "react";
 
 
 export type Collection<V extends Value>=Readonly<[
@@ -48,24 +48,20 @@ export type Collection<V extends Value>=Readonly<[
 
 export function useCollection<
 
-	V extends Value,
+	V extends Entry,
 	K extends string
 
->(resource: Frame & { [key in K]: undefined | V[] }, field: K & keyof typeof resource, {
-
-	id="",
+>(entry: Entry & { [key in K]: undefined | V[] }, field: K & keyof typeof entry, {
 
 	store
 
 }: Partial<{
 
-	id: string
-
 	store: [Frame, Setter<Frame>]
 
 }>={}): Collection<V> {
 
-	const model=immutable(resource?.[field]?.[0]); // the first item in the collection model array
+	const model=immutable(entry?.[field]?.[0]); // the first item in the collection model array
 
 
 	if ( model === undefined ) {
@@ -87,7 +83,7 @@ export function useCollection<
 
 			items<M extends Value>(model: M): undefined | ReadonlyArray<M> {
 
-				const [resource]=useResource({ [field]: [model] }, { id });
+				const [resource]=useResource({ id: entry.id, [field]: [model] });
 
 				return resource?.[field] as undefined | ReadonlyArray<M>;
 
