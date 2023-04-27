@@ -38,16 +38,14 @@ export function ToolCount<
 	const [{ filtered, count }={ filtered: false, count: undefined }]=useCache(stats);
 
 
-	return createElement("tool-count", {}, <>
+	return createElement("tool-count", {}, <>{
 
-        <span>{
-			count === undefined ? ""
-				: count === 0 ? `no ${filtered ? "matches" : "items"}`
-					: count === 1 ? `1 ${filtered ? "match" : "item"}`
-						: `${count} ${filtered ? "matches" : "items"}`
-		}</span>
+		count === undefined ? ""
+			: count === 0 ? `no ${filtered ? "matches" : "items"}`
+				: count === 1 ? `1 ${filtered ? "match" : "item"}`
+					: `${count} ${filtered ? "matches" : "items"}`
 
-	</>);
+	}</>);
 
 }
 
