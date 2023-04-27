@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Setter } from "@metreeca/data/hooks";
-import { RemoveIcon } from "@metreeca/view/widgets/icon";
-import * as React from "react";
+import { Setter }              from "@metreeca/data/hooks";
+import { RemoveIcon }          from "@metreeca/view/widgets/icon";
+import * as React              from "react";
 import { Fragment, ReactNode } from "react";
 
 
@@ -97,12 +97,6 @@ export function isMultipleField<V>(field: Field<V>): field is MultipleField<V> {
 export function isRepeatableField<V>(field: Field<V>): field is  RepeatableField<V> {
 	return !!field.required && !!field.multiple;
 }
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-export const ToolFieldClass="tool-field";
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

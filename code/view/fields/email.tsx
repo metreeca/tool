@@ -14,100 +14,100 @@
  * limitations under the License.
  */
 
-import { Setter }                                                from "@metreeca/data/hooks";
-import { createField, createPlaceholder, Field, ToolFieldClass } from "@metreeca/view/fields/index";
-import { ClearIcon }                                             from "@metreeca/view/widgets/icon";
-import * as React                                                from "react";
-import { createElement, useState }                               from "react";
+import { Setter }                                from "@metreeca/data/hooks";
+import { createField, createPlaceholder, Field } from "@metreeca/view/fields/index";
+import { ClearIcon }                             from "@metreeca/view/widgets/icon";
+import * as React                                from "react";
+import { createElement, useState }               from "react";
 import "./email.css";
 import "./index.css";
 
 
 export function ToolEmail({
 
-    disabled,
-    readonly,
+	disabled,
+	readonly,
 
-    placeholder,
-    validity,
+	placeholder,
+	validity,
 
-    pattern,
+	pattern,
 
-    ...field
+	...field
 
 }: Field<string> & {
 
-    cols?: number
-    rows?: number
+	cols?: number
+	rows?: number
 
-    pattern?: string | RegExp
+	pattern?: string | RegExp
 
 }) {
 
-    return createElement("tool-email", { class: ToolFieldClass },
-        createField<string>({ field: { placeholder, ...field }, reader, editor })
-    );
+	return createElement("tool-email", {},
+		createField<string>({ field: { placeholder, ...field }, reader, editor })
+	);
 
 
-    function reader({ value }: { value: string }) {
-        return value?.trim()
-            ? <a href={`mailto:${value}`}>{value}</a>
-            : createPlaceholder(placeholder);
-    }
+	function reader({ value }: { value: string }) {
+		return value?.trim()
+			? <a href={`mailto:${value}`}>{value}</a>
+			: createPlaceholder(placeholder);
+	}
 
-    function editor({
+	function editor({
 
-        required,
+		required,
 
-        state: [value, setValue]
+		state: [value, setValue]
 
-    }: {
+	}: {
 
-        required?: boolean
+		required?: boolean
 
-        state: [undefined | string, Setter<undefined | string>],
+		state: [undefined | string, Setter<undefined | string>],
 
-    }) {
+	}) {
 
-        const [initial]=useState(value);
-
-
-        function doClear() {
-            setValue(undefined);
-        }
+		const [initial]=useState(value);
 
 
-        return <>
-
-            <input type={"email"} readOnly={readonly} required={required}
-
-                value={value ?? ""}
-                placeholder={placeholder}
-                pattern={"\\w[\\-\\w]*(\\.\\w[\\-\\w]*)*@\\w[\\-\\w]*(\\.\\w[\\-\\w]*)+"}
-
-                onChange={e => setValue(e.currentTarget.value || undefined)}
+		function doClear() {
+			setValue(undefined);
+		}
 
 
-            />
+		return <>
 
-            {initial && initial === value && <button title={"Clear"} onClick={e => {
+			<input type={"email"} readOnly={readonly} required={required}
 
-                try { doClear(); } finally {
+				value={value ?? ""}
+				placeholder={placeholder}
+				pattern={"\\w[\\-\\w]*(\\.\\w[\\-\\w]*)*@\\w[\\-\\w]*(\\.\\w[\\-\\w]*)+"}
 
-                    const previous=e.currentTarget.previousElementSibling;
-
-                    if ( previous instanceof HTMLElement ) {
-                        previous.focus();
-                    }
-
-                }
-
-            }}><ClearIcon/></button>}
+				onChange={e => setValue(e.currentTarget.value || undefined)}
 
 
-        </>;
+			/>
 
-    }
+			{initial && initial === value && <button title={"Clear"} onClick={e => {
+
+				try { doClear(); } finally {
+
+					const previous=e.currentTarget.previousElementSibling;
+
+					if ( previous instanceof HTMLElement ) {
+						previous.focus();
+					}
+
+				}
+
+			}}><ClearIcon/></button>}
+
+
+		</>;
+
+	}
 
 }
 

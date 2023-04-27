@@ -24,58 +24,50 @@ tool-label {
 
     flex: 0 0 0;
 
-&
-.rule {
+    &.rule {
 
-&
-> label {
-    padding-bottom: 0.25em;
-    border-bottom-style: solid;
-}
+        & > label {
+            padding-bottom: 0.25em;
+            border-bottom-style: solid;
+        }
 
-}
+    }
 
-&
-.wide {
-    flex-grow: 1;
-}
+    &.wide {
+        flex-grow: 1;
+    }
 
-&
-.right {
-    align-items: end;
-}
+    &.right {
+        align-items: end;
+    }
 
-&
-> * {
-    margin: 0;
-}
+    & > * {
+        margin: 0;
+    }
 
-&
-> label {
+    & > label {
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
 
-    text-transform: lowercase;
-    white-space: nowrap;
+        text-transform: lowercase;
+        white-space: nowrap;
 
-&
-> span {
+        & > span {
 
-    font-size: 90%;
-    font-weight: 700;
+            font-size: 90%;
+            font-weight: 700;
 
-    color: var(--tool--color-label);
+            color: var(--tool--color-label);
 
-&
-* {
-    font-weight: inherit;
-}
+            & * {
+                font-weight: inherit;
+            }
 
-}
+        }
 
-}
+    }
 
 }

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Setter } from "@metreeca/data/hooks";
-import { createField, Field, ToolFieldClass } from "@metreeca/view/fields/index";
-import { focus, input } from "@metreeca/view/widgets/form";
-import { ClearIcon } from "@metreeca/view/widgets/icon";
-import * as React from "react";
+import { Setter }                  from "@metreeca/data/hooks";
+import { createField, Field }      from "@metreeca/view/fields/index";
+import { focus, input }            from "@metreeca/view/widgets/form";
+import { ClearIcon }               from "@metreeca/view/widgets/icon";
+import * as React                  from "react";
 import { createElement, useState } from "react";
 import "./index.css";
 import "./string.css";
@@ -48,7 +48,7 @@ export function ToolString({
 
 }) {
 
-	return createElement("tool-text", { class: ToolFieldClass },
+	return createElement("tool-string", {},
 		createField<string>({ field, reader, editor })
 	);
 
@@ -76,12 +76,27 @@ export function ToolString({
 		const [initial]=useState(value);
 
 
-		function doClear() {
+		function clear() {
 			setValue(undefined);
 		}
 
 
 		return <>
+
+			{initial && initial === value && <button title={"Clear"} // before input to drive css
+
+                onClick={e => {
+
+					try { clear(); } finally {
+
+						input(e.currentTarget);
+						focus(e.currentTarget.previousSibling);
+
+					}
+
+				}}
+
+            ><ClearIcon/></button>}
 
 			{rows && rows > 1
 
@@ -104,22 +119,18 @@ export function ToolString({
 					placeholder={placeholder}
 					pattern={pattern instanceof RegExp ? pattern.source : pattern}
 
-					onChange={e => setValue(e.currentTarget.value || undefined)}
+					onFocus={e => e.target.select()}
+					onChange={e => setValue(e.target.value || undefined)}
+
+					style={{ // ;(css) no calc(attr()) (see https://developer.mozilla.org/en-US/docs/Web/CSS/attr)
+
+						width: cols ? `${cols}em` : undefined
+
+					}}
 
 				/>
 
 			}
-
-			{initial && initial === value && <button title={"Clear"} onClick={e => {
-
-				try { doClear(); } finally {
-
-					input(e.currentTarget);
-					focus(e.currentTarget.previousSibling);
-
-				}
-
-			}}><ClearIcon/></button>}
 
 		</>;
 

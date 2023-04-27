@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-.tool-field {
+tool-email,
+tool-entry,
+tool-string {
 
     display: inline-flex;
     flex-direction: column;
@@ -34,15 +36,18 @@
         grid-template-columns: 1fr min-content;
         grid-template-rows: min-content;
 
-        min-width: 10em;
-
         & > * {
             grid-row: 1;
         }
 
         & > input {
+
             grid-column: 1 / span 2;
-            padding-right: 1.5em !important;
+
+            button + & {
+                padding-right: 1.5em !important;
+            }
+
         }
 
         & > button {
@@ -85,13 +90,17 @@
 
     }
 
-    & textarea,
-    & input {
+    & input,
+    & textarea {
 
         box-sizing: content-box;
         padding: var(--vertical-padding) var(--horizontal-padding);
         border-radius: 0.25em;
         border-style: solid;
+
+        &:not([size]):not([cols]) {
+            min-width: 10em;
+        }
 
         &:not(:disabled):not(:read-only) {
             background-color: var(--tool--background-color-edit);

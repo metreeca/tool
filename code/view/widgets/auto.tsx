@@ -17,7 +17,7 @@
 
 import { useTrailing }                               from "@metreeca/data/hooks/events";
 import { AutoDelay, AutoLength, AutoSize, keys }     from "@metreeca/view";
-import { createPlaceholder, ToolFieldClass }         from "@metreeca/view/fields";
+import { createPlaceholder }                         from "@metreeca/view/fields";
 import "@metreeca/view/fields/index.css";
 import { focus, input }                              from "@metreeca/view/widgets/form";
 import { ClearIcon }                                 from "@metreeca/view/widgets/icon";
@@ -95,9 +95,7 @@ export function ToolAuto<V>({
 
 	}
 
-	return createElement("tool-select", {
-
-		class: ToolFieldClass,
+	return createElement("tool-auto", {
 
 		onKeyDown: keys({
 

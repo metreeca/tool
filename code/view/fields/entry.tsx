@@ -15,17 +15,17 @@
  */
 
 
-import { Entry, id, label }                   from "@metreeca/core/entry";
-import { useGraph }                           from "@metreeca/data/contexts/graph";
-import { useTrace }                           from "@metreeca/data/contexts/trace";
-import { Setter }                             from "@metreeca/data/hooks";
-import { AutoSize }                           from "@metreeca/view";
-import { createField, Field, ToolFieldClass } from "@metreeca/view/fields/index";
-import { ToolAuto }                           from "@metreeca/view/widgets/auto";
-import { input }                              from "@metreeca/view/widgets/form";
-import { ClearIcon }                          from "@metreeca/view/widgets/icon";
-import * as React                             from "react";
-import { createElement }                      from "react";
+import { Entry, id, label }   from "@metreeca/core/entry";
+import { useGraph }           from "@metreeca/data/contexts/graph";
+import { useTrace }           from "@metreeca/data/contexts/trace";
+import { Setter }             from "@metreeca/data/hooks";
+import { AutoSize }           from "@metreeca/view";
+import { createField, Field } from "@metreeca/view/fields/index";
+import { ToolAuto }           from "@metreeca/view/widgets/auto";
+import { input }              from "@metreeca/view/widgets/form";
+import { ClearIcon }          from "@metreeca/view/widgets/icon";
+import * as React             from "react";
+import { createElement }      from "react";
 import "./entry.css";
 import "./index.css";
 
@@ -48,7 +48,7 @@ export function ToolEntry<E extends Entry>({
 
 }) {
 
-	return createElement("tool-entry", { class: ToolFieldClass },
+	return createElement("tool-entry", {},
 		createField<E>({ field, reader, editor })
 	);
 
@@ -109,7 +109,7 @@ export function ToolEntry<E extends Entry>({
 
 			</>
 
-			: <ToolAuto
+			: <ToolAuto required={required}
 
 				onSelect={({ value, label }) => doInsert({ id: value, label } as E)}
 
