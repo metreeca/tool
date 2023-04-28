@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { classes } from "@metreeca/view";
-import * as React from "react";
+import { classes }                  from "@metreeca/view";
+import * as React                   from "react";
 import { createElement, ReactNode } from "react";
 import "./label.css";
 
@@ -25,30 +25,30 @@ import "./label.css";
  */
 export function ToolLabel({
 
-	name,
-	menu,
-
 	rule=false,
 	wide=false,
-	right=false,
+	side=false,
+
+	name,
+	menu,
 
 	children
 
 }: {
 
-	name: ReactNode
-	menu?: ReactNode
-
 	rule?: boolean,
 	wide?: boolean,
-	right?: boolean
+	side?: boolean
+
+	name: ReactNode
+	menu?: ReactNode
 
 	children?: ReactNode
 
 }) {
 	return createElement("tool-label", {
 
-		class: classes({ rule, wide, right })
+		class: classes({ rule, wide, side })
 
 	}, <>
 

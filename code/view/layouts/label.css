@@ -37,8 +37,12 @@ tool-label {
         flex-grow: 1;
     }
 
-    &.right {
-        align-items: end;
+    &.side {
+        text-align: right;
+    }
+
+    &:nth-child(1 of .side) {
+        margin-left: auto;
     }
 
     & > * {
