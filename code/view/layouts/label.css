@@ -38,7 +38,13 @@ tool-label {
     }
 
     &.side {
+
         text-align: right;
+
+        & > label {
+            flex-direction: row-reverse;
+        }
+
     }
 
     &:nth-child(1 of .side) {

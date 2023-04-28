@@ -134,10 +134,9 @@ tool-entry {
 
     & small {
         display: block;
-        white-space: nowrap;
+        margin-top: 0.25em;
+        font-size: 0.75em;
         color: var(--tool--color-placeholder);
-        transform: scale(0.75);
-        transform-origin: center left;
     }
 
 }

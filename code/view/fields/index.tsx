@@ -206,8 +206,27 @@ export function createField<V>({
 				})}</header>
 
 				{values?.map((value, index) => <section key={index}>
+
 					{reader({ value })}
-					<button title={"Remove"} onClick={() => remove(value)}><RemoveIcon/></button>
+
+					<button title={"Remove"}
+
+						onClick={e => {
+
+							try {
+
+								remove(value);
+
+							} finally {
+
+								input(e.currentTarget);
+
+							}
+
+						}}
+
+					><RemoveIcon/></button>
+
 				</section>)}
 
 			</>;
