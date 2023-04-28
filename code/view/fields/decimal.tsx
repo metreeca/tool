@@ -113,11 +113,12 @@ export function ToolDecimal({
 
 				step={asDecimal(step)}
 
+				onFocus={e => e.target.select()}
 				onChange={e => setValue(asDecimal(parseFloat(e.currentTarget.value)))}
 
 				style={{
 
-					width: isInteger(digits) ? `${digits + 2}em` : undefined // allot space for sign and separator
+					minWidth: isInteger(digits) ? `${digits + 2}em` : undefined // allot space for sign and separator
 
 				}}
 

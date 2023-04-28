@@ -112,11 +112,12 @@ export function ToolInteger({
 
 				step={asInteger(Math.trunc(step ?? NaN))}
 
+				onFocus={e => e.target.select()}
 				onChange={e => setValue(asInteger(parseInt(e.currentTarget.value)))}
 
 				style={{
 
-					width: isInteger(digits) ? `${digits + 1}em` : undefined // allot space for sign
+					minWidth: isInteger(digits) ? `${digits + 1}em` : undefined // allot space for sign
 
 				}}
 

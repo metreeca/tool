@@ -101,7 +101,7 @@ export function ToolString({
 
 					style={{
 
-						width: cols ? `${cols}em` : undefined
+						minWidth: cols ? `${cols}em` : undefined
 
 					}}
 

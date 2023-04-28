@@ -98,6 +98,7 @@ export function ToolEmail({
 				placeholder={placeholder}
 				pattern={"\\w[\\-\\w]*(\\.\\w[\\-\\w]*)*@\\w[\\-\\w]*(\\.\\w[\\-\\w]*)+"}
 
+				onFocus={e => e.target.select()}
 				onChange={e => setValue(e.currentTarget.value || undefined)}
 
 				style={{
