@@ -20,7 +20,7 @@ import { Setter }               from "@metreeca/data/hooks";
 import { Matches }              from "@metreeca/data/models/matches";
 import { createField, Field }   from "@metreeca/view/fields/index";
 import { ToolAuto }             from "@metreeca/view/widgets/auto";
-import { input }                from "@metreeca/view/widgets/form";
+import { focus, input }         from "@metreeca/view/widgets/form";
 import { ClearIcon }            from "@metreeca/view/widgets/icon";
 import React, { createElement } from "react";
 import "./index.css";
@@ -87,13 +87,10 @@ export function ToolEntry({
 
 				<button title={"Remove"} onClick={e => {
 
-					try {
-
-						remove();
-
-					} finally {
+					try { remove(); } finally {
 
 						input(e.currentTarget);
+						focus(e.currentTarget.previousElementSibling);
 
 					}
 

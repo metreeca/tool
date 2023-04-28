@@ -18,6 +18,7 @@ import { asDecimal, toDecimalString }            from "@metreeca/core/decimal";
 import { asInteger, isInteger }                  from "@metreeca/core/integer";
 import { Setter }                                from "@metreeca/data/hooks";
 import { createField, createPlaceholder, Field } from "@metreeca/view/fields/index";
+import { focus, input }                          from "@metreeca/view/widgets/form";
 import { ClearIcon }                             from "@metreeca/view/widgets/icon";
 import * as React                                from "react";
 import { createElement, useState }               from "react";
@@ -90,11 +91,8 @@ export function ToolDecimal({
 
 				try { clear(); } finally {
 
-					const previous=e.currentTarget.previousElementSibling;
-
-					if ( previous instanceof HTMLElement ) {
-						previous.focus();
-					}
+					input(e.currentTarget);
+					focus(e.currentTarget.previousElementSibling);
 
 				}
 

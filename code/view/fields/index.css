@@ -46,7 +46,7 @@ tool-entry {
 
             grid-column: 1 / span 2;
 
-            button + & {
+            :is(button) + & {
                 padding-right: 1.5em !important;
             }
 

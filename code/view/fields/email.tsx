@@ -16,6 +16,7 @@
 
 import { Setter }                                from "@metreeca/data/hooks";
 import { createField, createPlaceholder, Field } from "@metreeca/view/fields/index";
+import { focus, input }                          from "@metreeca/view/widgets/form";
 import { ClearIcon }                             from "@metreeca/view/widgets/icon";
 import * as React                                from "react";
 import { createElement, useState }               from "react";
@@ -71,7 +72,7 @@ export function ToolEmail({
 		const [initial]=useState(value);
 
 
-		function doClear() {
+		function clear() {
 			setValue(undefined);
 		}
 
@@ -80,13 +81,10 @@ export function ToolEmail({
 
 			{initial && initial === value && <button title={"Clear"} onClick={e => { // !!! factor
 
-				try { doClear(); } finally {
+				try { clear(); } finally {
 
-					const previous=e.currentTarget.previousElementSibling;
-
-					if ( previous instanceof HTMLElement ) {
-						previous.focus();
-					}
+					input(e.currentTarget);
+					focus(e.currentTarget.previousElementSibling);
 
 				}
 
