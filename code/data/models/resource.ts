@@ -58,14 +58,14 @@ export function useResource<
 	const [cache, setCache]=useState<T>();
 
 
-	useEffect(() => { retrieve().catch(report); }, [JSON.stringify(entry)]);
+	useEffect(() => { retrieve().catch(report); }, [id, JSON.stringify(entry)]);
 
 
 	function retrieve() {
 
-		return graph.retrieve({ ...entry, id: id }).then(frame => {
+		return graph.retrieve({ ...entry, id }).then(frame => {
 
-			setCache({ ...prune(entry), ...frame, id: id }); // retain undefined field placeholders to drive editing
+			setCache({ ...prune(entry), ...frame, id }); // retain undefined field placeholders to drive editing
 
 			return id;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { normalize }            from "@metreeca/core/string";
+import { isString, normalize }  from "@metreeca/core/string";
 import { toValueString, Value } from "@metreeca/core/value";
 import { app }                  from "@metreeca/view";
 import {
@@ -343,7 +343,7 @@ export function useRouter(): Router {
 
 	return [store(), (entry, replace) => {
 
-		const { route, title, state }=(typeof entry === "string")
+		const { route, title, state }=isString(entry)
 			? { route: entry, title: undefined, state: undefined }
 			: entry;
 
@@ -361,7 +361,7 @@ export function useRouter(): Router {
 
 			} else {
 
-				history.pushState(state, document.title=_title, _route);
+				history.pushState(_state, document.title=_title, _route);
 
 			}
 
