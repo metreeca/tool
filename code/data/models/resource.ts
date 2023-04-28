@@ -58,18 +58,24 @@ export function useResource<
 	const [cache, setCache]=useState<T>();
 
 
-	useEffect(() => { retrieve().catch(report); }, [id, JSON.stringify(entry)]);
+	useEffect(() => graph.observe(() => retrieve()), []);
+
+	useEffect(() => { retrieve(); }, [id, JSON.stringify(entry)]);
 
 
 	function retrieve() {
 
-		return graph.retrieve({ ...entry, id }).then(frame => {
+		return graph.retrieve({ ...entry, id })
 
-			setCache({ ...prune(entry), ...frame, id }); // retain undefined field placeholders to drive editing
+			.then(frame => {
 
-			return id;
+				setCache({ ...prune(entry), ...frame, id }); // retain undefined field placeholders to drive editing
 
-		});
+				return id;
+
+			})
+
+			.catch(report);
 
 	}
 
@@ -90,19 +96,19 @@ export function useResource<
 
 			if ( delta === undefined ) {
 
-				return retrieve().catch(report);
+				return retrieve();
 
 			} else if ( isEmpty(delta) ) {
 
-				return graph.delete({ id: id }).catch(report);
+				return graph.delete({ id }).catch(report);
 
 			} else if ( isEntry(delta) ) { // !!! validate model (e.g. no queries)
 
-				return graph.update(clean({ ...entry, ...delta, id: id })).then(retrieve).catch(report);
+				return graph.update(clean({ ...entry, ...delta, id })).catch(report);
 
 			} else { // !!! validate model (e.g. no queries)
 
-				return graph.create(clean({ ...delta, id: id })).catch(report);
+				return graph.create(clean({ ...delta, id })).catch(report);
 
 			}
 

@@ -24,9 +24,25 @@ export function RESTGraph(fetcher: typeof fetch=fetch): Graph {
 	// !!! TTL / size limits / …
 
 	const cache=new Map<string, Promise<any>>();
+	const observers: Set<(id: string) => void>=new Set();
+
+
+	function notify(id: string) {
+
+		observers.forEach(observer => observer(id));
+
+	}
 
 
 	return immutable({
+
+		observe(observer: (id: string) => void): () => void {
+
+			observers.add(observer);
+
+			return () => observers.delete(observer);
+
+		},
 
 		retrieve<E extends Entry>(model: E): Promise<E> {
 
@@ -111,6 +127,7 @@ export function RESTGraph(fetcher: typeof fetch=fetch): Graph {
 					} finally {
 
 						cache.clear();
+						notify(id);
 
 					}
 
@@ -138,11 +155,12 @@ export function RESTGraph(fetcher: typeof fetch=fetch): Graph {
 
 					try {
 
-						return response.headers.get("Location") || id;
+						return id;
 
 					} finally {
 
 						cache.clear();
+						notify(id);
 
 					}
 
@@ -169,11 +187,12 @@ export function RESTGraph(fetcher: typeof fetch=fetch): Graph {
 
 					try {
 
-						return response.headers.get("Location") || id;
+						return id;
 
 					} finally {
 
 						cache.clear();
+						notify(id);
 
 					}
 

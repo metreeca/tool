@@ -20,6 +20,9 @@ import { Entry, Trace } from "@metreeca/core/entry";
 
 export interface Graph {
 
+	observe(observer: (id: string) => void): () => void;
+
+
 	retrieve<E extends Entry>(model: E): Promise<E>;
 
 
@@ -41,7 +44,7 @@ export function errors(response: Response): Promise<Response> {
 
 	} else {
 
-		const mime = response.headers.get("Content-Type");
+		const mime=response.headers.get("Content-Type");
 
 		if ( mime?.match(/^text\/plain\b/i) ) {
 
