@@ -97,6 +97,13 @@ export function isArray<T=unknown>(value: unknown, is?: (value: unknown) => valu
 }
 
 /**
+ * Checks if a value is a symbol.
+ */
+export function isSymbol(value: unknown): value is Symbol {
+	return typeof value === "symbol";
+}
+
+/**
  * Checks if a value is a function.
  */
 export function isFunction(value: unknown): value is Function {
@@ -182,9 +189,9 @@ export function equals(x: unknown, y: unknown): boolean {
 export function immutable<T=any>(value: T): Readonly<typeof value> {
 	if ( value !== null && typeof value === "object" ) {
 
-		return Object.freeze(Object.getOwnPropertyNames(value as any).reduce((object: any, key) => {
+		return Object.freeze(Reflect.ownKeys(value as any).reduce((object: any, key) => {
 
-			object[key]=immutable((value as any)[key]);
+			object[key]=isSymbol(key) ? (value as any)[key] : immutable((value as any)[key]);
 
 			return object;
 

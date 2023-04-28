@@ -30,6 +30,14 @@ export const AutoSize=10;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Icon symbol.
+ */
+export const icon=Symbol("ToolIcon");
+
+/**
+ * App metadata.
+ */
 export const app=immutable({
 
 	/**
