@@ -83,7 +83,7 @@ export function ToolEntry({
 
 			? <>
 
-				<input type={"text"} readOnly required={required} value={label(value)}/>
+				<input type={"text"} readOnly required={required} spellCheck={"false"} value={label(value)}/>
 
 				<button title={"Remove"} onClick={e => {
 

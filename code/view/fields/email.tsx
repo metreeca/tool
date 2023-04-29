@@ -90,7 +90,7 @@ export function ToolEmail({
 
 			}}><ClearIcon/></button>}
 
-			<input type={"email"} readOnly={readonly} required={required}
+			<input type={"email"} readOnly={readonly} required={required} spellCheck={"false"}
 
 				value={value ?? ""}
 				placeholder={placeholder}

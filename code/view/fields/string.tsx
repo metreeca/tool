@@ -88,7 +88,7 @@ export function ToolString({
 
 				/>
 
-				: <input type={"text"} readOnly={readonly} required={required}
+				: <input type={"text"} readOnly={readonly} required={required} spellCheck={"false"}
 
 					size={cols}
 

@@ -98,7 +98,7 @@ export function ToolDecimal({
 
 			}}><ClearIcon/></button>}
 
-			<input type={"number"} readOnly={readonly} required={required}
+			<input type={"number"} readOnly={readonly} required={required} spellCheck={"false"}
 
 				size={digits}
 
