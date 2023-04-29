@@ -86,8 +86,6 @@ tool-page {
 
             font-size: var(--tool-page-header-font-size);
 
-            box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
-
             & > * {
                 display: flex;
                 flex-direction: row;
@@ -115,8 +113,6 @@ tool-page {
             height: var(--tool-page-footer-height);
 
             font-size: var(--tool-page-footer-font-size);
-
-            box-shadow: 0 0 calc(0.5 * var(--tool-page-header-font-size)) calc(0.25 * var(--tool-page-header-font-size)) var(--tool--background-color);
 
             & > :first-child {
                 margin-right: auto;

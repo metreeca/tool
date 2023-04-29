@@ -116,7 +116,7 @@ export function ToolPage({
 
 		<aside>
 
-			<header>
+			<header className={"scroll-b"}>
 				{logo && <span>{logo}</span>}
 				{meta && <span>{meta}</span>}
 			</header>
@@ -128,7 +128,7 @@ export function ToolPage({
 
 		<main>
 
-			<header>
+			<header className={"scroll-b"}>
 				{done ? <span>{done}</span> : name ? <span>{name}</span> : undefined}
 				{active ? <ToolSpin/> : back ? <span>{back}</span> : menu ? <span>{menu}</span> : undefined}
 			</header>

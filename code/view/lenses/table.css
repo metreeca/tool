@@ -16,14 +16,18 @@
 
 tool-table {
 
-    --cell-max-width: 30em;
+    --tool-table-cell-max-width: 30em;
+    --tool-table-scroll-box-shadow: 0 0 0.5em 0.25em;
 
+    z-index: 20; /* above page header (see page.css )*/
     position: relative; /* stack shadows above other content */
 
     display: grid;
     grid-template-columns: 1fr;
 
     white-space: nowrap;
+
+    background-color: var(--tool--background-color);
 
     &.empty {
         margin: auto;
@@ -62,7 +66,7 @@ tool-table {
                 & > th,
                 & > td {
 
-                    z-index: 20; /* above page header (see page.css )*/
+                    z-index: 21;
 
                     display: flex;
                     flex-direction: row;
@@ -80,8 +84,6 @@ tool-table {
 
                     &:first-child {
 
-                        z-index: 20;
-
                         position: sticky;
                         left: 0;
 
@@ -91,7 +93,7 @@ tool-table {
                     }
 
                     &:not(:last-child) {
-                        max-width: var(--cell-max-width);
+                        max-width: var(--tool-table-cell-max-width);
                     }
 
                     &:last-child {
@@ -108,24 +110,6 @@ tool-table {
 
             }
 
-            &:nth-child(odd) {
-
-                & > :first-child,
-                & > :last-child {
-                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #FFF;*/
-                }
-
-            }
-
-            &:nth-child(even) {
-
-                & > :first-child,
-                & > :last-child {
-                    /* !!! horizontal scrolling box-shadow: 0 0 1em 0.25em #F4F4F4;*/
-                }
-
-            }
-
         }
 
         & > thead {
@@ -134,7 +118,7 @@ tool-table {
 
             & > tr > th {
 
-                z-index: 22;
+                z-index: 24;
 
                 position: sticky;
                 top: 0;
@@ -142,10 +126,8 @@ tool-table {
                 border-bottom-style: solid;
                 margin-bottom: 0.75rem;
 
-                box-shadow: 0 0 0.5em 0.25em var(--tool--background-color);
-
                 &:first-child {
-                    z-index: 23;
+                    z-index: 25;
                 }
 
                 & > button {
@@ -164,6 +146,12 @@ tool-table {
         & > tbody {
 
             & > tr > td {
+
+                z-index: 22;
+
+                &:first-child {
+                    z-index: 23;
+                }
 
                 &.placeholder > * {
                     filter: opacity(15%);

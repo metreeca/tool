@@ -217,7 +217,7 @@ export function ToolTable<V extends Frame>({
 
 				<tr>
 
-					{selection && <th>
+					{selection && <th className={"scroll-y"}>
 
                         <input type={"checkbox"}
 
@@ -231,7 +231,13 @@ export function ToolTable<V extends Frame>({
 
 					{Object.entries(cols).map(([expression, { number, label }]) =>
 
-						<th key={expression} className={classes({ right: number })}>
+						<th key={expression} className={classes({
+
+							"scroll-y": true,
+
+							right: number
+
+						})}>
 
 							<button onClick={() => sort(expression)}>
 
@@ -247,7 +253,7 @@ export function ToolTable<V extends Frame>({
 						</th>
 					)}
 
-					<th/>
+					<th className={"scroll-y"}/>
 
 				</tr>
 
@@ -273,9 +279,9 @@ export function ToolTable<V extends Frame>({
 
 					return <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
 
-						{selection && <td>
+						<td className={"scroll-r"}>
 
-                            <input type={"checkbox"}
+							{selection && <input type={"checkbox"}
 
                                 checked={selection.some(selected => equals(selected, item))}
 
@@ -283,9 +289,9 @@ export function ToolTable<V extends Frame>({
 									select({ value: item, selected: e.currentTarget.checked });
 								}}
 
-                            />
+                            />}
 
-                        </td>}
+						</td>
 
 						{Object.entries(cols).map(([expression, { number, renderer }], index) =>
 

@@ -185,12 +185,11 @@ table {
     font-size: 90%;
 }
 
-tbody > tr:nth-child(odd) > td {
-    background-color: var(--tool--background-color);
-}
-
 tbody > tr:nth-child(even) > td {
-    background-color: var(--tool--background-color-stripe);
+
+    --tool--background-color: var(--tool--background-color-stripe);
+
+    background-color: var(--tool--background-color);
 }
 
 tr > :last-child {
@@ -395,4 +394,84 @@ em {
 
 small {
     font-sisze: 90%;
+}
+
+
+/**** Scrolling Shadows ***********************************************************************************************/
+
+.scroll-x,
+.scroll-y,
+.scroll-t,
+.scroll-b,
+.scroll-r,
+.scroll-l {
+
+    --tool-scroll-shadow-size: 1em;
+    --tool-scroll-background-color: var(--tool--background-color);
+
+    &.scroll-x::before,
+    &.scroll-x::after,
+    &.scroll-y::before,
+    &.scroll-y::after,
+    &.scroll-t::before,
+    &.scroll-l::before,
+    &.scroll-r::after,
+    &.scroll-b::after {
+
+        display: block;
+        content: '';
+
+        position: absolute;
+
+        background-size: cover;
+        background-repeat: no-repeat;
+
+    }
+
+    &.scroll-y::before,
+    &.scroll-y::after,
+    &.scroll-t::before,
+    &.scroll-b::after {
+
+        left: 0;
+        right: 0;
+        height: var(--tool-scroll-shadow-size);
+
+    }
+
+    &.scroll-x::before,
+    &.scroll-x::after,
+    &.scroll-r::after,
+    &.scroll-l::before {
+
+        top: 0;
+        bottom: 0;
+        width: var(--tool-scroll-shadow-size);
+
+    }
+
+    &.scroll-y::before,
+    &.scroll-t::before {
+        bottom: 100%;
+        background-image: linear-gradient(0deg, var(--tool-scroll-background-color), rgba(0, 0, 0, 0));
+    }
+
+    &.scroll-y::after,
+    &.scroll-b::after {
+        top: 100%;
+        background-image: linear-gradient(180deg, var(--tool-scroll-background-color), rgba(0, 0, 0, 0));
+    }
+
+    &.scroll-x::after,
+    &.scroll-r::after {
+        left: 100%;
+        background-image: linear-gradient(90deg, var(--tool-scroll-background-color), rgba(0, 0, 0, 0));
+    }
+
+    &.scroll-x::before,
+    &.scroll-l::before {
+        right: 100%;
+        background-image: linear-gradient(270deg, var(--tool-scroll-background-color), rgba(0, 0, 0, 0));
+    }
+
 }
