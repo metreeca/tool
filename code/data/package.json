@@ -1,9 +1,8 @@
 {
     "name": "@metreeca/data",
-    "version": "0.0.11",
     "description": "State-managing React components",
     "dependencies": {
-        "@metreeca/link": "^0"
+        "@metreeca/link": ""
     },
     "peerDependencies": {
         "react": "^18.0.0",

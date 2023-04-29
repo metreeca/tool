@@ -16,20 +16,20 @@
 
 "use strict";
 
-const fs=require("fs");
-const path=require("path");
-const {globSync}=require("glob");
-const dedent=require("dedent");
+const fs = require("fs");
+const path = require("path");
+const {globSync} = require("glob");
+const dedent = require("dedent");
 
-const md="package.md";
-const json="package.json";
-const readme="README.md";
-const license="LICENSE";
+const md = "package.md";
+const json = "package.json";
+const readme = "README.md";
+const license = "LICENSE";
 
-const code=path.resolve("code");
-const dist=path.resolve("dist");
+const code = path.resolve("code");
+const dist = path.resolve("dist");
 
-const shared=JSON.parse(fs.readFileSync(path.resolve(json)));
+const shared = JSON.parse(fs.readFileSync(path.resolve(json)));
 
 
 // copy readme
@@ -56,10 +56,10 @@ fs.writeFileSync(path.resolve(dist, json), JSON.stringify({
 
 fs.readdirSync(code).filter(file => !file.startsWith("#") && fs.existsSync(path.resolve(code, file, json))).forEach(module => {
 
-    const source=path.resolve(code, module);
-    const target=path.resolve(dist, module);
+    const source = path.resolve(code, module);
+    const target = path.resolve(dist, module);
 
-    const local=JSON.parse(fs.readFileSync(path.resolve(source, json)));
+    const local = JSON.parse(fs.readFileSync(path.resolve(source, json)));
 
 
     // create readme
@@ -101,7 +101,7 @@ fs.readdirSync(code).filter(file => !file.startsWith("#") && fs.existsSync(path.
 
     globSync(`${source}/**/*.css`).forEach(css => {
 
-        const dst=path.resolve(target, path.relative(source, css));
+        const dst = path.resolve(target, path.relative(source, css));
 
         fs.mkdirSync(path.dirname(dst), {recursive: true});
         fs.copyFileSync(css, dst);
@@ -119,15 +119,18 @@ function publishing(local) {
         name: local.name,
         version: shared.version,
         description: local.name === "@metreeca/tool" ? local.description : `Metreeca/Tool ${lower(local.description)}`,
+
         keywords: local.keywords,
         homepage: shared.homepage,
         repository: shared.repository,
         bugs: shared.bugs,
         license: shared.license,
         author: shared.author,
-        main: "index.js",
-        types: "index.d.ts",
-        dependencies: local.dependencies,
+
+        dependencies: local.dependencies === undefined ? undefined : Object
+            .entries(local.dependencies)
+            .reduce((deps, [pkg, ver]) => ({...deps, [pkg]: ver || shared.version}), {}),
+
         peerDependencies: local.peerDependencies
 
     };

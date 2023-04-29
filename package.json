@@ -23,11 +23,7 @@
         "check": "jest",
         "build": "del dist && tsc && node package.js",
         "write": "typedoc && del docs/demo && npm run build --prefix demo",
-        "issue": "npm run build && npm --prefix dist --workspaces publish --include-workspace-root --access public",
-        "major": "sh package.sh version major",
-        "minor": "sh package.sh version minor",
-        "patch": "sh package.sh version patch",
-        "sneak": "sh package.sh version prerelease"
+        "issue": "npm run build && npm --prefix dist --workspaces publish --include-workspace-root --access public"
     },
     "devDependencies": {
         "@types/jest": "^29.4.0",

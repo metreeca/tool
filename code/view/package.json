@@ -1,10 +1,8 @@
 {
     "name": "@metreeca/view",
-    "version": "0.0.11",
     "description": "visual React components",
-    "main": "index.ts",
     "dependencies": {
-        "@metreeca/data": "^0",
+        "@metreeca/data": "",
         "lucide-react": "^0.130.1"
     }
 }
