@@ -146,8 +146,8 @@ export function useOptions<
 
 	} as unknown as { value: null | Value, count: number };
 
-	const baseline=decode(items(specs));
-	const matching=decode(items({ ...query, ...specs }));
+	const baseline=decode(items(specs)); // ignoring all facets
+	const matching=decode(items({ ...query, [filter]: undefined, ...specs })); // ignoring all but this facet
 
 	const ready=baseline !== undefined && matching !== undefined;
 

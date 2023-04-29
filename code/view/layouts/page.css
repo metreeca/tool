@@ -24,7 +24,7 @@ tool-page {
     --tool-page-footer-height: 3rem;
     --tool-page-footer-font-size: 1.1rem;
 
-    --tool-page-pane-padding: 1.25rem;
+    --tool-page-side-padding: 1.25rem;
 
     --tool-page-main-max-width: 75rem;
     --tool-page-main-padding: 1.5rem;
@@ -102,8 +102,8 @@ tool-page {
 
             flex-grow: 1;
 
-            margin-top: calc(0.75 * var(--tool-page-header-font-size));
-            margin-bottom: calc(0.75 * var(--tool-page-footer-font-size));
+            margin-top: calc(0.5 * var(--tool-page-header-font-size));
+            margin-bottom: calc(0.5 * var(--tool-page-footer-font-size));
 
         }
 
@@ -131,8 +131,8 @@ tool-page {
         background-color: var(--tool--background-color);
 
         & > * {
-            padding-left: var(--tool-page-pane-padding);
-            padding-right: var(--tool-page-pane-padding);
+            padding-left: var(--tool-page-side-padding);
+            padding-right: var(--tool-page-side-padding);
         }
 
         & > section {
