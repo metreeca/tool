@@ -79,6 +79,8 @@ tool-page {
 
         & > header {
 
+            z-index: 10;
+
             top: 0; /* vertical scrolling */
             height: var(--tool-page-header-height);
 
