@@ -15,12 +15,12 @@
  */
 
 import { asArray, error, isArray, toType, Type } from "@metreeca/core";
-import { isEntry }                               from "@metreeca/core/entry";
-import { isNumber }                              from "@metreeca/core/number";
-import { model as getModel, Value }              from "@metreeca/core/value";
-import { useCache }                              from "@metreeca/data/hooks/cache";
-import { Collection }                            from "@metreeca/data/models/collection";
-import { useState }                              from "react";
+import { isEntry } from "@metreeca/core/entry";
+import { isNumber } from "@metreeca/core/number";
+import { model as getModel, Value } from "@metreeca/core/value";
+import { useCache } from "@metreeca/data/hooks/cache";
+import { Collection } from "@metreeca/data/models/collection";
+import { useState } from "react";
 
 
 export interface Option<V> {
@@ -35,6 +35,8 @@ export interface Option<V> {
 export type Options<V extends Value>=Readonly<[
 
 	Readonly<{
+
+		ready: boolean
 
 		type: Type<V>
 
@@ -140,7 +142,7 @@ export function useOptions<
 		},
 
 		"@": offset,
-		"#": limit > 0 ? limit+1 : 0
+		"#": limit > 0 ? limit + 1 : 0
 
 	} as unknown as { value: null | Value, count: number };
 
@@ -173,6 +175,8 @@ export function useOptions<
 	return [
 
 		{
+
+			ready,
 
 			type: effective,
 

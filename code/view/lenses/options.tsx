@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-import { isBoolean }                                                    from "@metreeca/core/boolean";
-import { isEntry }                                                      from "@metreeca/core/entry";
-import { toValueString, Value }                                         from "@metreeca/core/value";
-import { useCache }                                                     from "@metreeca/data/hooks/cache";
-import { useTrailing }                                                  from "@metreeca/data/hooks/events";
-import { Option, Options }                                              from "@metreeca/data/models/options";
-import { AutoDelay, classes }                                           from "@metreeca/view";
-import { Check, CheckSquare, ClearIcon, X }                             from "@metreeca/view/widgets/icon";
-import { ToolLink }                                                     from "@metreeca/view/widgets/link";
-import { ToolMore }                                                     from "@metreeca/view/widgets/more";
+import { isBoolean } from "@metreeca/core/boolean";
+import { isEntry } from "@metreeca/core/entry";
+import { toValueString, Value } from "@metreeca/core/value";
+import { useCache } from "@metreeca/data/hooks/cache";
+import { useTrailing } from "@metreeca/data/hooks/events";
+import { Option, Options } from "@metreeca/data/models/options";
+import { AutoDelay, classes } from "@metreeca/view";
+import { Check, CheckSquare, ClearIcon, X } from "@metreeca/view/widgets/icon";
+import { ToolLink } from "@metreeca/view/widgets/link";
+import { ToolMore } from "@metreeca/view/widgets/more";
+import { ToolSpin } from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useRef, useState } from "react";
 import "./options.css";
 
@@ -53,7 +54,7 @@ export function ToolOptions<
 
 }) {
 
-	const [{ type, more, keywords, limit, items }]=useCache(options);
+	const [{ ready, type, more, keywords, limit, items }]=useCache(options);
 
 	const element=useRef<Element>(null);
 
@@ -172,9 +173,10 @@ export function ToolOptions<
 
 			<nav>{
 
-				keywords ? <button title={"Clear"} onClick={clear}><ClearIcon/></button>
-					: selected ? <button title={"Reset"} onClick={reset}><ClearIcon/></button>
-						: undefined
+				!ready ? <ToolSpin/>
+					: keywords ? <button title={"Clear"} onClick={clear}><ClearIcon/></button>
+						: selected ? <button title={"Reset"} onClick={reset}><ClearIcon/></button>
+							: undefined
 
 			}</nav>
 

@@ -18,14 +18,14 @@ tool-panel {
 
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: start;
 
     grid-column-gap: 1.5em;
     grid-row-gap: 1.5em;
 
-&
-.stack {
-    flex-direction: column;
-}
+    &.stack {
+        flex-direction: column;
+    }
 
 }

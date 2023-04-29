@@ -47,7 +47,7 @@ tool-label {
 
     }
 
-    &:nth-child(1 of .side) {
+    :is(:not(&.side)) + &.side {
         margin-left: auto;
     }
 

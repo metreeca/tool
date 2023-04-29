@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import { error, isDefined, toType, Type }    from "@metreeca/core";
+import { error, isDefined, toType, Type } from "@metreeca/core";
 import { isValue, model as getModel, Value } from "@metreeca/core/value";
-import { useCache }                          from "@metreeca/data/hooks/cache";
-import { Collection }                        from "@metreeca/data/models/collection";
+import { useCache } from "@metreeca/data/hooks/cache";
+import { Collection } from "@metreeca/data/models/collection";
 
 
 export type Range<V extends Value>=Readonly<[
 
 	Readonly<{
+
+		ready: boolean
 
 		type: Type
 
@@ -100,14 +102,14 @@ export function useRange<V extends Value>(collection: Collection<V>, expression:
 	const lte=query[upper];
 
 
-	const [value]=useCache(items({
+	const value=items({
 
 		...query,
 
 		[`min=min:${expression}`]: effective.model,
 		[`max=max:${expression}`]: effective.model
 
-	}));
+	});
 
 	const [min]=useCache(value?.[0]?.min);
 	const [max]=useCache(value?.[0]?.max);
@@ -115,6 +117,8 @@ export function useRange<V extends Value>(collection: Collection<V>, expression:
 	return [
 
 		{
+
+			ready: value !== undefined,
 
 			type: effective,
 

@@ -28,8 +28,8 @@ import { useTrailing } from "@metreeca/data/hooks/events";
 import { Range } from "@metreeca/data/models/range";
 import { AutoDelay, classes } from "@metreeca/view";
 import { Calendar, ClearIcon, Clock, Hash, TypeIcon } from "@metreeca/view/widgets/icon";
-import * as React from "react";
-import { ChangeEvent, createElement, FocusEvent as FocusingEvent, useEffect, useRef, useState } from "react";
+import { ToolSpin } from "@metreeca/view/widgets/spin";
+import React, { ChangeEvent, createElement, FocusEvent as FocusingEvent, useEffect, useRef, useState } from "react";
 import "./range.css";
 
 
@@ -48,7 +48,7 @@ export function ToolRange<
 	compact,
 	placeholder,
 
-	children: [{ type, min, max, gte, lte }, setRange]
+	children: [{ ready, type, min, max, gte, lte }, setRange]
 
 }: {
 
@@ -138,7 +138,11 @@ export function ToolRange<
 
 			<input readOnly placeholder={placeholder}/>
 
-			<nav>{selected && <button title={"Reset"} onClick={reset}><ClearIcon/></button>}</nav>
+			<nav>{
+				!ready ? <ToolSpin/>
+					: selected ? <button title={"Reset"} onClick={reset}><ClearIcon/></button>
+						: null
+			}</nav>
 
 		</header>
 
