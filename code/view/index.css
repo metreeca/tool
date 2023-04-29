@@ -451,25 +451,25 @@ small {
 
     &.scroll-y::before,
     &.scroll-t::before {
-        bottom: 100%;
+        bottom: calc(100% + 1px); /* allot space for standard borders */
         background-image: linear-gradient(0deg, var(--tool--background-color), rgba(0, 0, 0, 0));
     }
 
     &.scroll-y::after,
     &.scroll-b::after {
-        top: 100%;
+        top: calc(100% + 1px); /* allot space for standard borders */
         background-image: linear-gradient(180deg, var(--tool--background-color), rgba(0, 0, 0, 0));
     }
 
     &.scroll-x::after,
     &.scroll-r::after {
-        left: 100%;
+        left: calc(100% + 1px); /* allot space for standard borders */
         background-image: linear-gradient(90deg, var(--tool--background-color), rgba(0, 0, 0, 0));
     }
 
     &.scroll-x::before,
     &.scroll-l::before {
-        right: 100%;
+        right: calc(100% + 1px); /* allot space for standard borders */
         background-image: linear-gradient(270deg, var(--tool--background-color), rgba(0, 0, 0, 0));
     }
 
