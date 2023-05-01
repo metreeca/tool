@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
+import { id } from "@metreeca/core/entry";
+import { ToolContext } from "@metreeca/data/contexts/context";
+import { ToolRouter } from "@metreeca/data/contexts/router";
+import { DemoDND, DND } from "@metreeca/demo/pages/dnd";
+import { DemoHome, Home } from "@metreeca/demo/pages/home";
+import { DemoWild, Wild } from "@metreeca/demo/pages/wild";
 import "@metreeca/view/styles/roboto.css";
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { ToolContext } from "@metreeca/data/contexts/context";
-import { ToolRouter } from "@metreeca/data/contexts/router";
-import { id } from "@metreeca/core/entry";
-import { DemoHome, Home } from "@metreeca/demo/pages/home";
-import { DemoDND, DND } from "@metreeca/demo/pages/dnd";
-import { About, DemoAbout } from "@metreeca/demo/pages/about";
-
 
 createRoot(document.body.firstElementChild!).render((
 
@@ -35,11 +34,10 @@ createRoot(document.body.firstElementChild!).render((
 			<ToolRouter>{{
 
 				[id(Home)]: DemoHome,
-				[id(About)]: DemoAbout,
 
 				[id(DND)]: DemoDND,
 
-				"*": id(Home)
+				[id(Wild)]: DemoWild
 
 			}}</ToolRouter>
 
@@ -48,4 +46,3 @@ createRoot(document.body.firstElementChild!).render((
 	</React.StrictMode>
 
 ));
-

@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-import { id, label } from "@metreeca/core/entry";
-import { About }     from "@metreeca/demo/pages/about";
-import { Home }      from "@metreeca/demo/pages/home";
-import { ToolPage }  from "@metreeca/view/layouts/page";
-import { ToolLogo }  from "@metreeca/view/widgets/logo";
-import * as React    from "react";
+import { id } from "@metreeca/core/entry";
+import { Home } from "@metreeca/demo/pages/home";
+import { ToolPage } from "@metreeca/view/layouts/page";
+import { ToolLogo } from "@metreeca/view/widgets/logo";
+import { Path, ToolPath } from "@metreeca/view/widgets/path";
+import * as React from "react";
 import { ReactNode } from "react";
 
 
 export function DemoPage({
+
+	name,
+	menu,
 
 	tray,
 
 	children
 
 }: {
+
+	name?: Path
+	menu?: ReactNode
 
 	tray?: ReactNode
 
@@ -40,7 +46,10 @@ export function DemoPage({
 	return <ToolPage
 
 		logo={<a href={id(Home)}><ToolLogo/></a>}
-		meta={<a href={id(About)}>{label(About)}</a>}
+		meta={NAME}
+
+		name={<ToolPath>{name}</ToolPath>}
+		menu={menu}
 
 		tray={tray}
 

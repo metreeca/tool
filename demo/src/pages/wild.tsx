@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-/**
- * Env variables and modes.
- *
- * @see {@link https://vitejs.dev/guide/env-and-mode.html}
- * @module
- */
 
-interface ImportMeta {
-	readonly env: ImportMetaEnv;
-}
+import { immutable } from "@metreeca/core";
+import { DemoPage } from "@metreeca/demo/views/page";
+import * as React from "react";
 
-interface ImportMetaEnv extends Readonly<Record<string, boolean | string>> {
 
-	readonly MODE: string;
-	readonly BASE_URL: string;
-	readonly PROD: boolean;
-	readonly DEV: boolean;
+export const Wild=immutable({
+
+	id: "*",
+	label: "Wild"
+
+});
+
+
+export function DemoWild() {
+
+	return <DemoPage>
+
+	</DemoPage>;
 
 }

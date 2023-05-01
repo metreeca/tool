@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { useFetcher }                                           from "@metreeca/data/contexts/fetcher";
-import { classes }                                              from "@metreeca/view";
-import { ToolSpin }                                             from "@metreeca/view/widgets/spin";
+import { useFetcher } from "@metreeca/data/contexts/fetcher";
+import { classes } from "@metreeca/view";
+import { ToolSpin } from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./page.css";
 

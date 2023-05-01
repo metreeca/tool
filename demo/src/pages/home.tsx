@@ -16,9 +16,8 @@
 
 
 import { immutable } from "@metreeca/core";
-import * as React from "react";
 import { DemoPage } from "@metreeca/demo/views/page";
-
+import * as React from "react";
 
 export const Home=immutable({
 
@@ -30,9 +29,7 @@ export const Home=immutable({
 
 export function DemoHome() {
 
-	return <DemoPage>
-
-		<p>!!!</p>
+	return <DemoPage menu={VERSION}>
 
 	</DemoPage>;
 

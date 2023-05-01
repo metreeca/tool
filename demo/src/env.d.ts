@@ -14,28 +14,6 @@
  * limitations under the License.
  */
 
-import { immutable } from "@metreeca/core";
-import * as React from "react";
-import { DemoPage } from "@metreeca/demo/views/page";
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const About=immutable({
-
-	id: "/about",
-	label: "Metreeca/Tool"
-
-});
-
-export function DemoAbout() {
-
-	return <DemoPage
-
-		// menu={<button title={"Close"}><CloseIcon/></button>}
-
-	>
-
-	</DemoPage>;
-
-}
+declare const NAME: string;
+declare const VERSION: string;
+declare const DESCRIPTION: string;

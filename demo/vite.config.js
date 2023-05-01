@@ -17,10 +17,11 @@
 import {resolve} from "path";
 import postcssNesting from "postcss-nesting";
 import {defineConfig} from "vite";
-import reactRefresh from "@vitejs/plugin-react-refresh";
+import react from "@vitejs/plugin-react";
+import pkg from "../package.json"
 
-const src=resolve("src");
-const out=resolve("../docs/demo");
+const src = resolve("src");
+const out = resolve("../docs/demo");
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,12 +31,18 @@ export default defineConfig(({command, mode}) => ({ // https://vitejs.dev/config
     root: src,
     base: "./",
 
-    plugins: [reactRefresh()],
+    plugins: [react()],
 
     css: {
         postcss: {
             plugins: [postcssNesting()]
         }
+    },
+
+    define: {
+        NAME: JSON.stringify(pkg.name),
+        VERSION: JSON.stringify(pkg.version),
+        DESCRIPTION: JSON.stringify(pkg.description),
     },
 
     build: {
