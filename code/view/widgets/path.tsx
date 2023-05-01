@@ -14,34 +14,40 @@
  * limitations under the License.
  */
 
-import { isArray }                       from "@metreeca/core";
-import { id, isEntry }                   from "@metreeca/core/entry";
+import { isArray, isDefined } from "@metreeca/core";
+import { id, isEntry } from "@metreeca/core/entry";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
-import { ToolLink }                      from "@metreeca/view/widgets/link";
-import * as React                        from "react";
-import { createElement, ReactNode }      from "react";
+import { ToolLink } from "@metreeca/view/widgets/link";
+import * as React from "react";
+import { createElement, ReactNode } from "react";
 import "./path.css";
 
+
+export type Path=undefined | Value | ReactNode | Array<undefined | Value | ReactNode>
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Creates a breadcrumbs path component.
  */
 export function ToolPath({
 
-	children
+	children: path
 
 }: {
 
-	children: undefined | Value | ReactNode | Array<undefined | Value | ReactNode>
+	children: Path
 
 }) {
 
-	const steps=isArray<Value | ReactNode>(children) ? children : [children];
+	const steps=isArray<undefined | Value | ReactNode>(path) ? path : [path];
 
 	return createElement("tool-path", {}, steps.map((step, index) =>
 		isEntry(step) && index + 1 < steps.length ? <ToolLink key={id(step)}>{step}</ToolLink>
 			: isValue(step) ? <span key={toValueString(step)}>{toValueString(step)}</span>
-				: <React.Fragment key={index}>{step}</React.Fragment>
+				: isDefined(step) ? <React.Fragment key={index}>{step}</React.Fragment>
+					: undefined
 	));
 
 }
