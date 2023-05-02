@@ -15,7 +15,7 @@
  */
 
 import { error, Type } from "@metreeca/core/index";
-import { isNumber }    from "@metreeca/core/number";
+import { isNumber } from "@metreeca/core/number";
 
 
 export const decimal: Type<number>={
@@ -76,21 +76,25 @@ export function toDecimalString(value: number, {
 
 	locales=navigator.languages,
 
+	fractionDigits,
+
 	minimumFractionDigits,
 	maximumFractionDigits,
 
 	...opts
 
-}: Intl.NumberFormatOptions & {
+}: Intl.NumberFormatOptions & Partial<Readonly<{
 
 	locales?: Intl.LocalesArgument
 
-}={}): string {
+	fractionDigits: number
+
+}>>/* ;( */={}): string {
 
 	return value.toLocaleString(locales, {
 
-		minimumFractionDigits,
-		maximumFractionDigits: maximumFractionDigits ?? minimumFractionDigits,
+		minimumFractionDigits: minimumFractionDigits ?? fractionDigits,
+		maximumFractionDigits: maximumFractionDigits ?? fractionDigits,
 
 		...opts
 
