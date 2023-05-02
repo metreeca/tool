@@ -2,7 +2,7 @@
     "name": "@metreeca/view",
     "description": "visual React components",
     "dependencies": {
-        "@metreeca/data": "",
+        "@metreeca/data": "*",
         "lucide-react": "^0.130.1"
     }
 }

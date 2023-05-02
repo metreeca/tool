@@ -2,7 +2,7 @@
     "name": "@metreeca/data",
     "description": "State-managing React components",
     "dependencies": {
-        "@metreeca/link": ""
+        "@metreeca/link": "*"
     },
     "peerDependencies": {
         "react": "^18.0.0",

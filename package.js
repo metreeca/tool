@@ -129,7 +129,7 @@ function publishing(local) {
 
         dependencies: local.dependencies === undefined ? undefined : Object
             .entries(local.dependencies)
-            .reduce((deps, [pkg, ver]) => ({...deps, [pkg]: ver || shared.version}), {}),
+            .reduce((deps, [pkg, ver]) => ({...deps, [pkg]: ver === "*" ? shared.version : ver}), {}),
 
         peerDependencies: local.peerDependencies
 
