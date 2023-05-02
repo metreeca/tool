@@ -137,6 +137,7 @@ export function useOptions<
 		[`~${label}`]: keywords,
 
 		"^": {
+			"-value": values,
 			"count": "decreasing",
 			[label]: "increasing"
 		},
