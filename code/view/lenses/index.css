@@ -103,3 +103,28 @@ tool-range {
     }
 
 }
+
+
+tool-sheet,
+tool-table {
+
+    &.empty {
+        margin: auto;
+    }
+
+    & > small { /* placeholder */
+
+        display: block;
+        margin: auto;
+
+        color: var(--tool--color-disabled);
+        transform: scale(10);
+
+        & .lucide {
+            stroke-width: 0.75px;
+        }
+
+    }
+
+
+}

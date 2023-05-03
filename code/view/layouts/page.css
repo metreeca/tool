@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-tool-page {
+:root {
 
     --tool-page-side-width: 20rem;
 
@@ -28,6 +28,10 @@ tool-page {
 
     --tool-page-main-max-width: 75rem;
     --tool-page-main-padding: 1.5rem;
+
+}
+
+tool-page {
 
     display: grid;
 
@@ -103,7 +107,7 @@ tool-page {
             flex-grow: 1;
 
             margin-top: calc(0.5 * var(--tool-page-header-font-size));
-            margin-bottom: calc(0.5 * var(--tool-page-footer-font-size));
+            margin-bottom: calc(2 * var(--tool-page-footer-font-size));
 
         }
 

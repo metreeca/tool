@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-import { isString }                           from "@metreeca/core/string";
-import { classes }                            from "@metreeca/view";
-import * as React                             from "react";
+import { isDefined } from "@metreeca/core";
+import { isNumber } from "@metreeca/core/number";
+import { isString } from "@metreeca/core/string";
+import { classes } from "@metreeca/view";
+import * as React from "react";
 import { createElement, ReactNode, useState } from "react";
 import "./card.css";
 
@@ -35,8 +37,8 @@ import "./card.css";
 export function ToolCard({
 
 	wrap,
-	size = "10rem",
-	side = "start",
+	size,
+	side="start",
 
 	tags,
 	title,
@@ -47,7 +49,7 @@ export function ToolCard({
 }: {
 
 	wrap?: boolean
-	size?: string
+	size?: number | string
 	side?: "start" | "end"
 
 	tags?: ReactNode
@@ -58,12 +60,22 @@ export function ToolCard({
 
 }) {
 
-	const [loaded, setLoaded] = useState(false);
+	const [loaded, setLoaded]=useState(false);
 
 	return createElement("tool-card", {
 
 		class: classes({ start: side === "start", end: side === "end" }),
-		style: { "--tool-card-size": size }
+
+		style: {
+
+			"--tool-card-size":
+
+				isNumber(size) ? `${size}em`
+					: isDefined(size) ? size
+						: side === "start" ? "10rem"
+							: "15rem"
+
+		}
 
 	}, <>
 

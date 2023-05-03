@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { immutable }     from "@metreeca/core";
-import { resolve }       from "@metreeca/data/contexts/fetcher";
+import { immutable } from "@metreeca/core";
+import { resolve } from "@metreeca/data/contexts/fetcher";
 import { KeyboardEvent } from "react";
 
 

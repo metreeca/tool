@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isArray }                         from "@metreeca/core";
+import { isArray } from "@metreeca/core";
 import React, { createElement, ReactNode } from "react";
 
 import "./info.css";
@@ -40,13 +40,13 @@ export function ToolInfo({
 
 }: {
 
-	children: undefined | { [label: string]: ReactNode } | Array<{ title: ReactNode, value: ReactNode }>
+	children: undefined | { [label: string]: ReactNode } | Array<{ label: ReactNode, value: ReactNode }>
 
 }) {
 
 	if ( children ) {
 
-		const entries: ToolInfoEntry[] = isArray<ToolInfoEntry>(children)
+		const entries: ToolInfoEntry[]=isArray<ToolInfoEntry>(children)
 			? children
 			: Object.entries(children).map(([label, value]) => ({ label, value }));
 

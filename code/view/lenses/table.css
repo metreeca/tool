@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-tool-table {
+@import "index.css";
+
+
+:root {
 
     --tool-table-cell-max-width: 30em;
     --tool-table-scroll-box-shadow: 0 0 0.5em 0.25em;
+
+}
+
+tool-table {
 
     z-index: 20; /* above page header (see page.css )*/
     position: relative; /* stack shadows above other content */
@@ -28,23 +35,6 @@ tool-table {
     white-space: nowrap;
 
     background-color: var(--tool--background-color);
-
-    &.empty {
-        margin: auto;
-    }
-
-    & > small { /* placeholder */
-
-        margin: auto;
-
-        color: var(--tool--color-disabled);
-        transform: scale(10);
-
-        & .lucide {
-            stroke-width: 0.75px;
-        }
-
-    }
 
     & > table {
 
@@ -75,7 +65,6 @@ tool-table {
                     grid-column-gap: 0.25em;
 
                     padding: 0.4rem 0.5rem;
-                    border-bottom: solid 1px #DDD;
 
                     &.right {
                         flex-direction: row-reverse;
@@ -123,8 +112,11 @@ tool-table {
                 position: sticky;
                 top: 0;
 
-                border-bottom-style: solid;
                 margin-bottom: 0.75rem;
+
+                &::after {
+                    border-top-style: solid; /* above scrolling shadow */
+                }
 
                 &:first-child {
                     z-index: 25;

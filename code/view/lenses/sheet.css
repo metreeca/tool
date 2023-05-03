@@ -14,26 +14,8 @@
  * limitations under the License.
  */
 
-import { app } from "@metreeca/view";
-import * as React from "react";
-import { createElement } from "react";
-import "./logo.css";
+@import "index.css";
 
-
-/**
- * Creates a component displaying the app {@link icon}.
- *
- * @constructor
- */
-export function ToolLogo() {
-
-	return createElement("tool-logo", {
-
-		title: app.name,
-
-		style: { backgroundImage: `url(${(app.icon)})` }
-
-	});
+tool-sheet {
 
 }
-

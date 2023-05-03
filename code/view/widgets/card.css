@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-
-tool-card {
+:root {
 
     --tool-card-size: 0;
     --tool-card-gap: 1.5rem;
+
+}
+
+tool-card {
 
     display: flex;
     flex-direction: column;
     align-items: stretch;
 
     &:not(:first-child) {
-        margin-top: 1.5em;
+        margin-top: 1em;
     }
-
 
     & > * {
 
@@ -50,7 +52,7 @@ tool-card {
         }
 
         & > nav {
-            min-width: var(--tool-card-size);
+            width: var(--tool-card-size);
             overflow: visible;
         }
 
@@ -65,7 +67,7 @@ tool-card {
         display: flex;
         align-items: center;
 
-        margin-bottom: 0.75em;
+        margin-bottom: 0.5em;
 
 
         :is(tool-card.start) > & {
@@ -105,7 +107,7 @@ tool-card {
             }
 
             margin-top: 0.25em;
-            margin-bottom: 1.5em;
+            margin-bottom: 1em;
         }
 
         & > div:not(.wrap) {

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { Local } from "@metreeca/core/local";
 import { asString } from "@metreeca/core/string";
 import { Value } from "@metreeca/core/value";
 import { Collection } from "@metreeca/data/models/collection";
@@ -35,7 +36,7 @@ export function useKeywords<
 	T extends Value,
 	K extends string
 
->([{ query }, setCollection]: Collection<T & { [key in K]: string }>, expression: K & keyof T, {
+>([{ query }, setCollection]: Collection<T & { [key in K]: string | Local }>, expression: K & keyof T, {
 
 	//
 

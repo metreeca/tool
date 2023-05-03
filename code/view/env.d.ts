@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-import { app } from "@metreeca/view";
-import * as React from "react";
-import { createElement } from "react";
-import "./logo.css";
-
-
 /**
- * Creates a component displaying the app {@link icon}.
+ * Env variables and modes.
  *
- * @constructor
+ * @see {@link https://vitejs.dev/guide/env-and-mode.html}
+ * @module
  */
-export function ToolLogo() {
 
-	return createElement("tool-logo", {
-
-		title: app.name,
-
-		style: { backgroundImage: `url(${(app.icon)})` }
-
-	});
-
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
 }
 
+interface ImportMetaEnv extends Readonly<Record<string, boolean | string>> {
+
+	readonly MODE: string;
+	readonly BASE_URL: string;
+	readonly PROD: boolean;
+	readonly DEV: boolean;
+
+	readonly VERSION: string;
+
+}

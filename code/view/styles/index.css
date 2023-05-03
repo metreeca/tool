@@ -47,7 +47,7 @@
 
 }
 
-* {
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -401,76 +401,68 @@ small {
 
 /**** Scrolling Shadows ***********************************************************************************************/
 
-.scroll-x,
-.scroll-y,
-.scroll-t,
-.scroll-b,
-.scroll-r,
-.scroll-l {
+.scroll-x::before,
+.scroll-x::after,
+.scroll-y::before,
+.scroll-y::after,
+.scroll-t::before,
+.scroll-l::before,
+.scroll-r::after,
+.scroll-b::after {
 
-    &.scroll-x::before,
-    &.scroll-x::after,
-    &.scroll-y::before,
-    &.scroll-y::after,
-    &.scroll-t::before,
-    &.scroll-l::before,
-    &.scroll-r::after,
-    &.scroll-b::after {
+    display: block;
+    content: '';
 
-        display: block;
-        content: '';
+    position: absolute;
 
-        position: absolute;
+    background-color: transparent;
+    background-size: cover;
+    background-repeat: no-repeat;
 
-        background-size: cover;
-        background-repeat: no-repeat;
+}
 
-    }
+.scroll-y::before,
+.scroll-y::after,
+.scroll-t::before,
+.scroll-b::after {
 
-    &.scroll-y::before,
-    &.scroll-y::after,
-    &.scroll-t::before,
-    &.scroll-b::after {
+    left: 0;
+    right: 0;
+    height: var(--tool-scroll-shadow-size);
 
-        left: 0;
-        right: 0;
-        height: var(--tool-scroll-shadow-size);
+}
 
-    }
+.scroll-x::before,
+.scroll-x::after,
+.scroll-r::after,
+.scroll-l::before {
 
-    &.scroll-x::before,
-    &.scroll-x::after,
-    &.scroll-r::after,
-    &.scroll-l::before {
+    top: 0;
+    bottom: 0;
+    width: var(--tool-scroll-shadow-size);
 
-        top: 0;
-        bottom: 0;
-        width: var(--tool-scroll-shadow-size);
+}
 
-    }
+.scroll-y::before,
+.scroll-t::before {
+    bottom: 100%;
+    background-image: linear-gradient(0deg, var(--tool--background-color), rgba(0, 0, 0, 0));
+}
 
-    &.scroll-y::before,
-    &.scroll-t::before {
-        bottom: calc(100% + 1px); /* allot space for standard borders */
-        background-image: linear-gradient(0deg, var(--tool--background-color), rgba(0, 0, 0, 0));
-    }
+.scroll-y::after,
+.scroll-b::after {
+    top: 100%;
+    background-image: linear-gradient(180deg, var(--tool--background-color), rgba(0, 0, 0, 0));
+}
 
-    &.scroll-y::after,
-    &.scroll-b::after {
-        top: calc(100% + 1px); /* allot space for standard borders */
-        background-image: linear-gradient(180deg, var(--tool--background-color), rgba(0, 0, 0, 0));
-    }
+.scroll-x::after,
+.scroll-r::after {
+    left: 100%;
+    background-image: linear-gradient(90deg, var(--tool--background-color), rgba(0, 0, 0, 0));
+}
 
-    &.scroll-x::after,
-    &.scroll-r::after {
-        left: calc(100% + 1px); /* allot space for standard borders */
-        background-image: linear-gradient(90deg, var(--tool--background-color), rgba(0, 0, 0, 0));
-    }
-
-    &.scroll-x::before,
-    &.scroll-l::before {
-        right: calc(100% + 1px); /* allot space for standard borders */
-        background-image: linear-gradient(270deg, var(--tool--background-color), rgba(0, 0, 0, 0));
-    }
-
+.scroll-x::before,
+.scroll-l::before {
+    right: 100%;
+    background-image: linear-gradient(270deg, var(--tool--background-color), rgba(0, 0, 0, 0));
 }
