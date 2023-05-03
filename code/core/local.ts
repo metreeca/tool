@@ -95,7 +95,7 @@ export function toLocalString(local: Local, {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function text(local: Local, locales: Intl.LocalesArgument=navigator.languages): string {
-	return isArray<any>(locales) ? locales.map(locale => local[locale.toString()]).filter(s => s)[0] : undefined
+	return (isArray<any>(locales) ? locales.map(locale => local[locale.toString()]).filter(s => s)[0] : undefined)
 		?? local.en
 		?? Object.values(local)[0]
 		?? "";
