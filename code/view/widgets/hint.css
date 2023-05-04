@@ -21,22 +21,27 @@ tool-hint {
     width: 100%;
     height: 100%;
 
-    padding: 1em;
+    &.border {
 
-    border-radius: 0.5em;
-    border-style: dotted;
+        padding: 1em;
 
-    background-color: var(--tool--background-color-edit);
+        border-radius: 0.5em;
+        border-style: dotted;
 
-    & > div {
+        background-color: var(--tool--background-color-edit);
 
+    }
+
+    & > :only-child {
+
+        display: block;
         margin: auto;
 
-        color: var(--tool--color-label);
+        color: var(--tool--color-disabled);
 
-        & > .lucide {
-            stroke-width: 1px;
-            transform: scale(5);
+        & > .lucide:only-child {
+            stroke-width: 0.75px;
+            transform: scale(7.5);
         }
 
     }

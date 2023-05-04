@@ -15,13 +15,12 @@
  */
 
 import { isDefined } from "@metreeca/core";
-import { Frame, id, isEntry, Order } from "@metreeca/core/entry";
+import { Frame, id, isEntry, Order, toFrameString } from "@metreeca/core/entry";
 import { isString } from "@metreeca/core/string";
-import { toValueString } from "@metreeca/core/value";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection } from "@metreeca/data/models/selection";
-import { classes } from "@metreeca/view";
+import { ToolHint } from "@metreeca/view/widgets/hint";
 import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, Fragment, ReactNode, useState } from "react";
 import "./sheet.css";
@@ -39,7 +38,7 @@ export function ToolSheet<V extends Frame>({
 
 	sorted,
 
-	as=toValueString,
+	as=toFrameString,
 
 	children: [collection]
 
@@ -75,7 +74,6 @@ export function ToolSheet<V extends Frame>({
 	}));
 
 	const more=items && items.length > limit;
-	const empty=!items?.length;
 
 
 	function load() {
@@ -83,22 +81,17 @@ export function ToolSheet<V extends Frame>({
 	}
 
 
-	return createElement("tool-sheet", {
+	return items?.length ? createElement("tool-sheet", {}, <>
 
-			class: classes({ empty })
+		{items?.map((item, index) => <Fragment key={isEntry(item) ? id(item) : JSON.stringify(item)}>{
 
-		}, empty ? <small>{placeholder}</small> : <>
+			as(item)
 
-			{items?.map((item, index) => <Fragment key={isEntry(item) ? id(item) : JSON.stringify(item)}>{
+		}</Fragment>)}
 
-				as(item)
+		{more && <ToolMore onLoad={load}/>}
 
-			}</Fragment>)}
-
-			{more && <ToolMore onLoad={load}/>}
-
-		</>
-	);
+	</>) : placeholder ? <ToolHint>{placeholder}</ToolHint> : null;
 
 }
 

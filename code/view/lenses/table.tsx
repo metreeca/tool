@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-import { isDefined }                                            from "@metreeca/core";
-import { asOrder, Entry, Frame, id, isEntry, label, Order }     from "@metreeca/core/entry";
-import { isNumber }                                             from "@metreeca/core/number";
-import { isString }                                             from "@metreeca/core/string";
-import { equals, model }                                        from "@metreeca/core/value";
-import { useRouter }                                            from "@metreeca/data/contexts/router";
-import { useCache }                                             from "@metreeca/data/hooks/cache";
-import { Collection }                                           from "@metreeca/data/models/collection";
-import { Selection, SelectionDelta }                            from "@metreeca/data/models/selection";
-import { classes }                                              from "@metreeca/view";
-import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon }   from "@metreeca/view/widgets/icon";
-import { ToolMore }                                             from "@metreeca/view/widgets/more";
+import { isDefined } from "@metreeca/core";
+import { asOrder, Entry, Frame, id, isEntry, label, Order } from "@metreeca/core/entry";
+import { isNumber } from "@metreeca/core/number";
+import { isString } from "@metreeca/core/string";
+import { equals, model } from "@metreeca/core/value";
+import { useRouter } from "@metreeca/data/contexts/router";
+import { useCache } from "@metreeca/data/hooks/cache";
+import { Collection } from "@metreeca/data/models/collection";
+import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
+import { classes } from "@metreeca/view";
+import { ToolHint } from "@metreeca/view/widgets/hint";
+import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
+import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./table.css";
 
@@ -154,7 +155,6 @@ export function ToolTable<V extends Frame>({
 	}));
 
 	const more=items && items.length > limit;
-	const empty=!items?.length;
 
 
 	useEffect(() => {
@@ -184,147 +184,141 @@ export function ToolTable<V extends Frame>({
 		setLimit(limit + LimitNext);
 	}
 
+	return items?.length ? createElement("tool-table", {}, <>
 
-	return createElement("tool-table", {
+		<table ref={table => { // freeze column widths to avoid accordion effects on resorting
 
-			class: classes({ empty })
+			if ( table ) {
+				setWidths(Array.from(table.querySelectorAll("thead > tr > th"))
+					.map(th => `${th.getBoundingClientRect().width}px`)
+					.join(" ")
+				);
+			}
 
-		}, empty ? <small>{placeholder}</small> : <>
+		}}
 
-			<table ref={table => { // freeze column widths to avoid accordion effects on resorting
+			style={{
 
-				if ( table ) {
-					setWidths(Array.from(table.querySelectorAll("thead > tr > th"))
-						.map(th => `${th.getBoundingClientRect().width}px`)
-						.join(" ")
-					);
-				}
+				gridTemplateColumns: widths || (selection
+						? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
+						: `repeat(${Object.keys(cols).length}, min-content) 1fr`
+				)
 
 			}}
 
-				style={{
+		>
 
-					gridTemplateColumns: widths || (selection
-							? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
-							: `repeat(${Object.keys(cols).length}, min-content) 1fr`
-					)
+			<thead>
 
-				}}
+			<tr>
 
-			>
+				{selection && <th className={"scroll-y"}>
 
-				<thead>
+                    <input type={"checkbox"}
 
-				<tr>
+                        checked={selection.length > 0}
 
-					{selection && <th className={"scroll-y"}>
+                        onChange={e => select(e.target.checked ? items ?? [] : [])}
 
-                        <input type={"checkbox"}
+                    />
 
-                            checked={selection.length > 0}
+                </th>}
 
-                            onChange={e => select(e.target.checked ? items ?? [] : [])}
+				{Object.entries(cols).map(([expression, { number, label }]) =>
 
-                        />
+					<th key={expression} className={classes({
 
-                    </th>}
+						"scroll-y": true,
 
-					{Object.entries(cols).map(([expression, { number, label }]) =>
+						right: number
 
-						<th key={expression} className={classes({
+					})}>
 
-							"scroll-y": true,
+						<button onClick={() => sort(expression)}>
 
-							right: number
+							<span>{label}</span>
 
-						})}>
+							{order[expression] === "increasing" ? <IncreasingIcon/>
+								: order[expression] === "decreasing" ? <DecreasingIcon/>
+									: <SortIcon stroke={"transparent"}/> // keep spacing stable
+							}
 
-							<button onClick={() => sort(expression)}>
+						</button>
 
-								<span>{label}</span>
+					</th>
+				)}
 
-								{order[expression] === "increasing" ? <IncreasingIcon/>
-									: order[expression] === "decreasing" ? <DecreasingIcon/>
-										: <SortIcon stroke={"transparent"}/> // keep spacing stable
-								}
+				<th className={"scroll-y"}/>
 
-							</button>
+			</tr>
 
-						</th>
-					)}
+			</thead>
 
-					<th className={"scroll-y"}/>
+			<tbody>{items?.map((item, index) => {
 
-				</tr>
-
-				</thead>
-
-				<tbody>{items?.map((item, index) => {
-
-					const skip=head(item, index ? items[index - 1] : {} as Frame);
+				const skip=head(item, index ? items[index - 1] : {} as Frame);
 
 
-					function head(x: Frame, y: Frame): number { // returns the length of the initial shared row head
+				function head(x: Frame, y: Frame): number { // returns the length of the initial shared row head
 
-						let n=0;
+					let n=0;
 
-						for (const k in cols) {
-							if ( equals(x[k], y[k]) ) { ++n; } else { return n; }
-						}
-
-						return n;
-
+					for (const k in cols) {
+						if ( equals(x[k], y[k]) ) { ++n; } else { return n; }
 					}
 
+					return n;
 
-					return <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
+				}
 
-						<td className={"scroll-r"}>
 
-							{selection && <input type={"checkbox"}
+				return <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
 
-                                checked={selection.some(selected => equals(selected, item))}
+					<td className={"scroll-r"}>
 
-                                onChange={e => {
-									select({ value: item, selected: e.currentTarget.checked });
-								}}
+						{selection && <input type={"checkbox"}
 
-                            />}
+                            checked={selection.some(selected => equals(selected, item))}
+
+                            onChange={e => {
+								select({ value: item, selected: e.currentTarget.checked });
+							}}
+
+                        />}
+
+					</td>
+
+					{Object.entries(cols).map(([expression, { number, renderer }], index) =>
+
+						<td key={expression} className={classes({
+							right: number,
+							placeholder: hierarchy && index < skip
+						})}>
+
+							{renderer(item)}
 
 						</td>
+					)}
 
-						{Object.entries(cols).map(([expression, { number, renderer }], index) =>
+					<td>{isEntry(item) && <button title={`Open '${label(item)}'`}
 
-							<td key={expression} className={classes({
-								right: number,
-								placeholder: hierarchy && index < skip
-							})}>
+                        onClick={() => open(item)}
 
-								{renderer(item)}
+                    >
 
-							</td>
-						)}
+                        <OpenIcon/>
 
-						<td>{isEntry(item) && <button title={`Open '${label(item)}'`}
+                    </button>}</td>
 
-                            onClick={() => open(item)}
+				</tr>;
 
-                        >
+			})}</tbody>
 
-                            <OpenIcon/>
+		</table>
 
-                        </button>}</td>
+		{more && <ToolMore onLoad={load}/>}
 
-					</tr>;
-
-				})}</tbody>
-
-			</table>
-
-			{more && <ToolMore onLoad={load}/>}
-
-		</>
-	);
+	</>) : placeholder ? <ToolHint>{placeholder}</ToolHint> : null;
 
 }
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { classes } from "@metreeca/view";
 import * as React from "react";
 import { createElement, ReactNode } from "react";
 import "./hint.css";
@@ -24,15 +25,23 @@ import "./hint.css";
  */
 export function ToolHint({
 
+	border,
+
 	children
 
 }: {
+
+	border?: boolean
 
 	children?: ReactNode
 
 }) {
 
-	return createElement("tool-hint", {}, <>
+	return createElement("tool-hint", {
+
+		class: classes({ border })
+
+	}, <>
 
 		<div>{children}</div>
 

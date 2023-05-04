@@ -168,7 +168,9 @@ export function toFrameString(value: Frame, {
 
 }={}): string {
 
-	return JSON.stringify(value);
+	return isString(value.label) ? value.label
+		: isLocal(value.label) ? text(value.label, locales)
+			: JSON.stringify(value);
 
 }
 

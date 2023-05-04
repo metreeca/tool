@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { isEmpty }                             from "@metreeca/core";
+import { isEmpty } from "@metreeca/core";
 import { clean, Entry, Frame, isEntry, Trace } from "@metreeca/core/entry";
-import { useGraph }                            from "@metreeca/data/contexts/graph";
-import { useTrace }                            from "@metreeca/data/contexts/trace";
-import { prune }                               from "@metreeca/data/models/index";
-import { useEffect, useState }                 from "react";
+import { useGraph } from "@metreeca/data/contexts/graph";
+import { useTrace } from "@metreeca/data/contexts/trace";
+import { prune } from "@metreeca/data/models/index";
+import { useEffect, useState } from "react";
 
 
-export type Resource<T extends Frame, C extends Frame>=Readonly<[
+export type Resource<T extends Frame, C extends Frame=Frame>=Readonly<[
 
 		undefined | T,
 

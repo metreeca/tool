@@ -75,10 +75,6 @@ tool-page {
 
             white-space: nowrap;
 
-            &:empty {
-                display: none;
-            }
-
         }
 
         & > header {
@@ -87,6 +83,8 @@ tool-page {
 
             top: 0; /* vertical scrolling */
             height: var(--tool-page-header-height);
+
+            margin-bottom: calc(0.5 * var(--tool-page-header-font-size));
 
             font-size: var(--tool-page-header-font-size);
 
@@ -106,9 +104,6 @@ tool-page {
 
             flex-grow: 1;
 
-            margin-top: calc(0.5 * var(--tool-page-header-font-size));
-            margin-bottom: calc(2 * var(--tool-page-footer-font-size));
-
         }
 
         & > footer {
@@ -116,7 +111,13 @@ tool-page {
             bottom: 0; /* vertical scrolling */
             height: var(--tool-page-footer-height);
 
+            margin-top: calc(1 * var(--tool-page-footer-font-size));
+
             font-size: var(--tool-page-footer-font-size);
+
+            &:empty {
+                height: 0;
+            }
 
             & > :first-child {
                 margin-right: auto;
