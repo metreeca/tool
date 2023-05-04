@@ -15,35 +15,36 @@
  */
 
 import { error, immutable, Type } from "@metreeca/core/index";
+import { isString } from "@metreeca/core/string";
 
 
-export const boolean: Type<boolean>=immutable({
+export const iri: Type<string>=immutable({
 
-	label: "boolean",
-	model: false,
+	label: "iri",
+	model: "/",
 
 
 	encode(value) {
 		return value;
 	},
 
-	decode(value) {
-		return isBoolean(value) ? value
-			: error(new TypeError(`<${typeof value}> value  not a <${boolean.label}>`));
+	decode(value=false) {
+		return isIRI(value) ? value
+			: error(new TypeError(`<${typeof value}> value  not a <${iri.label}>`));
 	},
 
 
 	write(value) {
-		return value.toString();
+		return value;
 	},
 
 	parse(value) {
-		return value === "true";
+		return value;
 	},
 
 
 	format(value) {
-		return toBooleanString(value);
+		return toIRIString(value);
 	}
 
 });
@@ -52,27 +53,23 @@ export const boolean: Type<boolean>=immutable({
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Checks if a value is a boolean.
+ * Checks if a value is an absolute or root-relative IRI.
  */
-export function isBoolean(value: unknown): value is boolean {
-	return typeof value === "boolean";
+export function isIRI(value: unknown): value is string {
+	return isString(value) && /^\w+:|\//.test(value);
 }
 
-export function asBoolean(value: unknown): undefined | boolean {
-	return isBoolean(value) ? value : undefined;
+export function asIRI(value: unknown): undefined | string {
+	return isIRI(value) ? value : undefined;
 }
 
 
-export function toBooleanString(value: boolean, {
-
-	locales=navigator.languages
-
-}: {
+export function toIRIString(value: string, {}: {
 
 	locales?: Intl.LocalesArgument
 
 }={}): string {
 
-	return value.toLocaleString(); // !!! selected locale
+	return value;
 
 }
