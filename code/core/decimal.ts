@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { error, Type } from "@metreeca/core/index";
+import { error, immutable, Type } from "@metreeca/core/index";
 import { isNumber } from "@metreeca/core/number";
 
 
-export const decimal: Type<number>={
+export const decimal: Type<number>=immutable({
 
 	label: "decimal",
 	model: -0.0, // ;( see index.ts#toType()
@@ -55,7 +55,7 @@ export const decimal: Type<number>={
 		return toDecimalString(value);
 	}
 
-};
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

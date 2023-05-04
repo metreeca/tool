@@ -15,11 +15,11 @@
  */
 
 import { date } from "@metreeca/core/date";
-import { error, Type } from "@metreeca/core/index";
+import { error, immutable, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
-export const dateTime: Type<Date>={
+export const dateTime: Type<Date>=immutable({
 
 	label: "dateTime",
 	model: "1970-01-01T00:00:00Z",
@@ -49,7 +49,7 @@ export const dateTime: Type<Date>={
 		return toDateTimeString(value);
 	}
 
-};
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

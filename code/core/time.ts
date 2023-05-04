@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { error, Type } from "@metreeca/core/index";
+import { error, immutable, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
-export const time: Type<Date>={
+export const time: Type<Date>=immutable({
 
 	label: "time",
 	model: "00:00:00",
@@ -48,7 +48,7 @@ export const time: Type<Date>={
 		return toTimeString(value);
 	}
 
-};
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { error, Type } from "@metreeca/core/index";
+import { error, immutable, Type } from "@metreeca/core/index";
 import { isNumber } from "@metreeca/core/number";
 
 
-export const integer: Type<number>={
+export const integer: Type<number>=immutable({
 
 	label: "integer",
 	model: 0,
@@ -51,7 +51,7 @@ export const integer: Type<number>={
 		return toIntegerString(value);
 	}
 
-};
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

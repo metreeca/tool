@@ -15,10 +15,10 @@
  */
 
 
-import { error, Type } from "@metreeca/core/index";
+import { error, immutable, Type } from "@metreeca/core/index";
 
 
-export const string: Type<string>={
+export const string: Type<string>=immutable({
 
 	label: "string",
 	model: "",
@@ -47,7 +47,7 @@ export const string: Type<string>={
 		return value;
 	}
 
-};
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

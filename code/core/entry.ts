@@ -15,9 +15,9 @@
  */
 
 import { error, immutable, isArray, isObject, Type } from "@metreeca/core";
-import { isLocal, Local, text }                      from "@metreeca/core/local";
-import { isString }                                  from "@metreeca/core/string";
-import { isValue, Value }                            from "@metreeca/core/value";
+import { isLocal, Local, text } from "@metreeca/core/local";
+import { isString } from "@metreeca/core/string";
+import { isValue, Value } from "@metreeca/core/value";
 
 
 /**
@@ -76,36 +76,40 @@ export interface Trace {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const entry: Type<Entry>={
+export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(Object.assign(
+	(model: Entry) => immutable({ ...entry, model }),
 
-	label: "entry",
-	model: immutable({ id: "", label: "" }),
+	immutable<Type<Entry>>({
 
-
-	encode(value) {
-		return value;
-	},
-
-	decode(value) {
-		return isEntry(value) ? value
-			: error(new TypeError(`<${typeof value}> value <${value}> is not a <${entry.label}>`));
-	},
+		label: "entry",
+		model: { id: "", label: "" },
 
 
-	write(value) {
-		return id(value);
-	},
+		encode(value) {
+			return value;
+		},
 
-	parse(value) {
-		return { id: value };
-	},
+		decode(value) {
+			return isEntry(value) ? value
+				: error(new TypeError(`<${typeof value}> value <${value}> is not a <${entry.label}>`));
+		},
 
 
-	format(value) {
-		return toEntryString(value);
-	}
+		write(value) {
+			return id(value);
+		},
 
-};
+		parse(value) {
+			return { id: value };
+		},
+
+
+		format(value) {
+			return toEntryString(value);
+		}
+
+	})
+));
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

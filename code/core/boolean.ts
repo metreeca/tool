@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { error, Type } from "@metreeca/core/index";
+import { error, immutable, Type } from "@metreeca/core/index";
 
 
-export const boolean: Type<boolean>={
+export const boolean: Type<boolean>=immutable({
 
 	label: "boolean",
 	model: false,
@@ -46,7 +46,7 @@ export const boolean: Type<boolean>={
 		return toBooleanString(value);
 	}
 
-};
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

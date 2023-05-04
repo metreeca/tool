@@ -18,8 +18,11 @@
  * Localized strings.
  *
  * https://www.rfc-editor.org/rfc/rfc5646.html#section-2.2.9
+ *
+ * @module
  */
-import { error, isArray, isObject, Type } from "@metreeca/core/index";
+
+import { error, immutable, isArray, isObject, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
@@ -32,43 +35,47 @@ export interface Local {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const local: Type<Local>={
+export const local: Type<Local> & ((model: Local) => Type<Local>)=Object.freeze(Object.assign(
+	(model: Local) => immutable({ ...local, model }),
 
-	label: "local",
-	model: {},
+	immutable<Type<Local>>({
 
-
-	encode(value) {
-		return value;
-	},
-
-	decode(value) {
-		return isLocal(value) ? value
-			: error(new TypeError(`<${typeof value}> value <${value}> is not a <${local.label}>`));
-	},
+		label: "local",
+		model: { "*": "" },
 
 
-	write(value) {
-		return text(value);
-	},
+		encode(value) {
+			return value;
+		},
 
-	parse(value) {
-		return { [navigator.languages[0] ?? ""]: value }; // !!! review
-	},
+		decode(value) {
+			return isLocal(value) ? value
+				: error(new TypeError(`<${typeof value}> value <${value}> is not a <${local.label}>`));
+		},
 
 
-	format(value) {
-		return toLocalString(value);
-	}
+		write(value) {
+			return text(value);
+		},
 
-};
+		parse(value) {
+			return { [navigator.languages[0] ?? ""]: value }; // !!! review
+		},
+
+
+		format(value) {
+			return toLocalString(value);
+		}
+
+	})
+));
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function isLocal(value: unknown): value is Local {
 	return isObject(value) && !("id" in value) && Object.entries(value).every(([key, value]) =>
-		isString(key) && /[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*/.test(key) && isString(value)
+		isString(key) && /^|\*|[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*$/.test(key) && isString(value)
 	);
 }
 
