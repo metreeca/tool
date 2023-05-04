@@ -48,7 +48,6 @@ export function ToolCard({
 
 }: {
 
-	wrap?: boolean
 	size?: number | string
 	side?: "start" | "end"
 
@@ -68,7 +67,7 @@ export function ToolCard({
 
 		style: {
 
-			"--tool-card-size":
+			"--tool-card-size-width":
 
 				isNumber(size) ? `${size}em`
 					: isDefined(size) ? size
@@ -79,25 +78,16 @@ export function ToolCard({
 
 	}, <>
 
-		{(title || tags) && <header>
+		{title && <span>{title}</span>}
+		{tags && <nav style={{ color: "var(--tool--color-label)" }}>{tags}</nav>}
 
-            <nav>{tags}</nav>
+		{image && <i>{isString(image) ? <img hidden={!loaded} src={image}
 
-            <h1>{title}</h1>
+			onLoad={() => setLoaded(true)}
 
-        </header>}
+		/> : image}</i>}
 
-		<section>
-
-			{isString(image) ? <img hidden={!loaded} src={image}
-
-				onLoad={() => setLoaded(true)}
-
-			/> : image}
-
-			<div className={classes({ wrap })}>{children}</div>
-
-		</section>
+		<div className={classes({ wrap })}>{children}</div>
 
 	</>);
 

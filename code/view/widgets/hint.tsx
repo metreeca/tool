@@ -41,10 +41,6 @@ export function ToolHint({
 
 		class: classes({ border })
 
-	}, <>
-
-		<div>{children}</div>
-
-	</>);
+	}, children);
 
 }

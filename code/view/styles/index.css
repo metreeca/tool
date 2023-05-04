@@ -43,6 +43,7 @@
 
     --tool--box-shadow-focus: 0 0 2px 1px var(--tool--color-focus);
 
+    --tool-img-padding: 1.5em;
     --tool-scroll-shadow-size: 0.75em;
 
 }
@@ -337,6 +338,22 @@ img {
 
     cursor: pointer;
 
+    &.left,
+    &.right {
+        max-width: 33%;
+        margin-bottom: 1em;
+    }
+
+    &.left {
+        float: left;
+        margin-right: var(--tool-img-padding);
+    }
+
+    &.right {
+        float: right;
+        margin-left: var(--tool-img-padding);
+    }
+
     &[active] {
 
         z-index: 1000;
@@ -350,6 +367,8 @@ img {
         object-fit: contain;
         width: 100%;
         height: 100%;
+        max-width: 100%;
+        max-height: 100%;
 
         margin: 0;
         padding: 2rem;
@@ -395,7 +414,8 @@ em {
 }
 
 small {
-    font-sisze: 90%;
+    font-size: 90%;
+    color: var(--tool--color-label);
 }
 
 

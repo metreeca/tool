@@ -99,9 +99,6 @@ tool-page {
 
         & > section {
 
-            display: flex; /* support children self-centering/filling */
-            flex-direction: column;
-
             flex-grow: 1;
 
         }

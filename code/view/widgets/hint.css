@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
+:root {
+
+    --tool-hint-icon-size: 20%;
+
+}
+
 tool-hint {
 
-    display: grid;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     width: 100%;
     height: 100%;
@@ -32,18 +41,20 @@ tool-hint {
 
     }
 
-    & > :only-child {
+    color: var(--tool--color-disabled);
 
-        display: block;
-        margin: auto;
+    & > .lucide:only-child {
 
-        color: var(--tool--color-disabled);
+        aspect-ratio: 1;
 
-        & > .lucide:only-child {
-            stroke-width: 0.75px;
-            transform: scale(7.5);
-        }
+        width: 100%;
+        height: 100%;
 
+        max-width: var(--tool-hint-icon-size);
+        max-height: var(--tool-hint-icon-size);
+
+        stroke-width: 2.5%;
     }
+
 
 }

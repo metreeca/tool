@@ -16,104 +16,80 @@
 
 :root {
 
-    --tool-card-size: 0;
-    --tool-card-gap: 1.5rem;
+    --tool-card-size-width: 0;
+    --tool-card-column-gap: 1em;
+    --tool-card-row-gap: 0.5em;
 
 }
 
 tool-card {
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    align-items: start;
+
+    grid-template-rows: min-content min-content;
+
+    grid-column-gap: var(--tool-card-column-gap);
+    grid-row-gap: var(--tool-card-row-gap);
 
     &:not(:first-child) {
         margin-top: 1em;
     }
 
-    & > * {
+    &.start {
 
-        :is(tool-card.start) > & {
+        grid-template-columns: var(--tool-card-size-width) 1fr;
 
-            & > nav,
-            & > img {
-                margin-right: var(--tool-card-gap);
-            }
-
+        & > nav,
+        & > i {
+            grid-column: 1;
         }
 
-        :is(tool-card.end) > & {
-
-            & > nav,
-            & > img {
-                margin-left: var(--tool-card-gap);
-            }
-
-        }
-
-        & > nav {
-            width: var(--tool-card-size);
-            overflow: visible;
-        }
-
-        & > img {
-            width: var(--tool-card-size);
+        & > span,
+        & > div {
+            grid-column: 2;
         }
 
     }
 
-    & > header {
+    &.end {
 
-        display: flex;
-        align-items: center;
+        grid-template-columns: 1fr var(--tool-card-size-width);
 
-        margin-bottom: 0.5em;
-
-
-        :is(tool-card.start) > & {
-            flex-direction: row;
+        & > nav,
+        & > i {
+            grid-column: 2;
         }
 
-        :is(tool-card.end) > & {
-            flex-direction: row-reverse;
-        }
-
-
-        & > nav {
-            text-align: end;
-            white-space: nowrap;
-            font-size: 90%;
-            color: var(--tool--color-label);
-        }
-
-        & > h1 {
-            flex-grow: 1;
-            margin: 0;
-            font-size: inherit;
+        & > span,
+        & > div {
+            grid-column: 1;
         }
 
     }
 
-    & > section {
+    & > nav,
+    & > i {
+        justify-self: end;
+    }
 
-        & > img {
+    & > span,
+    & > div {
+        justify-self: start;
+    }
 
-            :is(tool-card.start > section) > & {
-                float: left;
-            }
+    & > span,
+    & > nav {
+        grid-row: 1;
+    }
 
-            :is(tool-card.end > section) > & {
-                float: right;
-            }
+    & > i,
+    & > div {
+        grid-row: 2;
+    }
 
-            margin-top: 0.25em;
-            margin-bottom: 1em;
-        }
-
-        & > div:not(.wrap) {
-            overflow: hidden;
-        }
-
+    & > i {
+        margin-top: 0.25em;
     }
 
     @media only screen and (min-width: 960px), print {
