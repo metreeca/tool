@@ -122,7 +122,7 @@ export function ToolPage({
 			</header>
 
 			<section>{tray}</section>
-			<footer>{info}</footer>
+			<footer className={"scroll-t"}>{info}</footer>
 
 		</aside>
 

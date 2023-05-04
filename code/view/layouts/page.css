@@ -101,11 +101,16 @@ tool-page {
 
             flex-grow: 1;
 
+            & > h1,
+            & > h2,
+            & > h3 {
+                scroll-margin-top: var(--tool-page-header-height);
+            }
+
         }
 
         & > footer {
 
-            bottom: 0; /* vertical scrolling */
             height: var(--tool-page-footer-height);
 
             margin-top: calc(1 * var(--tool-page-footer-font-size));
@@ -147,6 +152,10 @@ tool-page {
             & > hr {
                 margin: 0.75em 0;
             }
+        }
+
+        & > footer {
+            bottom: 0; /* vertical scrolling */
         }
 
     }

@@ -3,6 +3,13 @@
     "description": "visual React components",
     "dependencies": {
         "@metreeca/data": "*",
-        "lucide-react": "^0.130.1"
+        "lucide-react": "^0.206.0",
+        "react-markdown": "^8.0.7",
+        "rehype-highlight": "^5.0.2",
+        "rehype-slug": "^5.0.1",
+        "remark-deflist": "^1.0.0",
+        "remark-frontmatter": "^4.0.1",
+        "remark-gemoji": "^7.0.1",
+        "remark-gfm": "^3.0.1"
     }
 }
