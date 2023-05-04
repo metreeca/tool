@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import { isString, normalize }  from "@metreeca/core/string";
-import { toValueString, Value } from "@metreeca/core/value";
-import { app }                  from "@metreeca/view";
+import { isArray } from "@metreeca/core";
+import { isString, normalize } from "@metreeca/core/string";
+import { asValue, toValueString } from "@metreeca/core/value";
+import { app } from "@metreeca/view";
 import {
 	createContext,
 	createElement,
@@ -27,7 +28,7 @@ import {
 	useEffect,
 	useMemo,
 	useReducer
-}                               from "react";
+} from "react";
 
 
 /**
@@ -213,10 +214,12 @@ export function native(route: string): { href: string, [NativeAttribute]?: "" } 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function title(value: undefined | Value): void {
+export function title(title: unknown): void {
 
-	if ( value !== undefined ) {
-		document.title=normalizeTitle(toValueString(value));
+	const name=asValue(isArray(title) ? title[title.length - 1] : title);
+
+	if ( name !== undefined ) {
+		document.title=normalizeTitle(toValueString(name));
 	}
 
 }
