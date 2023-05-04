@@ -202,7 +202,7 @@ export function ToolOptions<
 
         </>}</section>
 
-		{expanded && !matching && <small>No Matches</small>}
+		{items && expanded && !matching && <small>No Matches</small>}
 
 	</>);
 
