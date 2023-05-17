@@ -383,10 +383,6 @@ img {
 
 a, a:visited {
 
-    display: inline-flex;
-    align-items: center;
-    grid-column-gap: 0.5em;
-
     text-decoration: none;
     text-decoration-thickness: 1px;
 
@@ -405,6 +401,11 @@ a, a:visited {
     &:active {
         text-decoration: underline !important;
         color: var(--tool--color-focus) !important;
+    }
+
+    & > .lucide:first-child:not(:only-child) {
+        vertical-align: -10%;
+        margin-right: 0.25em;
     }
 
 }

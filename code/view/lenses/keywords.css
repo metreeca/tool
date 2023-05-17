@@ -24,6 +24,9 @@ tool-keywords {
     grid-template-columns: min-content 1fr min-content;
     grid-template-rows: min-content;
 
+    border-style: solid;
+    border-radius: 2ex;
+
     & > * {
         grid-row: 1;
     }
@@ -32,12 +35,10 @@ tool-keywords {
 
         grid-column: 1 / cols 3;
 
-        padding: 0.25em 1.75em;
-        margin: 0 -0.1em;
-        border-style: solid;
-        border-radius: 2ex;
+        padding: 0.25em 1.66em;
 
-        font-size: 90%;
+        border: none;
+        border-radius: 2ex;
 
     }
 
@@ -53,14 +54,14 @@ tool-keywords {
 
         &:first-child {
             grid-column: 1;
-            margin-left: 0.25em;
+            margin-left: 0.33em;
             pointer-events: none;
             color: #999;
         }
 
         &:last-child {
             grid-column: 3;
-            margin-right: 0.25em;
+            margin-right: 0.33em;
         }
 
         :is(tool-keywords[disabled]) > & {
