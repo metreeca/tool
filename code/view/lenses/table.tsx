@@ -27,6 +27,7 @@ import { classes } from "@metreeca/view";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
 import { ToolMore } from "@metreeca/view/widgets/more";
+import { ChevronsUpDown } from "lucide-react";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
 import "./table.css";
 
@@ -66,6 +67,8 @@ function parse(expression: string): {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const DummySelector=() => {};
+
 export function ToolTable<V extends Frame>({
 
 	hierarchy,
@@ -74,7 +77,7 @@ export function ToolTable<V extends Frame>({
 	sorted,
 	fields,
 
-	selection: [selection, setSelection]=[[], () => {}],
+	selection: [selection, setSelection]=[[], DummySelector],
 	children: [collection, setCollection]
 
 }: {
@@ -89,6 +92,8 @@ export function ToolTable<V extends Frame>({
 	children: Collection<V>
 
 }) {
+
+	const selectable=(setSelection !== DummySelector);
 
 	const cols: {
 
@@ -132,13 +137,15 @@ export function ToolTable<V extends Frame>({
 	const [, setRoute]=useRouter();
 	const [widths, setWidths]=useState(""); // frozen column widths
 
-	const [order, setOrder]=useState<Order>(asOrder(collection.query["^"]) ??
-		isString(sorted) ? { [sorted as string]: "increasing" }
-			: isDefined(sorted) ? sorted
-				: expression ? { [entry ? `${expression}.label` : expression]: "increasing" }
-					: isEntry(collection.model) ? { label: "increasing" }
-						: {}
-	);
+	const initialState: Order=asOrder(collection.query["^"]) ??
+
+	isString(sorted) ? { [sorted as string]: "increasing" }
+		: isDefined(sorted) ? sorted
+			: expression ? { [entry ? `${expression}.label` : expression]: "increasing" }
+				: isEntry(collection.model) ? { label: "increasing" }
+					: {};
+
+	const [order, setOrder]=useState<Order>(initialState);
 
 	const [offset, setOffset]=useState(0); // !!! sliding window (beware of interaction with selection)
 	const [limit, setLimit]=useState(LimitInit);
@@ -180,6 +187,10 @@ export function ToolTable<V extends Frame>({
 		setOrder({ [expression]: order[expression] === "increasing" ? "decreasing" : "increasing" });
 	}
 
+	function reset() {
+		setOrder(initialState);
+	}
+
 	function load() {
 		setLimit(limit + LimitNext);
 	}
@@ -199,10 +210,7 @@ export function ToolTable<V extends Frame>({
 
 			style={{
 
-				gridTemplateColumns: widths || (selection
-						? `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
-						: `repeat(${Object.keys(cols).length}, min-content) 1fr`
-				)
+				gridTemplateColumns: widths || `min-content repeat(${Object.keys(cols).length}, min-content) 1fr`
 
 			}}
 
@@ -212,17 +220,17 @@ export function ToolTable<V extends Frame>({
 
 			<tr>
 
-				{selection && <th className={"scroll-y"}>
+				<th className={"scroll-y"}>
 
-                    <input type={"checkbox"}
+					{selectable && <input type={"checkbox"}
 
                         checked={selection.length > 0}
 
                         onChange={e => select(e.target.checked ? items ?? [] : [])}
 
-                    />
+                    />}
 
-                </th>}
+				</th>
 
 				{Object.entries(cols).map(([expression, { number, label }]) =>
 
@@ -248,7 +256,9 @@ export function ToolTable<V extends Frame>({
 					</th>
 				)}
 
-				<th className={"scroll-y"}/>
+				<th className={"scroll-y"}>
+					<button onClick={reset}><ChevronsUpDown/></button>
+				</th>
 
 			</tr>
 
@@ -276,7 +286,7 @@ export function ToolTable<V extends Frame>({
 
 					<td className={"scroll-r"}>
 
-						{selection && <input type={"checkbox"}
+						{selectable && <input type={"checkbox"}
 
                             checked={selection.some(selected => equals(selected, item))}
 
