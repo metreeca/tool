@@ -134,12 +134,12 @@ export function useOptions<
 		"count=count:": 0,
 		[`value=${expression}`]: effective.model,
 
-		[`~${label}`]: keywords,
+		[`~${label}`]: keywords, // !!! filter on 'value'
 
 		"^": {
-			"-value": values,
+			[`-${label}`]: values, // !!! value-enhancing sorting on 'value'
 			"count": "decreasing",
-			[label]: "increasing"
+			"value": "increasing"
 		},
 
 		"@": offset,
