@@ -137,9 +137,12 @@ export function useOptions<
 		[`~${label}`]: keywords,
 
 		"^": {
-			[`-${label}`]: values, // !!! value-enhancing sorting on 'value'
 			"count": "decreasing",
 			"value": "increasing"
+		},
+
+		"$": {
+			"value": values
 		},
 
 		"@": offset,

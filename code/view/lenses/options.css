@@ -81,9 +81,15 @@ tool-options {
 
                 & > a,
                 & > span {
+
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+
+                    &.blank {
+                        color: var(--tool--color-label);
+                    }
+
                 }
 
                 & > button,

@@ -217,7 +217,7 @@ export function ToolOptions<
 			/>
 
 			{
-				value === null ? <span>‹blank›</span>
+				value === null ? <span className={"blank"}>blank</span>
 					: as ? as(value)
 						: isBoolean(value) ? value ? <Check/> : <X/>
 							: isEntry(value) ? <ToolLink>{value}</ToolLink>
