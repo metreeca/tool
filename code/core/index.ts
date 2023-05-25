@@ -26,6 +26,7 @@ import { date, isDate } from "@metreeca/core/date";
 import { dateTime, isDateTime } from "@metreeca/core/dateTime";
 import { decimal, isDecimal } from "@metreeca/core/decimal";
 import { entry, isEntry } from "@metreeca/core/entry";
+import { frame, isFrame } from "@metreeca/core/frame";
 import { integer, isInteger } from "@metreeca/core/integer";
 import { isLocal, local } from "@metreeca/core/local";
 import { isString, string } from "@metreeca/core/string";
@@ -141,8 +142,9 @@ export function toType(model: unknown): Type {
 									: isLocal(model) ? local
 
 										: isEntry(model) ? entry
+											: isFrame(model) ? frame
 
-											: error(`unknown type for model value <${model}>`);
+												: error(`unknown type for model value <${model}>`);
 }
 
 
@@ -211,7 +213,6 @@ export function error<V>(error: unknown): V {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 export function required<T>(value: T | Type<T>): T {
 	return model(value);

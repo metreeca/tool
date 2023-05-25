@@ -15,11 +15,13 @@
  */
 
 import { isDefined } from "@metreeca/core";
-import { Frame, id, isEntry, Order, toFrameString } from "@metreeca/core/entry";
+import { id, isEntry } from "@metreeca/core/entry";
+import { Frame, toFrameString } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection } from "@metreeca/data/models/selection";
+import { Order } from "@metreeca/link";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, Fragment, ReactNode, useState } from "react";

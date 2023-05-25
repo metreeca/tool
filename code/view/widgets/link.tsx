@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import { Entry, Frame, id, isEntry }     from "@metreeca/core/entry";
-import { isString }                      from "@metreeca/core/string";
+import { Entry, id, isEntry } from "@metreeca/core/entry";
+import { Frame } from "@metreeca/core/frame";
+import { isString } from "@metreeca/core/string";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
-import { useRouter }                     from "@metreeca/data/contexts/router";
-import { Collection }                    from "@metreeca/data/models/collection";
-import React, { ReactNode }              from "react";
+import { useRouter } from "@metreeca/data/contexts/router";
+import { Collection } from "@metreeca/data/models/collection";
+import React, { ReactNode } from "react";
 
 
 export function ToolLink({

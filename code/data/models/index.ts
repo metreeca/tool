@@ -15,7 +15,8 @@
  */
 
 import { isArray, isDefined, isEmpty, isObject } from "@metreeca/core";
-import { Frame } from "@metreeca/core/entry";
+
+import { Frame } from "@metreeca/core/frame";
 import { isNumber } from "@metreeca/core/number";
 import { isString } from "@metreeca/core/string";
 import { Value } from "@metreeca/core/value";

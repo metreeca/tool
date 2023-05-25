@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { error, immutable, isArray, isObject, Type } from "@metreeca/core";
+import { error, immutable, Type } from "@metreeca/core";
+import { Frame, isFrame } from "@metreeca/core/frame";
 import { isLocal, Local, text } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
-import { isValue, Value } from "@metreeca/core/value";
 
 
 /**
@@ -33,52 +33,11 @@ export interface Entry extends Frame {
 
 }
 
-/**
- * Linked data frame.
- */
-export interface Frame {
-
-	readonly [field: string]: undefined | Value | ReadonlyArray<Value>;
-
-}
-
-
-export interface Order {
-
-	[expression: string]: "increasing" | "decreasing";
-
-}
-
-/**
- *
- */
-export interface Slice {
-
-	readonly "^": Order;
-
-	readonly "@": number;
-	readonly "#": number;
-
-}
-
-/**
- * Error trace.
- */
-export interface Trace {
-
-	readonly status: number;
-	readonly reason: string;
-
-	readonly detail?: Value;
-
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(Object.assign(
 	(model: Entry) => immutable({ ...entry, model }),
-
 	immutable<Type<Entry>>({
 
 		label: "entry",
@@ -118,29 +77,9 @@ export function isEntry(value: unknown): value is Entry {
 	return isFrame(value) && isString(value.id);
 }
 
-export function isFrame(value: unknown): value is Frame {
-	return isObject(value) && Object.entries(value).every(([key, value]) => isString(key) && (
-		value === undefined || isValue(value) || isArray(value, isValue)
-	));
-}
-
-export function isOrder(value: unknown): value is Order {
-	return isObject(value) && Object.entries(value).every(([key, value]) => isString(key) && (
-		value === "increasing" || value || "decreasing"
-	));
-}
-
 
 export function asEntry(value: unknown): undefined | Entry {
 	return isEntry(value) ? value : undefined;
-}
-
-export function asFrame(value: unknown): undefined | Frame {
-	return isFrame(value) ? value : undefined;
-}
-
-export function asOrder(value: unknown): undefined | Order {
-	return isOrder(value) ? value : undefined;
 }
 
 
@@ -155,22 +94,6 @@ export function toEntryString(value: Entry, {
 }={}): string {
 
 	return label(value, locales);
-
-}
-
-export function toFrameString(value: Frame, {
-
-	locales=navigator.languages
-
-}: {
-
-	locales?: Intl.LocalesArgument
-
-}={}): string {
-
-	return isString(value.label) ? value.label
-		: isLocal(value.label) ? text(value.label, locales)
-			: JSON.stringify(value);
 
 }
 
@@ -203,38 +126,3 @@ export function guess(id: string): string {
 }
 
 
-/**
- * Cleans frames, recursively removing undefined values and non-id fields from nested frames.
- *
- * @param frame
- */
-export function clean<F extends Frame>(frame: F): typeof frame {
-
-	return Object.entries(frame).reduce((f, [label, value]) => {
-
-		const v=clean(value);
-
-		return v === undefined ? f : { ...f, [label]: v };
-
-	}, {} as F);
-
-
-	function clean(value: Frame[string]): typeof value { // retain only entry identifiers
-
-		if ( isObject(value) && "id" in value ) {
-
-			return { id: value.id };
-
-		} else if ( isArray<Value>(value) ) {
-
-			return value.map(clean) as Value[];
-
-		} else {
-
-			return value;
-
-		}
-
-	}
-
-}

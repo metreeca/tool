@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-import { isBoolean, toBooleanString }                            from "@metreeca/core/boolean";
-import { date, isDate, toDateString }                            from "@metreeca/core/date";
-import { dateTime, isDateTime, toDateTimeString }                from "@metreeca/core/dateTime";
-import { Frame, isEntry, isFrame, toEntryString, toFrameString } from "@metreeca/core/entry";
-import { isArray }                                               from "@metreeca/core/index";
-import { isLocal, Local, toLocalString }                         from "@metreeca/core/local";
-import { isNumber, toNumberString }                              from "@metreeca/core/number";
-import { isString }                                              from "@metreeca/core/string";
-import { isTime, time, toTimeString }                            from "@metreeca/core/time";
-import { isYear, toYearString, year }                            from "@metreeca/core/year";
+import { isBoolean, toBooleanString } from "@metreeca/core/boolean";
+import { date, isDate, toDateString } from "@metreeca/core/date";
+import { dateTime, isDateTime, toDateTimeString } from "@metreeca/core/dateTime";
+import { isEntry, toEntryString } from "@metreeca/core/entry";
+import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
+import { isArray } from "@metreeca/core/index";
+import { isLocal, Local, toLocalString } from "@metreeca/core/local";
+import { isNumber, toNumberString } from "@metreeca/core/number";
+import { isString } from "@metreeca/core/string";
+import { isTime, time, toTimeString } from "@metreeca/core/time";
+import { isYear, toYearString, year } from "@metreeca/core/year";
 
 
 export type Value=null | boolean | number | string | Local | Frame

@@ -15,7 +15,8 @@
  */
 
 import { isEmpty } from "@metreeca/core";
-import { Trace } from "@metreeca/core/entry";
+
+import { Trace } from "@metreeca/link";
 import { classes } from "@metreeca/view";
 import { AlertTriangle, Frown, Ghost, HelpCircle, Info, Lock } from "@metreeca/view/widgets/icon";
 import * as React from "react";

@@ -15,10 +15,12 @@
  */
 
 import { isEmpty } from "@metreeca/core";
-import { clean, Entry, Frame, isEntry, Trace } from "@metreeca/core/entry";
+import { Entry, isEntry } from "@metreeca/core/entry";
+import { clean, Frame } from "@metreeca/core/frame";
 import { useGraph } from "@metreeca/data/contexts/graph";
 import { useTrace } from "@metreeca/data/contexts/trace";
 import { prune } from "@metreeca/data/models/index";
+import { Trace } from "@metreeca/link";
 import { useEffect, useState } from "react";
 
 

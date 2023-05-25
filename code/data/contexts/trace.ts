@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Trace } from "@metreeca/core/entry";
 import { Setter } from "@metreeca/data/hooks";
+import { Trace } from "@metreeca/link";
 import { createContext, createElement, ReactNode, useContext, useState } from "react";
 
 

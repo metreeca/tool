@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Frame }            from "@metreeca/core/entry";
+
+import { Frame } from "@metreeca/core/frame";
 import React, { ReactNode } from "react";
 
 

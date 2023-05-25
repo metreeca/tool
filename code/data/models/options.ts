@@ -134,7 +134,7 @@ export function useOptions<
 		"count=count:": 0,
 		[`value=${expression}`]: effective.model,
 
-		[`~${label}`]: keywords, // !!! filter on 'value'
+		[`~${label}`]: keywords,
 
 		"^": {
 			[`-${label}`]: values, // !!! value-enhancing sorting on 'value'

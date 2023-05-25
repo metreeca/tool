@@ -15,7 +15,7 @@
  */
 
 import { isDefined } from "@metreeca/core";
-import { Frame, isFrame, toFrameString } from "@metreeca/core/entry";
+import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
 import { Resource } from "@metreeca/data/models/resource";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import React, { ReactNode } from "react";

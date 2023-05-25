@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { immutable }    from "@metreeca/core";
-import { Entry, Trace } from "@metreeca/core/entry";
+import { immutable, isObject } from "@metreeca/core";
+import { Entry } from "@metreeca/core/entry";
+import { isString } from "@metreeca/core/string";
+import { Value } from "@metreeca/core/value";
 
 
 export interface Graph {
@@ -32,6 +34,37 @@ export interface Graph {
 
 	delete(entry: Entry): Promise<string>;
 
+}
+
+export interface Order {
+
+	[expression: string]: "increasing" | "decreasing";
+
+}
+
+/**
+ * Error trace.
+ */
+export interface Trace {
+
+	readonly status: number;
+	readonly reason: string;
+
+	readonly detail?: Value;
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function isOrder(value: unknown): value is Order {
+	return isObject(value) && Object.entries(value).every(([key, value]) => isString(key) && (
+		value === "increasing" || value || "decreasing"
+	));
+}
+
+export function asOrder(value: unknown): undefined | Order {
+	return isOrder(value) ? value : undefined;
 }
 
 

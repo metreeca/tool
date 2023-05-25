@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import { isArray, isEmpty }        from "@metreeca/core";
-import { asFrame, Frame, isEntry } from "@metreeca/core/entry";
-import { isString }                from "@metreeca/core/string";
-import { isValue, Value }          from "@metreeca/core/value";
-import { useRouter }               from "@metreeca/data/contexts/router";
-import { Setter }                  from "@metreeca/data/hooks";
-import { useEffect, useState }     from "react";
+import { isArray, isEmpty } from "@metreeca/core";
+import { isEntry } from "@metreeca/core/entry";
+import { asFrame, Frame } from "@metreeca/core/frame";
+import { isString } from "@metreeca/core/string";
+import { isValue, Value } from "@metreeca/core/value";
+import { useRouter } from "@metreeca/data/contexts/router";
+import { Setter } from "@metreeca/data/hooks";
+import { useEffect, useState } from "react";
 
 /**
  * Persistent query storage.
