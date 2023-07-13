@@ -64,12 +64,31 @@ export function asIRI(value: unknown): undefined | string {
 }
 
 
-export function toIRIString(value: string, {}: {
+export function toIRIString(value: string, {
 
-	locales?: Intl.LocalesArgument
+	compact=false
+
+}: {
+
+	locales?: Intl.LocalesArgument,
+
+	compact?: boolean
 
 }={}): string {
 
-	return value;
+	if ( compact ) {
+
+		const url=new URL(value); // !!! error handling
+
+		const host=url.host;
+		const lang=url.pathname.match(/\b[a-z]{2}\b(?!-)/i); // ignore things like '/wp-document/
+
+		return lang ? `${host} (${lang[0].toLowerCase()})` : host;
+
+	} else {
+
+		return value;
+
+	}
 
 }
