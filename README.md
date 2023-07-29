@@ -15,6 +15,7 @@ backend framework.
 While collectively providing a floor-to-ceiling frontend development solution, Metreeca/Tool modules are loosely
 coupled and may be easily plugged as a specialized component into your toolkit of choice.
 
+<!--
 # Modules
 
 | area | docs | description |
@@ -24,6 +25,8 @@ coupled and may be easily plugged as a specialized component into your toolkit o
 # Getting Started
 
 …
+
+-->
 
 # Support
 
