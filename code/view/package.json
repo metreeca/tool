@@ -1,6 +1,6 @@
 {
     "name": "@metreeca/view",
-    "description": "visual React components",
+    "description": "Visual React components",
     "dependencies": {
         "@metreeca/data": "*",
         "lucide-react": "^0.356.0",

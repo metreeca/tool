@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,16 +62,13 @@ export function useCollection<
 
 }>={}): Collection<V> {
 
-	const model=immutable(entry?.[field]?.[0]); // the first item in the collection model array
-
+	const model=immutable(toModel(entry?.[field]?.[0])); // the first item in the collection model array
 
 	if ( model === undefined ) {
 		throw new RangeError(`undefined model for collection <${field}>`);
 	}
 
-
 	const [query, setQuery]=store ?? useState(immutable({}));
-
 
 	return [
 
@@ -80,7 +77,7 @@ export function useCollection<
 			filtered: !isEmpty(query),
 
 			model,
-			query,
+			query: immutable(toQuery(query)),
 
 			items<M extends Value>(model: M): undefined | ReadonlyArray<M> {
 
@@ -109,6 +106,23 @@ export function useCollection<
 		}
 
 	];
+
+
+	function toModel<V extends Entry>(entry: undefined | V): typeof entry {
+		return entry && Object.entries(entry).reduce((f, [label, value]) => {
+
+			return label.match(/^['\w]/) ? { ...f, [label]: value } : f;
+
+		}, {} as V);
+	}
+
+	function toQuery(frame: Frame): Frame {
+		return Object.entries(frame).reduce((f, [label, value]) => {
+
+			return label.match(/^[<~!]/) ? { ...f, [label]: value } : f; // !!! verify constraint value
+
+		}, {});
+	}
 
 }
 

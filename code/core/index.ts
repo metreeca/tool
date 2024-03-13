@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,8 +113,10 @@ export function isFunction(value: unknown): value is Function {
 
 export function isType<T>(value: unknown): value is Type<T> { // parametric types are functions
 	return isFunction(value) && isType({ ...value }) || isObject(value)
-		&& isString(value.label) && isValue(value.model)
-		&& isFunction(value.encode) && isFunction(value.decode);
+		&& isString(value.label)
+		&& isValue(value.model)
+		&& isFunction(value.encode)
+		&& isFunction(value.decode);
 }
 
 

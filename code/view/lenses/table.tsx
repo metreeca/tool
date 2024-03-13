@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 import { isDefined } from "@metreeca/core";
 import { Entry, id, isEntry, label } from "@metreeca/core/entry";
-import { Frame } from "@metreeca/core/frame";
+import { Frame, isFrame } from "@metreeca/core/frame";
 import { isNumber } from "@metreeca/core/number";
 import { isString } from "@metreeca/core/string";
 import { equals, model } from "@metreeca/core/value";
@@ -24,7 +24,7 @@ import { useRouter } from "@metreeca/data/contexts/router";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
-import { asOrder, Order } from "@metreeca/link";
+import { asCriterion, Order } from "@metreeca/link";
 import { classes } from "@metreeca/view";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
@@ -37,8 +37,6 @@ import "./table.css";
 const LimitInit=25;
 const LimitNext=10;
 
-
-// see com.metreeca.link.Stash.java
 
 const IdPattern="\\w+";
 const LabelPattern="(?:[^'\\\\]|\\.)*";
@@ -101,7 +99,7 @@ export function ToolTable<V extends Frame>({
 
 		[expression: string]: {
 
-			entry: boolean
+			frame: boolean
 			number: boolean
 
 			label: ReactNode,
@@ -120,7 +118,7 @@ export function ToolTable<V extends Frame>({
 
 			...cols, [expression]: {
 
-				entry: isEntry(value),
+				frame: isFrame(value),
 				number: isNumber(value),
 
 				label: alias ?? expression,
@@ -133,21 +131,20 @@ export function ToolTable<V extends Frame>({
 
 	}, {});
 
-	const [expression, { entry }]=Object.entries(cols)[0] ?? [undefined, {}]; // first field
 
+	const first=Object.keys(cols)[0];
 
 	const [, setRoute]=useRouter();
 	const [widths, setWidths]=useState(""); // frozen column widths
 
-	const initialState: Order=asOrder(collection.query["^"]) ??
+	const initialOrder: Order=
+		isString(sorted) ? { [sorted]: "increasing" }
+			: isDefined(sorted) ? sorted
+				: first ? { [first]: "increasing" }
+					: isFrame(collection.model) ? { "label": "increasing" }
+						: {};
 
-	isString(sorted) ? { [sorted as string]: "increasing" }
-		: isDefined(sorted) ? sorted
-			: expression ? { [entry ? `${expression}.label` : expression]: "increasing" }
-				: isEntry(collection.model) ? { label: "increasing" }
-					: {};
-
-	const [order, setOrder]=useState<Order>(initialState);
+	const [order, setOrder]=useState(initialOrder);
 
 	const [offset, setOffset]=useState(0); // !!! sliding window (beware of interaction with selection)
 	const [limit, setLimit]=useState(LimitInit);
@@ -157,7 +154,13 @@ export function ToolTable<V extends Frame>({
 		...collection.model,
 		...collection.query,
 
-		"^": order,
+		...(Object.entries(order).reduce((value, [expression, criterion]) => ({
+
+			...value,
+			[cols[expression].frame ? `^${expression}.label` : `^${expression}`]: asCriterion(criterion)
+
+		}), {})),
+
 		"@": offset,
 		"#": limit + 1
 
@@ -190,12 +193,13 @@ export function ToolTable<V extends Frame>({
 	}
 
 	function reset() {
-		setOrder(initialState);
+		setOrder(initialOrder);
 	}
 
 	function load() {
 		setLimit(limit + LimitNext);
 	}
+
 
 	return items?.length ? createElement("tool-table", {}, <>
 

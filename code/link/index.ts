@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 import { immutable, isObject } from "@metreeca/core";
 import { Entry } from "@metreeca/core/entry";
+import { isInteger } from "@metreeca/core/integer";
 import { isString } from "@metreeca/core/string";
 import { Value } from "@metreeca/core/value";
 
@@ -38,7 +39,7 @@ export interface Graph {
 
 export interface Order {
 
-	[expression: string]: "increasing" | "decreasing";
+	[expression: string]: "increasing" | "decreasing" | number;
 
 }
 
@@ -58,13 +59,22 @@ export interface Trace {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function isOrder(value: unknown): value is Order {
-	return isObject(value) && Object.entries(value).every(([key, value]) => isString(key) && (
-		value === "increasing" || value || "decreasing"
-	));
+	return isObject(value) && Object.entries(value).every(([key, value]) =>
+		isString(key) && isCriterion(value)
+	);
 }
 
 export function asOrder(value: unknown): undefined | Order {
 	return isOrder(value) ? value : undefined;
+}
+
+
+export function isCriterion(value: unknown): value is Order[string] {
+	return value === "increasing" || value === "decreasing" || isInteger(value);
+}
+
+export function asCriterion(value: unknown): undefined | Order[string] {
+	return isCriterion(value) ? value : undefined;
 }
 
 

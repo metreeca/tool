@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 
 import { isDefined } from "@metreeca/core";
 import { id, isEntry } from "@metreeca/core/entry";
-import { Frame, toFrameString } from "@metreeca/core/frame";
+import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
+import { model } from "@metreeca/core/value";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection } from "@metreeca/data/models/selection";
-import { Order } from "@metreeca/link";
+import { asCriterion, Order } from "@metreeca/link";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, Fragment, ReactNode, useState } from "react";
@@ -60,15 +61,23 @@ export function ToolSheet<V extends Frame>({
 	const [offset, setOffset]=useState(0); // !!! sliding window
 	const [limit, setLimit]=useState(LimitInit);
 
+	const order=
+		isString(sorted) ? { [sorted]: "increasing" }
+			: isDefined(sorted) ? sorted
+				: isFrame(collection.model) ? { label: "increasing" }
+					: {};
+
 	const [items]=useCache(collection.items({
 
 		...collection.model,
 		...collection.query,
 
-		"^": isString(sorted) ? { [sorted as string]: "increasing" }
-			: isDefined(sorted) ? sorted
-				: isEntry(collection.model) ? { label: "increasing" }
-					: undefined,
+		...Object.entries(order).reduce((order, [expression, criterion]) => ({
+
+			...order,
+			[isFrame(model(collection.model, expression)) ? `^${expression}.label` : `^${expression}`]: asCriterion(criterion)
+
+		}), {}),
 
 		"@": offset,
 		"#": limit + 1

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 @import url("index.css");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono&family=Roboto:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono&family=Roboto:wght@300;400&;600display=swap");
 
 
 body {
