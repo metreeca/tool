@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 
 import { useFetcher } from "@metreeca/data/contexts/fetcher";
+import { useTrace } from "@metreeca/data/contexts/trace";
 import { classes } from "@metreeca/view";
 import { ToolSpin } from "@metreeca/view/widgets/spin";
 import React, { createElement, ReactNode, useEffect, useState } from "react";
@@ -66,6 +67,7 @@ export function ToolPage({
 }) {
 
 	const fetcher=useFetcher();
+	const [trace]=useTrace();
 
 	const [active, setActive]=useState(false);
 	const [expanded, setExpanded]=useState<boolean>();
@@ -86,6 +88,13 @@ export function ToolPage({
 		return () => window.removeEventListener("resize", resize);
 
 	});
+
+	useEffect(() => {
+
+		trace && console.error(trace); // !!! fallback error reporting
+
+	}, [trace]);
+
 
 	return createElement("tool-page", {
 
