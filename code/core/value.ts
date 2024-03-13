@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ export function equals(x: unknown, y: unknown): boolean {
 			: x === y;
 }
 
-export function model(value: unknown, expression: string): undefined | Value {
+export function evaluate(value: unknown, expression: string): undefined | Value {
 
 	let _value=value;
 	let _expression=expression;

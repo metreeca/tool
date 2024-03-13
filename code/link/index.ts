@@ -15,10 +15,11 @@
  */
 
 import { immutable, isObject } from "@metreeca/core";
-import { Entry } from "@metreeca/core/entry";
+import { Entry, isEntry } from "@metreeca/core/entry";
+import { Frame } from "@metreeca/core/frame";
 import { isInteger } from "@metreeca/core/integer";
 import { isString } from "@metreeca/core/string";
-import { Value } from "@metreeca/core/value";
+import { evaluate, Value } from "@metreeca/core/value";
 
 
 export interface Graph {
@@ -69,6 +70,11 @@ export function asOrder(value: unknown): undefined | Order {
 }
 
 
+export function asSort(expression: string, model: Frame) {
+	return isEntry(evaluate(model, expression)) ? `^${expression}.label` : `^${expression}`;
+}
+
+
 export function isCriterion(value: unknown): value is Order[string] {
 	return value === "increasing" || value === "decreasing" || isInteger(value);
 }
@@ -79,6 +85,7 @@ export function asCriterion(value: unknown): undefined | Order[string] {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 export function errors(response: Response): Promise<Response> {
 	if ( response.ok ) {

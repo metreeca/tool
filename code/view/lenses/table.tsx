@@ -19,12 +19,12 @@ import { Entry, id, isEntry, label } from "@metreeca/core/entry";
 import { Frame, isFrame } from "@metreeca/core/frame";
 import { isNumber } from "@metreeca/core/number";
 import { isString } from "@metreeca/core/string";
-import { equals, model } from "@metreeca/core/value";
+import { equals, evaluate } from "@metreeca/core/value";
 import { useRouter } from "@metreeca/data/contexts/router";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
-import { asCriterion, Order } from "@metreeca/link";
+import { asCriterion, asSort, Order } from "@metreeca/link";
 import { classes } from "@metreeca/view";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
@@ -69,6 +69,7 @@ function parse(expression: string): {
 
 const DummySelector=() => {};
 
+
 export function ToolTable<V extends Frame>({
 
 	hierarchy,
@@ -99,8 +100,7 @@ export function ToolTable<V extends Frame>({
 
 		[expression: string]: {
 
-			frame: boolean
-			number: boolean
+			numeric: boolean
 
 			label: ReactNode,
 
@@ -112,13 +112,12 @@ export function ToolTable<V extends Frame>({
 
 		const { alias, expression }=parse(field);
 
-		const value=model(collection.model, expression);
+		const value=evaluate(collection.model, expression);
 
 		return {
 
 			...cols, [expression]: {
 
-				frame: isFrame(value),
 				number: isNumber(value),
 
 				label: alias ?? expression,
@@ -156,8 +155,7 @@ export function ToolTable<V extends Frame>({
 
 		...(Object.entries(order).reduce((value, [expression, criterion]) => ({
 
-			...value,
-			[cols[expression].frame ? `^${expression}.label` : `^${expression}`]: asCriterion(criterion)
+			...value, [asSort(expression, collection.model)]: asCriterion(criterion)
 
 		}), {})),
 
@@ -238,13 +236,13 @@ export function ToolTable<V extends Frame>({
 
 				</th>
 
-				{Object.entries(cols).map(([expression, { number, label }]) =>
+				{Object.entries(cols).map(([expression, { numeric, label }]) =>
 
 					<th key={expression} className={classes({
 
 						"scroll-y": true,
 
-						right: number
+						right: numeric
 
 					})}>
 
@@ -304,10 +302,10 @@ export function ToolTable<V extends Frame>({
 
 					</td>
 
-					{Object.entries(cols).map(([expression, { number, renderer }], index) =>
+					{Object.entries(cols).map(([expression, { numeric, renderer }], index) =>
 
 						<td key={expression} className={classes({
-							right: number,
+							right: numeric,
 							placeholder: hierarchy && index < skip
 						})}>
 

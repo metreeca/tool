@@ -18,11 +18,10 @@ import { isDefined } from "@metreeca/core";
 import { id, isEntry } from "@metreeca/core/entry";
 import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
-import { model } from "@metreeca/core/value";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection } from "@metreeca/data/models/selection";
-import { asCriterion, Order } from "@metreeca/link";
+import { asCriterion, asSort, Order } from "@metreeca/link";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, Fragment, ReactNode, useState } from "react";
@@ -74,8 +73,7 @@ export function ToolSheet<V extends Frame>({
 
 		...Object.entries(order).reduce((order, [expression, criterion]) => ({
 
-			...order,
-			[isFrame(model(collection.model, expression)) ? `^${expression}.label` : `^${expression}`]: asCriterion(criterion)
+			...order, [asSort(expression, collection.model)]: asCriterion(criterion)
 
 		}), {}),
 

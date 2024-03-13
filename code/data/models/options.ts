@@ -17,7 +17,7 @@
 import { asArray, error, isArray, toType, Type } from "@metreeca/core";
 import { isEntry } from "@metreeca/core/entry";
 import { isNumber } from "@metreeca/core/number";
-import { model as getModel, Value } from "@metreeca/core/value";
+import { evaluate, Value } from "@metreeca/core/value";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { useState } from "react";
@@ -116,7 +116,7 @@ export function useOptions<
 
 	const [{ model, query, items }, setCollection]=collection;
 
-	const effective=type ?? toType(getModel(model, expression)
+	const effective=type ?? toType(evaluate(model, expression)
 		?? error(new RangeError(`unknown model for <${model}>[${expression}]`))
 	);
 

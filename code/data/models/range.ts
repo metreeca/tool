@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { error, isDefined, toType, Type } from "@metreeca/core";
-import { isValue, model as getModel, Value } from "@metreeca/core/value";
+import { evaluate, isValue, Value } from "@metreeca/core/value";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 
@@ -91,7 +91,7 @@ export function useRange<V extends Value>(collection: Collection<V>, expression:
 
 	const [{ model, query, items }, setCollection]=collection;
 
-	const effective=type ?? toType(getModel(model, expression)
+	const effective=type ?? toType(evaluate(model, expression)
 		?? error(new RangeError(`unknown model for <${model}>[${expression}]`))
 	);
 
