@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import { headingRank } from "hast-util-heading-rank";
 import { toString } from "hast-util-to-string";
 import "highlight.js/styles/github.css";
 import React, { useEffect, useState } from "react";
-import ReactMarkdown, { uriTransformer } from "react-markdown";
+import ReactMarkdown, { defaultUrlTransform } from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
 import deflist from "remark-deflist";
@@ -38,102 +38,102 @@ import remarkGfm from "remark-gfm";
  */
 export function ToolMark({
 
-    toc=false,
+	toc=false,
 
-    children
+	children
 
 }: {
 
-    toc?: boolean
+	toc?: boolean
 
-    children: string
+	children: string
 
 }) {
 
-    const [status, setStatus]=useState<number>();
-    const [content, setContent]=useState<string>();
+	const [status, setStatus]=useState<number>();
+	const [content, setContent]=useState<string>();
 
-    useEffect(() => {
+	useEffect(() => {
 
-        const match=children.match(/^((?:\w+:|\/)[^#\s]+)(?:#([^\s]*))?$/);
+		const match=children.match(/^((?:\w+:|\/)[^#\s]+)(?:#([^\s]*))?$/);
 
-        if ( match ) { // absolute or root-relative URL
+		if ( match ) { // absolute or root-relative URL
 
-            const path=match[1];
-            const hash=match[2];
+			const path=match[1];
+			const hash=match[2];
 
-            const url=path.endsWith(".md") ? path
-                : path.endsWith("/") ? `${path}index.md`
-                    : `${path}.md`;
+			const url=path.endsWith(".md") ? path
+				: path.endsWith("/") ? `${path}index.md`
+					: `${path}.md`;
 
-            const controller=new AbortController();
+			const controller=new AbortController();
 
-            fetch(url, { signal: controller.signal })
+			fetch(url, { signal: controller.signal })
 
-                .then(response => response.text().then(content => {
+				.then(response => response.text().then(content => {
 
-                    setStatus(response.status);
-                    setContent(response.ok ? content : undefined);
+					setStatus(response.status);
+					setContent(response.ok ? content : undefined);
 
-                }))
+				}))
 
-                .then(() => {
+				.then(() => {
 
-                    if ( hash ) {
-                        document.getElementById(hash)?.scrollIntoView(); // scroll to anchor
-                    }
+					if ( hash ) {
+						document.getElementById(hash)?.scrollIntoView(); // scroll to anchor
+					}
 
-                })
+				})
 
-                .catch(() => {});
+				.catch(() => {});
 
-            return () => controller.abort(); // cancel pending fetch request on component unmount
+			return () => controller.abort(); // cancel pending fetch request on component unmount
 
-        } else { // markdwon content
+		} else { // markdown content
 
-            setStatus(200);
-            setContent(children);
+			setStatus(200);
+			setContent(children);
 
-            return () => {};
+			return () => {};
 
-        }
+		}
 
-    }, [children]);
+	}, [children]);
 
-    return content ? toc
+	return content ? toc
 
-            ? <ReactMarkdown
+			? <ReactMarkdown
 
-                remarkPlugins={[remarkFrontmatter]}
-                rehypePlugins={[rehypeTOC]}
+				remarkPlugins={[remarkFrontmatter]}
+				rehypePlugins={[rehypeTOC]}
 
-            >{
+			>{
 
-                content
+				content
 
-            }</ReactMarkdown>
+			}</ReactMarkdown>
 
 
-            : <ReactMarkdown
+			: <ReactMarkdown
 
-                remarkPlugins={[remarkFrontmatter, remarkGfm, remarkGemoji, deflist]}
-                rehypePlugins={[rehypeSlug, rehypeHighlight]}
+				remarkPlugins={[remarkFrontmatter, remarkGfm, remarkGemoji, deflist]}
+				rehypePlugins={[rehypeSlug, rehypeHighlight]}
 
-                transformLinkUri={href => [uriTransformer(href)]
-                    .map(value => value.endsWith("/index.md") ? value.substring(0, value.length - "/index.md".length) : value)
-                    .map(value => value.endsWith(".md") ? value.substring(0, value.length - ".md".length) : value)
-                    [0]
-                }
+				urlTransform={href => [defaultUrlTransform(href)]
+					.map(value => value.endsWith("/index.md") ? value.substring(0, value.length - "/index.md".length) : value)
+					.map(value => value.endsWith(".md") ? value.substring(0, value.length - ".md".length) : value)
+					[0]
+				}
 
-            >{
+			>{
 
-                content
+				content
 
-            }</ReactMarkdown>
+			}</ReactMarkdown>
 
-        : status === 404 ? <span>:-( Page Not Found</span>
-            : status !== undefined ? <span>{`:-( The Server Says ${status}…`}</span>
-                : <ToolSpin/>;
+		: status === 404 ? <span>:-( Page Not Found</span>
+			: status !== undefined ? <span>{`:-( The Server Says ${status}…`}</span>
+				: <ToolSpin/>;
 
 
 }
@@ -142,24 +142,24 @@ export function ToolMark({
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function rehypeTOC() {
-    return (root: Root) => {
+	return (root: Root) => {
 
-        const slugs=new Slugger();
+		const slugs=new Slugger();
 
-        slugs.reset();
+		slugs.reset();
 
-        return {
+		return {
 
-            ...root, children: (root.children).filter((node) => headingRank(node)).map(node => ({
-                ...node, children: [{
-                    ...node,
-                    type: "element",
-                    tagName: "a",
-                    properties: { href: `#${slugs.slug(toString(node))}` }
-                }]
-            }))
+			...root, children: (root.children).filter((node) => headingRank(node)).map(node => ({
+				...node, children: [{
+					...node,
+					type: "element",
+					tagName: "a",
+					properties: { href: `#${slugs.slug(toString(node))}` }
+				}]
+			}))
 
-        };
+		};
 
-    };
+	};
 }
