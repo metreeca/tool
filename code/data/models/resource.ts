@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import { Entry, isEntry } from "@metreeca/core/entry";
 import { clean, Frame } from "@metreeca/core/frame";
 import { useGraph } from "@metreeca/data/contexts/graph";
 import { useTrace } from "@metreeca/data/contexts/trace";
-import { prune } from "@metreeca/data/models/index";
 import { Trace } from "@metreeca/link";
 import { useEffect, useState } from "react";
 
@@ -71,7 +70,7 @@ export function useResource<
 
 			.then(frame => {
 
-				setCache({ ...prune(entry), ...frame, id }); // retain undefined field placeholders to drive editing
+				setCache({ ...frame, id });
 
 				return id;
 

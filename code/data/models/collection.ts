@@ -83,7 +83,7 @@ export function useCollection<
 
 				const [resource]=useResource({ id: entry.id, [field]: [model] });
 
-				return resource?.[field] as undefined | ReadonlyArray<M>;
+				return resource && (resource[field] || []) as ReadonlyArray<M>;
 
 			}
 
