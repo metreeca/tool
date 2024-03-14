@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ export function asLocal(value: unknown): undefined | Local {
 
 export function toLocalString(local: Local, {
 
-	locales=navigator.languages
+	locales
 
 }: {
 
@@ -99,7 +99,7 @@ export function toLocalString(local: Local, {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function text(local: Local, locales: Intl.LocalesArgument=navigator.languages): string {
+export function text(local: Local, locales?: Intl.LocalesArgument): string {
 	return (isArray<any>(locales) ? locales.map(locale => local[locale.toString()]).filter(s => s)[0] : undefined)
 		?? local.en
 		?? Object.values(local)[0]

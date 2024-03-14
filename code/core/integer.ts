@@ -70,7 +70,7 @@ export function asInteger(value: unknown): undefined | number {
 
 export function toIntegerString(value: number, {
 
-	locales=navigator.languages,
+	locales,
 
 	...opts
 

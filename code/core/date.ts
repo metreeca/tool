@@ -72,7 +72,7 @@ export function asDate(value: unknown): undefined | string {
 
 export function toDateString(value: Date, {
 
-	locales=navigator.languages,
+	locales,
 
 	...opts
 

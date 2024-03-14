@@ -83,7 +83,7 @@ export function asEntry(value: unknown): undefined | Entry {
 
 export function toEntryString(value: Entry, {
 
-	locales=navigator.languages
+	locales
 
 }: {
 
@@ -102,7 +102,7 @@ export function id(entry: Entry): string {
 	return entry.id;
 }
 
-export function label(entry: Entry, locales: Intl.LocalesArgument=navigator.languages): string {
+export function label(entry: Entry, locales: Intl.LocalesArgument): string {
 	return isString(entry.label) ? entry.label
 		: isLocal(entry.label) ? text(entry.label, locales)
 			: guess(id(entry));

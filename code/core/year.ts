@@ -72,7 +72,7 @@ export function asYear(value: unknown): undefined | string {
 
 export function toYearString(value: Date, {
 
-	locales=navigator.languages,
+	locales,
 
 	...opts
 

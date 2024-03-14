@@ -74,7 +74,7 @@ export function asDecimal(value: unknown): undefined | number {
 
 export function toDecimalString(value: number, {
 
-	locales=navigator.languages,
+	locales,
 
 	fractionDigits,
 
