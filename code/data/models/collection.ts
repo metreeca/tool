@@ -119,7 +119,7 @@ export function useCollection<
 	function toQuery(frame: Frame): Frame {
 		return Object.entries(frame).reduce((f, [label, value]) => {
 
-			return label.match(/^[<~!]/) ? { ...f, [label]: value } : f; // !!! verify constraint value
+			return label.match(/^[<>~?]/) ? { ...f, [label]: value } : f; // !!! verify constraint value
 
 		}, {});
 	}
