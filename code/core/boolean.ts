@@ -42,8 +42,8 @@ export const boolean: Type<boolean>=immutable({
 	},
 
 
-	format(value) {
-		return toBooleanString(value);
+	format(value, locales) {
+		return toBooleanString(value, { locales });
 	}
 
 });

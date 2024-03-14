@@ -36,9 +36,7 @@ export interface Local {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const local: Type<Local> & ((model: Local) => Type<Local>)=Object.freeze(Object.assign(
-	(model: Local) => immutable({ ...local, model }),
-
-	immutable<Type<Local>>({
+	(model: Local) => immutable({ ...local, model }), immutable<Type<Local>>({
 
 		label: "local",
 		model: { "*": "" },
@@ -63,8 +61,8 @@ export const local: Type<Local> & ((model: Local) => Type<Local>)=Object.freeze(
 		},
 
 
-		format(value) {
-			return toLocalString(value);
+		format(value, locales) {
+			return toLocalString(value, { locales });
 		}
 
 	})

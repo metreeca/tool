@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import { isNumber } from "@metreeca/core/number";
 export const integer: Type<number>=immutable({
 
 	label: "integer",
-	model: 0,
+	model: -0, // ;( use sign to take apart integer (-0) and decimal (0.0) models; see index.ts#toType()
 
 
 	encode(value) {
@@ -47,8 +47,8 @@ export const integer: Type<number>=immutable({
 	},
 
 
-	format(value) {
-		return toIntegerString(value);
+	format(value, locales) {
+		return toIntegerString(value, { locales });
 	}
 
 });

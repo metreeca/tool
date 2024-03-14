@@ -28,7 +28,7 @@ export interface Entry extends Frame {
 	readonly id: string;
 
 	readonly label?: string | Local;
-	readonly brief?: string | Local;
+	readonly comment?: string | Local;
 	readonly image?: string | Entry;
 
 }
@@ -37,8 +37,7 @@ export interface Entry extends Frame {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(Object.assign(
-	(model: Entry) => immutable({ ...entry, model }),
-	immutable<Type<Entry>>({
+	(model: Entry) => immutable({ ...entry, model }), immutable<Type<Entry>>({
 
 		label: "entry",
 		model: { id: "", label: "" },
@@ -63,8 +62,8 @@ export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(
 		},
 
 
-		format(value) {
-			return toEntryString(value);
+		format(value, locales) {
+			return toEntryString(value, { locales });
 		}
 
 	})

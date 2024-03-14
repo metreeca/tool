@@ -60,12 +60,13 @@ export type RangeOpts=Partial<Readonly<{
 export function useRange<
 
 	T extends Value,
-	V extends Value
+	V extends Value,
+	X // !!! vs T?
 
 >(
 	collection: Collection<T>,
 	expression: string,
-	opts: RangeOpts & Readonly<{ type: Type<V> }>
+	opts: RangeOpts & Readonly<{ type: Type<V,X > }>
 ): Range<V>;
 
 /*

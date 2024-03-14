@@ -41,23 +41,53 @@ import { isYear, year } from "@metreeca/core/year";
 export type Primitive=undefined | null | boolean | number | string
 
 
-export interface Type<V=any> {
+/**
+ * @type <V> the JSON value type
+ * @type <T> the native value type
+ */
+export interface Type<V extends Value=any, T=V> {
 
 	readonly label: string;
-	readonly model: Value;
+	readonly model: V;
 
 
-	encode(value: V): Value;
+	/**
+	 * Encodes a native value into a JSON value.
+	 *
+	 * @param value the native value to be encoded
+	 */
+	encode(value: T): V;
 
-	decode(value: Value): V;
+	/**
+	 * Decodes a JSON value into a native value.
+	 *
+	 * @param value the JSON value to be decoded
+	 */
+	decode(value: V): T;
 
 
-	write(value: V): string;
+	/**
+	 * Converts a native value into an editable textual representation.
+	 *
+	 * @param value the native value to be converted
+	 */
+	write(value: T): string;
 
-	parse(value: string): V;
+	/**
+	 * Converts an editable textual representation into a native string.
+	 *
+	 * @param string the textual representation to be converted
+	 */
+	parse(string: string): T;
 
 
-	format(value: V): string;
+	/**
+	 * Converts a native value into a read-only localized textual representation.
+	 *
+	 * @param value the native value to be converted
+	 * @param locales a string with a BCP 47 language tag, or an array of such strings
+	 */
+	format(value: T, locales?: Intl.LocalesArgument): string;
 
 }
 
@@ -111,7 +141,7 @@ export function isFunction(value: unknown): value is Function {
 	return value instanceof Function;
 }
 
-export function isType<T>(value: unknown): value is Type<T> { // parametric types are functions
+export function isType<V extends Value, T>(value: unknown): value is Type<V, T> { // parametric types are functions
 	return isFunction(value) && isType({ ...value }) || isObject(value)
 		&& isString(value.label)
 		&& isValue(value.model)
@@ -132,7 +162,7 @@ export function asArray<T>(value: unknown, is?: (value: unknown) => value is T):
 export function toType(model: unknown): Type {
 	return isBoolean(model) ? boolean
 
-		: isInteger(model) && !Object.is(model, -0) ? integer // ;( see decimal.ts#decimal.model
+		: isInteger(model) && Object.is(model, -0) ? integer // ;( see integer.ts#integer.model
 			: isDecimal(model) ? decimal
 
 				: isYear(model) ? year
@@ -216,23 +246,23 @@ export function error<V>(error: unknown): V {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function required<T>(value: T | Type<T>): T {
+export function required<V extends Value, T>(value: V | Type<V, T>): V {
 	return model(value);
 }
 
-export function optional<T>(value: T | Type<T>): undefined | T {
+export function optional<V extends Value, T>(value: V | Type<V, T>): undefined | V {
 	return model(value);
 }
 
-export function repeatable<T>(value: T | Type<T>): T[] {
+export function repeatable<V extends Value, T>(value: V | Type<V, T>): V[] {
 	return [model(value)];
 }
 
-export function multiple<T>(value: T | Type<T>): undefined | T[] {
+export function multiple<V extends Value, T>(value: V | Type<V, T>): undefined | V[] {
 	return [model(value)];
 }
 
 
-export function model<T>(value: T | Type<T>): T {
-	return isType<T>(value) ? value.decode(value.model) : value;
+export function model<V extends Value, T>(value: V | Type<V, T>): V {
+	return isType<V, T>(value) ? value.model : value;
 }

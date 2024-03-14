@@ -18,7 +18,7 @@ import { error, immutable, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
-export const date: Type<Date>=immutable({
+export const date: Type<string, Date>=immutable({
 
 	label: "date",
 	model: "1970-01-01",
@@ -44,8 +44,8 @@ export const date: Type<Date>=immutable({
 	},
 
 
-	format(value) {
-		return toDateString(value);
+	format(value, locales) {
+		return toDateString(value, { locales });
 	}
 
 });

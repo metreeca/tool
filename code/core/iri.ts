@@ -28,7 +28,7 @@ export const iri: Type<string>=immutable({
 		return value;
 	},
 
-	decode(value=false) {
+	decode(value) {
 		return isIRI(value) ? value
 			: error(new TypeError(`<${typeof value}> value  not a <${iri.label}>`));
 	},
@@ -43,8 +43,8 @@ export const iri: Type<string>=immutable({
 	},
 
 
-	format(value) {
-		return toIRIString(value);
+	format(value, locales) {
+		return toIRIString(value, { locales });
 	}
 
 });

@@ -291,6 +291,26 @@ function Input<V>({
 
 			/>;
 
+		case dateTime:
+
+			return <input type={focused || value ? "datetime-local" : "text"} {...common}
+
+				onBlur={e => {
+
+					setFocused(false);
+
+					// ;(chrome) no change event on clear
+
+					const current=type.parse(e.target.value.trim());
+
+					if ( e.target.checkValidity() && current !== value ) {
+						setValue(current);
+					}
+
+				}}
+
+			/>;
+
 		default:
 
 			throw `unsupported range type <${type.label}>`;

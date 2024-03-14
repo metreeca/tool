@@ -32,8 +32,7 @@ export interface Frame {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const frame: Type<Frame> & ((model: Frame) => Type<Frame>)=Object.freeze(Object.assign(
-	(model: Frame) => immutable({ ...frame, model }),
-	immutable<Type<Frame>>({
+	(model: Frame) => immutable({ ...frame, model }), immutable<Type<Frame>>({
 
 		label: "frame",
 		model: {},
@@ -58,8 +57,8 @@ export const frame: Type<Frame> & ((model: Frame) => Type<Frame>)=Object.freeze(
 		},
 
 
-		format(value) {
-			return toFrameString(value);
+		format(value, locales) {
+			return toFrameString(value, { locales });
 		}
 
 	})
