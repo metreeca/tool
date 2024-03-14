@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -261,7 +261,7 @@ function Input<V>({
 
 		case integer:
 
-			return <input type={"number"} pattern={"[-+]?\d*"} {...common}/>;
+			return <input type={"number"} pattern={"[-+]?\\d*"} {...common}/>;
 
 		case decimal:
 
@@ -269,7 +269,7 @@ function Input<V>({
 
 		case year:
 
-			return <input type={"string"} pattern={"\d{4}"}{...common}/>;
+			return <input type={"string"} pattern={"\\d{4}"}{...common}/>;
 
 		case date:
 

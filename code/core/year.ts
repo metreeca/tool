@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ export const year: Type<string, Date>=immutable({
 
 
 	write(value) {
-		return value.toISOString().substring(4);
+		return value.toISOString().substring(0, 4);
 	},
 
 	parse(value) {
