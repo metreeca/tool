@@ -49,7 +49,7 @@ export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(
 
 		decode(value) {
 			return isEntry(value) ? value
-				: error(new TypeError(`<${typeof value}> value <${value}> is not a <${entry.label}>`));
+				: error(new TypeError(`<${typeof value}> value <${JSON.stringify(value)}> is not a <${entry.label}>`));
 		},
 
 

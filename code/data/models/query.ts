@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isArray, isEmpty } from "@metreeca/core";
+import { isArray, isDefined, isEmpty } from "@metreeca/core";
 import { isEntry } from "@metreeca/core/entry";
 import { asFrame, Frame } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
@@ -38,7 +38,7 @@ export function useQuery(): [Frame, Setter<Frame>] {
 
 	const key=`${route}#query`;
 
-	const value=asFrame(history.state)
+	const value=normalize(asFrame(history.state))
 		?? decode(location.search.substring(1))
 		?? decode(sessionStorage.getItem(key))
 		?? {};
@@ -183,4 +183,11 @@ function decode(search: undefined | null | string): undefined | Frame {
 		return undefined;
 
 	}
+}
+
+function normalize(query: undefined | Frame): undefined | Frame {
+	return query === undefined ? undefined : Object.entries(query).reduce((frame, [label, value]) => ({
+		...frame,
+		[label.match(/^\w+$/) ? `?${label}` : label]: isArray(value) ? value : isDefined(value) ? [value] : undefined
+	}), {});
 }

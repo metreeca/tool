@@ -277,8 +277,10 @@ export function useOptions<
 		}));
 	}
 
-	function equals(x: unknown, y: unknown) {
-		return isEntry(x) && isEntry(y) ? x.id === y.id : x === y;
+	function equals(x: unknown, y: unknown): boolean {
+		return isEntry(x) ? equals(x.id, y)
+			: isEntry(y) ? equals(x, y.id)
+				: x === y;
 	}
 
 }
