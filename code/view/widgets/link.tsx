@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +42,9 @@ export function ToolLink({
 }) {
 
 	const handler=(filter === undefined) ? undefined : action(filter);
+	const label=toValueString(value);
 
-	return <a href={isEntry(value) ? id(value) : undefined}
+	return <a href={isEntry(value) ? id(value) : undefined} title={label}
 
 		onClick={e => {
 
@@ -54,8 +55,8 @@ export function ToolLink({
 		}}
 
 	>{icon ?
-		<>{icon} <span>{toValueString(value)}</span></>
-		: toValueString(value)
+		<>{icon} {label && <span>{label}</span>}</>
+		: label
 	}</a>;
 
 
