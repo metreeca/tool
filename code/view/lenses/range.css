@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,10 @@
 
 tool-range {
 
+    &:has(input:invalid) {
+        border-color: var(--tool--color-invalid);
+    }
+
     & > section {
 
         display: flex;
@@ -35,11 +39,6 @@ tool-range {
 
             &:focus {
                 box-shadow: none;
-            }
-
-            &:invalid {
-                color: var(--tool--color-invalid);
-                border-color: inherit;
             }
 
             &::-webkit-calendar-picker-indicator {

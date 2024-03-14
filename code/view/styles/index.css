@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@
     --tool--border-width: 1px;
 
     --tool--box-shadow-focus: 0 0 2px 1px var(--tool--color-focus);
+    --tool--outline-invalid: solid 1px var(--tool--color-invalid);
 
     --tool-img-padding: 1.5em;
     --tool-scroll-shadow-size: 0.75em;
@@ -232,7 +233,8 @@ input {
     }
 
     &:invalid {
-        outline: solid 2px var(--tool--color-invalid);
+        color: var(--tool--color-invalid);
+        outline: var(--tool--outline-invalid);
         outline-offset: 0;
     }
 
