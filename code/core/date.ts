@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,10 +85,8 @@ export function toDateString(value: Date, {
 	return value.toLocaleDateString(locales, {
 
 		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-
-		dateStyle: "short",
+		month: "numeric",
+		day: "numeric",
 
 		...opts
 
