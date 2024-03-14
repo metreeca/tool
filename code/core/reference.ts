@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ import { error, immutable, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
-export const iri: Type<string>=immutable({
+export const reference: Type<string>=immutable({
 
-	label: "iri",
+	label: "reference",
 	model: "/",
 
 
@@ -29,8 +29,8 @@ export const iri: Type<string>=immutable({
 	},
 
 	decode(value) {
-		return isIRI(value) ? value
-			: error(new TypeError(`<${typeof value}> value  not a <${iri.label}>`));
+		return isReference(value) ? value
+			: error(new TypeError(`<${typeof value}> value  not a <${reference.label}>`));
 	},
 
 
@@ -44,7 +44,7 @@ export const iri: Type<string>=immutable({
 
 
 	format(value, locales) {
-		return toIRIString(value, { locales });
+		return toReferenceString(value, { locales });
 	}
 
 });
@@ -55,16 +55,16 @@ export const iri: Type<string>=immutable({
 /**
  * Checks if a value is an absolute or root-relative IRI.
  */
-export function isIRI(value: unknown): value is string {
+export function isReference(value: unknown): value is string {
 	return isString(value) && /^\w+:|\//.test(value);
 }
 
-export function asIRI(value: unknown): undefined | string {
-	return isIRI(value) ? value : undefined;
+export function asReference(value: unknown): undefined | string {
+	return isReference(value) ? value : undefined;
 }
 
 
-export function toIRIString(value: string, {
+export function toReferenceString(value: string, {
 
 	compact=false
 
