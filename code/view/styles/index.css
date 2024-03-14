@@ -58,7 +58,7 @@
     border-radius: 0;
     border-width: var(--tool--border-width);
     border-color: var(--tool--border-color);
-    overflow: hidden;
+    overflow: visible;
     font-family: inherit;
     font-style: inherit;
     font-size: inherit;
@@ -339,6 +339,8 @@ img {
     margin: 0 auto 1em;
 
     cursor: pointer;
+
+    overflow: hidden;
 
     &.left,
     &.right {
