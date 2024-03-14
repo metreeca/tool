@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { date } from "@metreeca/core/date";
 import { error, immutable, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
@@ -26,11 +25,11 @@ export const dateTime: Type<string, Date>=immutable({
 
 
 	encode(value) {
-		return date.write(value);
+		return dateTime.write(value);
 	},
 
 	decode(value) {
-		return isDateTime(value) ? date.parse(value)
+		return isDateTime(value) ? dateTime.parse(value)
 			: error(new TypeError(`<${typeof value}> value <${value}> is not a <${dateTime.label}> string`));
 	},
 
@@ -73,7 +72,7 @@ export function asDateTime(value: unknown): undefined | string {
 
 export function toDateTimeString(value: Date, {
 
-	locales=navigator.languages,
+	locales,
 
 	...opts
 
@@ -91,9 +90,6 @@ export function toDateTimeString(value: Date, {
 		hour: "2-digit",
 		minute: "2-digit",
 		second: "2-digit",
-
-		dateStyle: "short",
-		timeStyle: "short",
 
 		...opts
 
