@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Setter } from "@metreeca/data/hooks/index";
+import { equals as deepEquals } from "@metreeca/core";
+import { Setter } from "@metreeca/data/hooks";
 import { useState } from "react";
 
 
@@ -26,7 +27,7 @@ import { useState } from "react";
  * @see https://betterprogramming.pub/updating-state-from-properties-with-react-hooks-5d48693a4af8
  * @see https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-getderivedstatefromprops
  */
-export function useCache<V>(value: V, equals: (x: V, y: V) => boolean=(x, y) => x === y): [V, Setter<V>] {
+export function useCache<V>(value: V, equals: (x: V, y: V) => boolean=deepEquals): [V, Setter<V>] {
 
 	const [internal, setInternal]=useState(value);
 	const [previous, setPrevious]=useState(value);
