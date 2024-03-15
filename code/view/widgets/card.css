@@ -88,12 +88,30 @@ tool-card {
         grid-row: 2;
     }
 
-    & > nav > * {
-        white-space: nowrap;
+    & > nav {
+
+        text-align: end;
+
+        & > * {
+            white-space: nowrap;
+        }
+
+        & + div {
+            grid-column: 1 / span 2 !important;
+        }
+
     }
 
+
     & > i {
-        margin-top: 0.25em;
+
+        font-weight: 600;
+        color: var(--tool--color-light);
+
+        & > img {
+            margin-top: 0.25em;
+        }
+
     }
 
     @media only screen and (min-width: 960px), print {
