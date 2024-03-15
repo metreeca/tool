@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import * as React from "react";
-import { createElement } from "react";
+// @ts-ignore
 import { Input, ToolInput, ToolPlaceholder } from "@metreeca/tile/inputs/input";
-import { classes } from "../../../../../Projects/EC2U/Data/src/main/javascript/@metreeca/tool";
 import "./input.css";
 import "./#options.css";
+import * as React from "react";
+import { createElement } from "react";
+import { classes } from "../index";
 
 
 export function ToolOptions({

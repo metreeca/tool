@@ -217,7 +217,7 @@ export function ToolOptions<
 			/>
 
 			{
-				value === null ? <span className={"blank"}>blank</span>
+				value === null ? <span className={"label"}>{"blank"}</span> // !!! localize
 					: as ? <span>{as(value)}</span>
 						: isBoolean(value) ? value ? <Check/> : <X/>
 							: isEntry(value) ? <ToolLink>{value}</ToolLink>

@@ -325,8 +325,14 @@ blockquote {
 }
 
 hr {
+
     margin: 1.5em 0;
     border-bottom: solid 1px #CCC;
+
+    &:first-child {
+        display: none;
+    }
+
 }
 
 
@@ -360,26 +366,24 @@ img {
 
     &[active] {
 
-        --margin: 1.5rem;
-
         z-index: 1000;
 
         position: fixed;
-        left: var(--margin);
-        right: var(--margin);
-        top: var(--margin);
-        bottom: var(--margin);
+        left: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
 
         object-fit: contain;
-        width: calc(100% - 2 * var(--margin));
-        height: calc(100% - 2 * var(--margin));
-        max-width: calc(100% - 2 * var(--margin));
-        max-height: calc(100% - 2 * var(--margin));
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
 
-        margin: 0;
-        padding: 0;
+        margin: 0 !important;
+        padding: 1em !important;
 
-        box-shadow: 0 0 0 100vmax rgb(0, 0, 0, 0.3);
+        background-color: rgb(0, 0, 0, 0.3);
 
     }
 
