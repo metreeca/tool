@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -443,7 +443,6 @@ function lookup(route: string, table: Switch) {
 		if ( component === undefined ) {
 
 			throw new Error(`unhandled route ${route}`);
-
 
 		} else if ( typeof component === "string" ) {
 

@@ -49,7 +49,18 @@ export function useResource<
 
 >(entry: T): Resource<T, C> {
 
-	const id=new URL(entry.id, location.href).pathname; // normalize relative ids
+	const source=location.pathname;
+	const target=new URL(entry.id, location.href).pathname; // normalize relative ids
+
+	// convert a glob target id like /path/{code}/* to a regular expression
+
+	const glob=`^${target.replace(/\*/, ".*").replace(/(?:{|%7B)\w*(?:}|)%7D/, "[^/]+")}$`;
+
+	// use the source id, if it matches the glob target id a (e.g. /path/x/y/ <- path/{code}/*)
+	// this hack supports resource models including route glob patterns as their id
+
+	const id=source.match(glob) ? source : target;
+
 
 	// !!! validate model (e.g. query well=formedness)
 

@@ -21,7 +21,7 @@ import { isString } from "@metreeca/core/string";
 export const reference: Type<string>=immutable({
 
 	label: "reference",
-	model: "/",
+	model: "", // empty to be interpreted as relative
 
 
 	encode(value) {
