@@ -15,7 +15,7 @@
  */
 
 import { isDefined } from "@metreeca/core";
-import { Entry, id, isEntry, label } from "@metreeca/core/entry";
+import { Entry, id, isEntry, toEntryString } from "@metreeca/core/entry";
 import { Frame, isFrame } from "@metreeca/core/frame";
 import { isNumber } from "@metreeca/core/number";
 import { isString } from "@metreeca/core/string";
@@ -314,7 +314,7 @@ export function ToolTable<V extends Frame>({
 						</td>
 					)}
 
-					<td>{isEntry(item) && <button title={`Open '${label(item)}'`}
+					<td>{isEntry(item) && <button title={`Open '${toEntryString(item)}'`}
 
                         onClick={() => open(item)}
 

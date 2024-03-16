@@ -18,9 +18,9 @@ import { error, immutable, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
-export const reference: Type<string>=immutable({
+export const id: Type<string>=immutable({
 
-	label: "reference",
+	label: "id",
 	model: "", // empty to be interpreted as relative
 
 
@@ -29,8 +29,8 @@ export const reference: Type<string>=immutable({
 	},
 
 	decode(value) {
-		return isReference(value) ? value
-			: error(new TypeError(`<${typeof value}> value  not a <${reference.label}>`));
+		return isId(value) ? value
+			: error(new TypeError(`<${typeof value}> value  not a <${id.label}>`));
 	},
 
 
@@ -44,7 +44,7 @@ export const reference: Type<string>=immutable({
 
 
 	format(value, locales) {
-		return toReferenceString(value, { locales });
+		return toIdString(value, { locales });
 	}
 
 });
@@ -55,16 +55,16 @@ export const reference: Type<string>=immutable({
 /**
  * Checks if a value is an absolute or root-relative IRI.
  */
-export function isReference(value: unknown): value is string {
-	return isString(value) && /^\w+:|\//.test(value);
+export function isId(value: unknown): value is string {
+	return isString(value) && /^(?:\w+:|\/)[^\W]*/.test(value);
 }
 
-export function asReference(value: unknown): undefined | string {
-	return isReference(value) ? value : undefined;
+export function asId(value: unknown): undefined | string {
+	return isId(value) ? value : undefined;
 }
 
 
-export function toReferenceString(value: string, {
+export function toIdString(value: string, {
 
 	compact=false
 
