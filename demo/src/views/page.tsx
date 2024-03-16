@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { id } from "@metreeca/core/entry";
 import { Home } from "@metreeca/demo/pages/home";
 import { ToolPage } from "@metreeca/view/layouts/page";
 import { ToolLogo } from "@metreeca/view/widgets/logo";
@@ -45,7 +44,7 @@ export function DemoPage({
 
 	return <ToolPage
 
-		logo={<a href={id(Home)}><ToolLogo/></a>}
+		logo={<a href={Home.id}><ToolLogo/></a>}
 		meta={NAME}
 
 		name={<ToolPath>{name}</ToolPath>}

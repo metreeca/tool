@@ -53,7 +53,7 @@ export const local: Type<Local> & ((model: Local) => Type<Local>)=Object.freeze(
 
 
 		write(value) {
-			return text(value);
+			return toLocalString(value);
 		},
 
 		parse(value) {
@@ -92,16 +92,9 @@ export function toLocalString(local: Local, {
 
 }={}): string {
 
-	return text(local, locales);
-
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function text(local: Local, locales?: Intl.LocalesArgument): string {
 	return (isArray<any>(locales) ? locales.map(locale => local[locale.toString()]).filter(s => s)[0] : undefined)
 		?? local.en
 		?? Object.values(local)[0]
 		?? "";
+
 }

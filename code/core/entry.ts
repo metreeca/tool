@@ -16,7 +16,7 @@
 
 import { error, immutable, Type } from "@metreeca/core";
 import { Frame, isFrame } from "@metreeca/core/frame";
-import { isLocal, Local, text } from "@metreeca/core/local";
+import { isLocal, Local, toLocalString } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
 
 
@@ -54,7 +54,7 @@ export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(
 
 
 		write(value) {
-			return id(value);
+			return value.id;
 		},
 
 		parse(value) {
@@ -91,36 +91,16 @@ export function toEntryString(value: Entry, {
 
 }={}): string {
 
-	return label(value, locales);
+	return isString(value.label) ? value.label
 
-}
+		: isLocal(value.label) ? toLocalString(value.label, { locales })
 
+			: value.id // guess the entry label from its id
+				.replace(/^.*?(?:[/#:]([^/#:]+))?(?:\/|#|#_|#id|#this)?$/, "$1") // extract label
+				.replace(/([a-z-0-9])([A-Z])/g, "$1 $2") // split camel-case words
+				.replace(/[-_]+/g, " ") // split kebab-case words
+				.replace(/\b[a-z]/g, $0 => $0.toUpperCase());
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function id(entry: Entry): string {
-	return entry.id;
-}
-
-export function label(entry: Entry, locales: Intl.LocalesArgument): string {
-	return isString(entry.label) ? entry.label
-		: isLocal(entry.label) ? text(entry.label, locales)
-			: guess(id(entry));
-}
-
-/**
- * Guesses a resource label from its id.
- *
- * @param id the resource id
- *
- * @returns a label guessed from `id` or an empty string, if unable to guess
- */
-export function guess(id: string): string {
-	return id
-		.replace(/^.*?(?:[/#:]([^/#:]+))?(?:\/|#|#_|#id|#this)?$/, "$1") // extract label
-		.replace(/([a-z-0-9])([A-Z])/g, "$1 $2") // split camel-case words
-		.replace(/[-_]+/g, " ") // split kebab-case words
-		.replace(/\b[a-z]/g, $0 => $0.toUpperCase()); // capitalize words
 }
 
 

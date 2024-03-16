@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Entry, id, isEntry } from "@metreeca/core/entry";
+import { Entry, isEntry } from "@metreeca/core/entry";
 import { Frame } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
@@ -44,7 +44,7 @@ export function ToolLink({
 	const handler=(filter === undefined) ? undefined : action(filter);
 	const label=toValueString(value);
 
-	return <a href={isEntry(value) ? id(value) : undefined} title={label}
+	return <a href={isEntry(value) ? value.id : undefined} title={label}
 
 		onClick={e => {
 

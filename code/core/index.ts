@@ -20,7 +20,6 @@
  * @module
  */
 
-
 import { boolean, isBoolean } from "@metreeca/core/boolean";
 import { date, isDate } from "@metreeca/core/date";
 import { dateTime, isDateTime } from "@metreeca/core/dateTime";

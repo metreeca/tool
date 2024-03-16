@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  */
 
 
-import { Entry, id, label }     from "@metreeca/core/entry";
-import { Setter }               from "@metreeca/data/hooks";
-import { Matches }              from "@metreeca/data/models/matches";
-import { createField, Field }   from "@metreeca/view/fields/index";
-import { ToolAuto }             from "@metreeca/view/widgets/auto";
-import { focus, input }         from "@metreeca/view/widgets/form";
-import { ClearIcon }            from "@metreeca/view/widgets/icon";
+import { Entry, toEntryString } from "@metreeca/core/entry";
+import { Setter } from "@metreeca/data/hooks";
+import { Matches } from "@metreeca/data/models/matches";
+import { createField, Field } from "@metreeca/view/fields/index";
+import { ToolAuto } from "@metreeca/view/widgets/auto";
+import { focus, input } from "@metreeca/view/widgets/form";
+import { ClearIcon } from "@metreeca/view/widgets/icon";
 import React, { createElement } from "react";
 import "./index.css";
 
@@ -51,8 +51,8 @@ export function ToolEntry({
 
 	function reader({ value }: { value: Entry }) { // wrap in span to manage clipping
 		return readonly
-			? <span key={id(value)}>{label(value)}</span>
-			: <span key={id(value)}><a href={id(value)}>{label(value)}</a></span>;
+			? <span key={value.id}>{toEntryString(value)}</span>
+			: <span key={value.id}><a href={value.id}>{toEntryString(value)}</a></span>;
 	}
 
 	function editor({
@@ -83,7 +83,7 @@ export function ToolEntry({
 
 			? <>
 
-				<input type={"text"} readOnly required={required} spellCheck={"false"} value={label(value)}/>
+				<input type={"text"} readOnly required={required} spellCheck={"false"} value={toEntryString(value)}/>
 
 				<button title={"Remove"} onClick={e => {
 

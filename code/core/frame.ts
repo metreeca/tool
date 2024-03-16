@@ -15,9 +15,10 @@
  */
 
 import { error, immutable, isArray, isObject, Type } from "@metreeca/core/index";
-import { isLocal, text } from "@metreeca/core/local";
+import { isLocal, toLocalString } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
 import { isValue, Value } from "@metreeca/core/value";
+
 
 /**
  * Linked data frame.
@@ -88,10 +89,13 @@ export function toFrameString(value: Frame, {
 }={}): string {
 
 	return isString(value.label) ? value.label
-		: isLocal(value.label) ? text(value.label, locales)
+		: isLocal(value.label) ? toLocalString(value.label, { locales })
 			: JSON.stringify(value);
 
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Cleans frames, recursively removing undefined values and non-id fields.

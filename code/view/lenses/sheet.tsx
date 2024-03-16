@@ -15,7 +15,7 @@
  */
 
 import { isDefined } from "@metreeca/core";
-import { id, isEntry } from "@metreeca/core/entry";
+import { isEntry } from "@metreeca/core/entry";
 import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
 import { useCache } from "@metreeca/data/hooks/cache";
@@ -92,7 +92,7 @@ export function ToolSheet<V extends Frame>({
 
 	return items?.length ? createElement("tool-sheet", {}, <>
 
-		{items?.map((item, index) => <Fragment key={isEntry(item) ? id(item) : JSON.stringify(item)}>{
+		{items?.map((item, index) => <Fragment key={isEntry(item) ? item.id : JSON.stringify(item)}>{
 
 			as(item)
 

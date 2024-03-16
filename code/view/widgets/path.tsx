@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { isArray, isDefined } from "@metreeca/core";
-import { id, isEntry } from "@metreeca/core/entry";
+import { isEntry } from "@metreeca/core/entry";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
 import { ToolLink } from "@metreeca/view/widgets/link";
 import * as React from "react";
@@ -44,7 +44,7 @@ export function ToolPath({
 	const steps=isArray<undefined | Value | ReactNode>(path) ? path : [path];
 
 	return createElement("tool-path", {}, steps.map((step, index) =>
-		isEntry(step) && index + 1 < steps.length ? <ToolLink key={id(step)}>{step}</ToolLink>
+		isEntry(step) && index + 1 < steps.length ? <ToolLink key={step.id}>{step}</ToolLink>
 			: isValue(step) ? <span key={toValueString(step)}>{toValueString(step)}</span>
 				: isDefined(step) ? <React.Fragment key={index}>{step}</React.Fragment>
 					: undefined

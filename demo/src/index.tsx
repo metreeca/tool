@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { id } from "@metreeca/core/entry";
 import { ToolContext } from "@metreeca/data/contexts/context";
 import { ToolRouter } from "@metreeca/data/contexts/router";
 import { DemoDND, DND } from "@metreeca/demo/pages/dnd";
@@ -33,11 +32,11 @@ createRoot(document.body.firstElementChild!).render((
 
 			<ToolRouter>{{
 
-				[id(Home)]: DemoHome,
+				[Home.id]: DemoHome,
 
-				[id(DND)]: DemoDND,
+				[DND.id]: DemoDND,
 
-				[id(Wild)]: DemoWild
+				[Wild.id]: DemoWild
 
 			}}</ToolRouter>
 

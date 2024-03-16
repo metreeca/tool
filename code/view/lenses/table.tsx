@@ -15,7 +15,7 @@
  */
 
 import { isDefined } from "@metreeca/core";
-import { Entry, id, isEntry, toEntryString } from "@metreeca/core/entry";
+import { Entry, isEntry, toEntryString } from "@metreeca/core/entry";
 import { Frame, isFrame } from "@metreeca/core/frame";
 import { isNumber } from "@metreeca/core/number";
 import { isString } from "@metreeca/core/string";
@@ -286,7 +286,7 @@ export function ToolTable<V extends Frame>({
 				}
 
 
-				return <tr key={isEntry(item) ? id(item) : JSON.stringify(item)}>
+				return <tr key={isEntry(item) ? item.id : JSON.stringify(item)}>
 
 					<td className={"scroll-r"}>
 
