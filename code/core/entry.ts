@@ -104,3 +104,11 @@ export function toEntryString(value: Entry, {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function sortEntries<E extends Entry>(entries: E[], locales?: Intl.LocalesArgument): typeof entries {
+
+	return [...entries].sort((x, y) => toEntryString(x, { locales }).localeCompare(toEntryString(y, { locales })));
+
+}
+

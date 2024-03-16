@@ -16,7 +16,7 @@
 
 import { immutable, isEmpty } from "@metreeca/core";
 import { Entry } from "@metreeca/core/entry";
-import { clean, Frame } from "@metreeca/core/frame";
+import { cleanFrame, Frame } from "@metreeca/core/frame";
 import { Value } from "@metreeca/core/value";
 import { Setter } from "@metreeca/data/hooks";
 import { useResource } from "@metreeca/data/models/resource";
@@ -98,7 +98,7 @@ export function useCollection<
 			} else {
 
 				if ( delta.query !== undefined ) {
-					setQuery(clean({ ...query, ...delta.query }));
+					setQuery(cleanFrame({ ...query, ...delta.query }));
 				}
 
 			}

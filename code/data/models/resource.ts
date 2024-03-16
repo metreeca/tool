@@ -16,7 +16,7 @@
 
 import { isEmpty } from "@metreeca/core";
 import { Entry, isEntry } from "@metreeca/core/entry";
-import { clean, Frame } from "@metreeca/core/frame";
+import { cleanFrame, Frame } from "@metreeca/core/frame";
 import { useGraph } from "@metreeca/data/contexts/graph";
 import { useTrace } from "@metreeca/data/contexts/trace";
 import { Trace } from "@metreeca/link";
@@ -116,11 +116,11 @@ export function useResource<
 
 			} else if ( isEntry(delta) ) { // !!! validate model (e.g. no queries)
 
-				return graph.update(clean({ ...entry, ...delta, id })).catch(report);
+				return graph.update(cleanFrame({ ...entry, ...delta, id })).catch(report);
 
 			} else { // !!! validate model (e.g. no queries)
 
-				return graph.create(clean({ ...delta, id })).catch(report);
+				return graph.create(cleanFrame({ ...delta, id })).catch(report);
 
 			}
 

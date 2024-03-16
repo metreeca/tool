@@ -97,12 +97,18 @@ export function toFrameString(value: Frame, {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+export function sortFrames<F extends Frame>(frames: F[], locales?: Intl.LocalesArgument): typeof frames {
+
+	return [...frames].sort((x, y) => toFrameString(x, { locales }).localeCompare(toFrameString(y, { locales })));
+
+}
+
 /**
  * Cleans frames, recursively removing undefined values and non-id fields.
  *
  * @param frame
  */
-export function clean<F extends Frame>(frame: F): typeof frame {
+export function cleanFrame<F extends Frame>(frame: F): typeof frame {
 
 	return Object.entries(frame).reduce((f, [label, value]) => {
 
@@ -132,3 +138,6 @@ export function clean<F extends Frame>(frame: F): typeof frame {
 	}
 
 }
+
+
+
