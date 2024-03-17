@@ -39,6 +39,7 @@ export type Options<V extends Value>=Readonly<[
 		ready: boolean
 
 		type: Type<V>
+		size: number
 
 		keywords: string
 		offset: number
@@ -178,6 +179,7 @@ export function useOptions<
 			ready,
 
 			type: effective,
+			size: size,
 
 			keywords,
 			limit,

@@ -25,6 +25,7 @@ import { Check, CheckSquare, ClearIcon, X } from "@metreeca/view/widgets/icon";
 import { ToolLink } from "@metreeca/view/widgets/link";
 import { ToolMore } from "@metreeca/view/widgets/more";
 import { ToolSpin } from "@metreeca/view/widgets/spin";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import React, { createElement, ReactNode, useEffect, useRef, useState } from "react";
 import "./options.css";
 
@@ -54,21 +55,21 @@ export function ToolOptions<
 
 }) {
 
-	const [{ ready, type, more, keywords, limit, items }]=useCache(options);
+	const [{ ready, type, size, more, keywords, limit, items }]=useCache(options);
 
 	const element=useRef<Element>(null);
 
-	const [focused, setFocused]=useState(false);
+	const [active, setActive]=useState(false);
 	const [input, setInput]=useCache(keywords);
 
 	const [delta]=useState(limit); // progressive loading window size set to initial limit
 
 
-	const expanded=!compact || focused;
+	const expanded=!compact || active;
 	const selected=items && items.some(({ selected }) => selected);
 
 	const matching=items && items.length > 0;
-	const overflow=expanded && matching && delta > 0;
+	const overflow=expanded && matching && size > 0 && delta > size;
 
 
 	useEffect(() => {
@@ -93,11 +94,11 @@ export function ToolOptions<
 	function activate(active: boolean) {
 		if ( active ) {
 
-			setFocused(true);
+			setActive(true);
 
 		} else {
 
-			setFocused(false);
+			setActive(false);
 			setOptions({ keywords: "" });
 
 		}
@@ -127,7 +128,7 @@ export function ToolOptions<
 	return createElement("tool-options", {
 
 		ref: element,
-		class: classes({ focused, overflow }),
+		class: classes({ focused: active, overflow }),
 
 		onMouseLeave: e => {
 
@@ -171,14 +172,20 @@ export function ToolOptions<
 
 			/>
 
-			<nav>{
+			<nav>
 
-				!ready ? <ToolSpin/>
-					: keywords ? <button title={"Clear"} onClick={clear}><ClearIcon/></button>
-						: selected ? <button title={"Reset"} onClick={reset}><ClearIcon/></button>
-							: undefined
+				{
+					!ready ? <ToolSpin/>
+						: keywords ? <button title={"Clear"} onClick={clear}><ClearIcon/></button>
+							: selected ? <button title={"Reset"} onClick={reset}><ClearIcon/></button>
+								: undefined
+				}
 
-			}</nav>
+				{compact && <button title={expanded ? "Collapse" : "Expand"} onClick={() => setActive(!active)}>{
+					expanded ? <ChevronUp/> : <ChevronDown/>
+				}</button>}
+
+			</nav>
 
 		</header>
 
