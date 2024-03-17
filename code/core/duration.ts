@@ -20,36 +20,6 @@ import { toLocalString } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
 
 
-const Minus=`(?<minus>-)?`;
-
-const Years=`(?:(?<years>\\d+)Y)?`;
-const Months=`(?:(?<months>\\d+)M)?`;
-const Days=`(?:(?<days>\\d+)D)?`;
-
-const Hours=`(?:(?<hours>\\d+)H)?`;
-const Minutes=`(?:(?<minutes>\\d+)M)?`;
-const Seconds=`(?:(?<seconds>\\d+(?:\\.\\d+))S)?`;
-
-const Duration=RegExp(`^P${Minus}${Years}${Months}${Days}(?:T${Hours}${Minutes}${Seconds})?$`);
-
-
-const Keys: Set<string>=new Set(Object.keys(<Duration>{
-
-	minus: false,
-
-	years: 0,
-	months: 0,
-	days: 0,
-
-	hours: 0,
-	minutes: 0,
-	seconds: 0.0
-
-}));
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 export interface Duration {
 
 	minus?: boolean;
@@ -76,8 +46,38 @@ export const duration: Type<string, Duration>=immutable({
 	model: "",
 
 
-	encode(value) {
-		throw new Error(";( to be implemented"); // !!!
+	encode({
+
+		minus,
+
+		years,
+		months,
+		days,
+
+		hours,
+		minutes,
+		seconds
+
+	}) {
+
+		return `${
+			minus ? "-" : ""
+		}P${
+			years ? `${years}Y` : ""
+		}${
+			months ? `${months}M` : ""
+		}${
+			days ? `${days}D` : ""
+		}${
+			hours || minutes || seconds ? "T" : ""
+		}${
+			hours ? `${hours}H` : ""
+		}${
+			minutes ? `${minutes}M` : ""
+		}${
+			seconds ? `${seconds}S` : ""
+		}`;
+
 	},
 
 	decode(value) {
@@ -123,25 +123,16 @@ export const duration: Type<string, Duration>=immutable({
 
 
 	write(value) {
-
 		throw new Error(";( to be implemented"); // !!!
-
-		// return value?.toFixed(0);
 	},
 
 	parse(value) {
-
 		throw new Error(";( to be implemented"); // !!!
-
-		// const number=parseInt(value);
-		//
-		// return !isNaN(number) ? number
-		// 	: error(new TypeError(`<${value}> is not a <${integer.label}> string`));
 	},
 
 
 	format(value, locales) {
-		throw new Error(";( to be implemented"); // !!!
+		return toDurationString(value, { locales });
 	}
 
 });
@@ -149,9 +140,6 @@ export const duration: Type<string, Duration>=immutable({
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Checks if a value is an ISO duration string.
- */
 export function isDuration(value: unknown): value is Duration {
 	return isObject(value) && Object.keys(value).every(Keys.has);
 }
@@ -187,15 +175,15 @@ export function toDurationString({
 
 	return [
 
-		minus ? toLocalString(labels.minus, opts) : undefined,
+		minus ? toLocalString(Labels.minus, opts) : undefined,
 
-		years && `${toIntegerString(years, opts)} ${toLocalString(years > 1 ? labels.years : labels.year, opts)}`,
-		months && `${toIntegerString(months, opts)} ${toLocalString(months > 1 ? labels.months : labels.month, opts)}`,
-		days && `${toIntegerString(days, opts)} ${toLocalString(days > 1 ? labels.days : labels.day, opts)}`,
+		years && `${toIntegerString(years, opts)} ${toLocalString(years > 1 ? Labels.years : Labels.year, opts)}`,
+		months && `${toIntegerString(months, opts)} ${toLocalString(months > 1 ? Labels.months : Labels.month, opts)}`,
+		days && `${toIntegerString(days, opts)} ${toLocalString(days > 1 ? Labels.days : Labels.day, opts)}`,
 
-		hours && `${toIntegerString(hours, opts)} ${toLocalString(hours > 1 ? labels.hours : labels.hour, opts)}`,
-		minutes && `${toIntegerString(minutes, opts)} ${toLocalString(minutes > 1 ? labels.minutes : labels.minute, opts)}`,
-		seconds && `${toIntegerString(seconds, opts)} ${toLocalString(seconds > 1 ? labels.seconds : labels.second, opts)}`
+		hours && `${toIntegerString(hours, opts)} ${toLocalString(hours > 1 ? Labels.hours : Labels.hour, opts)}`,
+		minutes && `${toIntegerString(minutes, opts)} ${toLocalString(minutes > 1 ? Labels.minutes : Labels.minute, opts)}`,
+		seconds && `${toIntegerString(seconds, opts)} ${toLocalString(seconds > 1 ? Labels.seconds : Labels.second, opts)}`
 
 	].filter(v => v).join(" ");
 
@@ -204,7 +192,34 @@ export function toDurationString({
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const labels=immutable({
+const Minus=`(?<minus>-)?`;
+
+const Years=`(?:(?<years>\\d+)Y)?`;
+const Months=`(?:(?<months>\\d+)M)?`;
+const Days=`(?:(?<days>\\d+)D)?`;
+
+const Hours=`(?:(?<hours>\\d+)H)?`;
+const Minutes=`(?:(?<minutes>\\d+)M)?`;
+const Seconds=`(?:(?<seconds>\\d+(?:\\.\\d+))S)?`;
+
+const Duration=RegExp(`^${Minus}P${Years}${Months}${Days}(?:T${Hours}${Minutes}${Seconds})?$`);
+
+
+const Keys: Set<string>=new Set(Object.keys(<Duration>{
+
+	minus: false,
+
+	years: 0,
+	months: 0,
+	days: 0,
+
+	hours: 0,
+	minutes: 0,
+	seconds: 0.0
+
+}));
+
+const Labels=immutable({
 
 	minus: {
 		en: "minus",
