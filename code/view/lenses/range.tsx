@@ -281,7 +281,8 @@ function Input<V>({
 
 					// ;(chrome) no change event on clear
 
-					const current=type.parse(e.target.value.trim());
+					const content=e.target.value.trim();
+					const current=content ? type.parse(content) : null;
 
 					if ( e.target.checkValidity() && current !== value ) {
 						setValue(current);
@@ -301,7 +302,8 @@ function Input<V>({
 
 					// ;(chrome) no change event on clear
 
-					const current=type.parse(e.target.value.trim());
+					const content=e.target.value.trim();
+					const current=content ? type.parse(content) : null;
 
 					if ( e.target.checkValidity() && current !== value ) {
 						setValue(current);
