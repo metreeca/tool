@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-import { asArray }  from "@metreeca/core";
-import { Entry }    from "@metreeca/core/entry";
-import { Value }    from "@metreeca/core/value";
+import { asArray } from "@metreeca/core";
+import { Entry } from "@metreeca/core/entry";
+import { Value } from "@metreeca/core/value";
 import { useGraph } from "@metreeca/data/contexts/graph";
 import { useTrace } from "@metreeca/data/contexts/trace";
 
+
+/**
+ * Full-text matches (e.g. for auto-suggestion) *
+ * @module
+ */
 
 export type Matches<V extends Value>=(specs: Readonly<{
 
@@ -48,14 +53,14 @@ export function useMatches<V extends Value>(entry: Entry, field: string): Matche
 
 			[field]: [{
 
-				"~label": keywords,
-
-				"^": { "label": "increasing" },
-				"@": offset,
-				"#": limit,
-
 				id: "",
-				label: ""
+				label: "",
+
+				"~label": keywords,
+				"^label": "increasing",
+
+				"@": offset,
+				"#": limit
 
 			}]
 

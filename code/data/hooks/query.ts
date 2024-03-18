@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { decodeQuery, encodeQuery, Frame, isFrame, toQuery } from "@metreeca/core/frame";
+import { decodeQuery, encodeQuery, Frame, isFrame, Query, toQuery } from "@metreeca/core/frame";
 import { useRouter } from "@metreeca/data/contexts/router";
-import { Setter } from "@metreeca/data/hooks";
+import { Setter } from "@metreeca/data/hooks/index";
 import { useEffect, useState } from "react";
 
 /**
@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 /**
  * Creates a persistent query store.
  */
-export function useQuery(): [Frame, Setter<Frame>] {
+export function useQuery(): [Query, Setter<Query>] {
 
 	const [route]=useRouter();
 

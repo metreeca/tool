@@ -16,10 +16,10 @@
 
 import { immutable, isEmpty } from "@metreeca/core";
 import { Entry } from "@metreeca/core/entry";
-import { Frame, toModel, toQuery } from "@metreeca/core/frame";
+import { Frame, Query, toModel, toQuery } from "@metreeca/core/frame";
 import { Value } from "@metreeca/core/value";
 import { Setter } from "@metreeca/data/hooks";
-import { useQuery } from "@metreeca/data/models/query";
+import { useQuery } from "@metreeca/data/hooks/query";
 import { useResource } from "@metreeca/data/models/resource";
 
 
@@ -30,7 +30,7 @@ export type Collection<V extends Value>=Readonly<[
 		filtered: boolean
 
 		model: V
-		query: Readonly<Frame>
+		query: Query
 
 		items<M extends Value>(model: M): undefined | ReadonlyArray<M>
 
@@ -38,7 +38,7 @@ export type Collection<V extends Value>=Readonly<[
 
 	(delta?: Partial<Readonly<{
 
-		query: Frame
+		query: Query
 
 	}>>) => void
 
