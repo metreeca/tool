@@ -207,9 +207,11 @@ export function toModel<V extends Frame>(frame: V): typeof frame {
 /**
  * Extracts the query component of a frame
  *
- * @param frame
+ * @param frame the frame to be processed
+ * @param normalize if false, ignore non-filtering fields; otherwise, convert them to `any` filtering fields,
+ *     converting scalar values into arrays as required (for instance, { field: "value" } => { "?field": ["value"] })
  */
-export function toQuery(frame: Frame): Query {
+export function toQuery(frame: Frame, normalize: boolean=false): Query {
 	return Object.entries(frame).reduce((query, [label, value]) => {
 
 		if ( label.startsWith("<=") && isValue(value) ) {
@@ -243,6 +245,14 @@ export function toQuery(frame: Frame): Query {
 		} else if ( label.startsWith("?") && isArray(value, isValue) ) {
 
 			return { ...query, [label]: value };
+
+		} else if ( normalize && isArray(value, isValue) ) {
+
+			return { ...query, [`?${label}`]: value };
+
+		} else if ( normalize && isValue(value) ) {
+
+			return { ...query, [`?${label}`]: [value] };
 
 		} else {
 

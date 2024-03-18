@@ -15,7 +15,7 @@
  */
 
 import { Entry, isEntry } from "@metreeca/core/entry";
-import { Frame } from "@metreeca/core/frame";
+import { Frame, toQuery } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
 import { isValue, toValueString, Value } from "@metreeca/core/value";
 import { useRouter } from "@metreeca/data/contexts/router";
@@ -61,7 +61,7 @@ export function ToolLink({
 
 
 	function action([target, query]: Exclude<typeof filter, undefined>) {
-		return isValue(target) ? global([target, query]) : local([target, query]);
+		return isValue(target) ? global([target, toQuery(query, true)]) : local([target, toQuery(query, true)]);
 	}
 
 	function global([target, query]: [string | Entry, Frame]) {
