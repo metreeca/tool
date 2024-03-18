@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
@@ -45,6 +45,11 @@ export const id: Type<string>=immutable({
 
 	format(value, locales) {
 		return toIdString(value, { locales });
+	},
+
+
+	cast(type: Type): typeof id {
+		return inconvertible(id, type);
 	}
 
 });

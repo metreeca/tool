@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, isObject, Type } from "@metreeca/core";
+import { error, immutable, inconvertible, isObject, Type } from "@metreeca/core";
 import { toIntegerString } from "@metreeca/core/integer";
 import { toLocalString } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
@@ -133,6 +133,11 @@ export const duration: Type<string, Duration>=immutable({
 
 	format(value, locales) {
 		return toDurationString(value, { locales });
+	},
+
+
+	cast(type: Type): typeof duration {
+		return inconvertible(duration, type);
 	}
 
 });

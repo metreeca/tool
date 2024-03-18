@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, Type } from "@metreeca/core/index";
 
 
 export const boolean: Type<boolean>=immutable({
@@ -44,6 +44,11 @@ export const boolean: Type<boolean>=immutable({
 
 	format(value, locales) {
 		return toBooleanString(value, { locales });
+	},
+
+
+	cast(type: Type): typeof boolean {
+		return inconvertible(boolean, type);
 	}
 
 });

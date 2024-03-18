@@ -22,7 +22,7 @@
  * @module
  */
 
-import { error, immutable, isArray, isObject, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, isArray, isObject, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
@@ -63,6 +63,11 @@ export const local: Type<Local> & ((model: Local) => Type<Local>)=Object.freeze(
 
 		format(value, locales) {
 			return toLocalString(value, { locales });
+		},
+
+
+		cast(type: Type): typeof local {
+			return inconvertible(local, type);
 		}
 
 	})

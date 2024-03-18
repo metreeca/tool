@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, Type } from "@metreeca/core/index";
 
 
 export const string: Type<string>=immutable({
@@ -44,6 +44,11 @@ export const string: Type<string>=immutable({
 
 	format(value) {
 		return value;
+	},
+
+
+	cast(type: Type): typeof string {
+		return inconvertible(string, type);
 	}
 
 });

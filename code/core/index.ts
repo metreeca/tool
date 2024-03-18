@@ -88,6 +88,9 @@ export interface Type<V extends Value=any, T=V> {
 	 */
 	format(value: T, locales?: Intl.LocalesArgument): string;
 
+
+	cast(type: Type): Type<V, T>;
+
 }
 
 
@@ -242,6 +245,14 @@ export function error<V>(error: unknown): V {
 	throw error;
 }
 
+export function malformed<V>(type: Type, value: unknown): V {
+	return error(new TypeError(`value <${value}> is not a <${type.label}> string`));
+}
+
+export function inconvertible<V>(type: Type, cast: Type): V {
+	return error(new TypeError(`unsupported <${type.label}> cast from type <${cast.label}>`));
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -262,6 +273,6 @@ export function multiple<V extends Value, T>(value: V | Type<V, T>): undefined |
 }
 
 
-export function model<V extends Value, T>(value: V | Type<V, T>): V {
+function model<V extends Value, T>(value: V | Type<V, T>): V {
 	return isType<V, T>(value) ? value.model : value;
 }

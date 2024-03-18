@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core";
+import { error, immutable, inconvertible, Type } from "@metreeca/core";
 import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
 import { Local } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
@@ -64,6 +64,11 @@ export const entry: Type<Entry> & ((model: Entry) => Type<Entry>)=Object.freeze(
 
 		format(value, locales) {
 			return toEntryString(value, { locales });
+		},
+
+
+		cast(type: Type): typeof entry {
+			return inconvertible(entry, type);
 		}
 
 	})

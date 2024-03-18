@@ -15,7 +15,7 @@
  */
 
 import { isEntry } from "@metreeca/core/entry";
-import { error, immutable, isArray, isEmpty, isObject, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, isArray, isEmpty, isObject, Type } from "@metreeca/core/index";
 import { isInteger } from "@metreeca/core/integer";
 import { isLocal, Local, toLocalString } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
@@ -100,6 +100,11 @@ export const frame: Type<Frame> & ((model: Frame) => Type<Frame>)=Object.freeze(
 
 		format(value, locales) {
 			return toFrameString(value, { locales });
+		},
+
+
+		cast(type: Type): typeof frame {
+			return inconvertible(frame, type);
 		}
 
 	})

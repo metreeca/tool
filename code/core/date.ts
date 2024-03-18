@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core/index";
+import { dateTime } from "@metreeca/core/dateTime";
+import { immutable, inconvertible, malformed, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
@@ -29,8 +30,7 @@ export const date: Type<string, Date>=immutable({
 	},
 
 	decode(value) {
-		return isDate(value) ? date.parse(value)
-			: error(new TypeError(`<${typeof value}> value <${value}> is not a <${date.label}> string`));
+		return isDate(value) ? date.parse(value) : malformed(date, value);
 	},
 
 
@@ -39,13 +39,41 @@ export const date: Type<string, Date>=immutable({
 	},
 
 	parse(value) {
-		return isDate(value) ? new Date(`${value}T00:00:00Z`)
-			: error(new TypeError(`<${value}> is not a <${date.label}> string`));
+		return isDate(value) ? new Date(`${value}T00:00:00Z`) : malformed(date, value);
 	},
 
 
 	format(value, locales) {
 		return toDateString(value, { locales });
+	},
+
+
+	cast(type: Type): typeof date {
+
+		switch ( type.label ) {
+
+			case dateTime.label :
+
+				return {
+
+					...date,
+
+					encode(value: Date): string {
+						return dateTime.encode(value);
+					},
+
+					decode(value: string): Date {
+						return new Date(dateTime.decode(value).setUTCHours(0));
+					}
+
+				};
+
+			default:
+
+				return inconvertible(date, type);
+
+		}
+
 	}
 
 });

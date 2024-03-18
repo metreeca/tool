@@ -170,24 +170,24 @@ function Icon({
 
 }) {
 
-	switch ( type ) {
+	switch ( type.label ) {
 
-		case integer:
-		case decimal:
+		case integer.label :
+		case decimal.label :
 
 			return <Hash/>;
 
-		case string:
+		case string.label :
 
 			return <TypeIcon/>;
 
-		case year:
-		case date:
-		case dateTime:
+		case year.label :
+		case date.label :
+		case dateTime.label :
 
 			return <Calendar/>;
 
-		case time:
+		case time.label :
 
 			return <Clock/>;
 
@@ -257,21 +257,21 @@ function Input<V>({
 
 	};
 
-	switch ( type ) {
+	switch ( type.label ) {
 
-		case integer:
+		case integer.label:
 
 			return <input type={"number"} pattern={"[-+]?\\d*"} {...common}/>;
 
-		case decimal:
+		case decimal.label:
 
 			return <input type={"number"} {...common}/>;
 
-		case year:
+		case year.label:
 
 			return <input type={"string"} pattern={"\\d{4}"}{...common}/>;
 
-		case date:
+		case date.label:
 
 			return <input type={focused || value ? "date" : "text"} {...common}
 
@@ -292,7 +292,7 @@ function Input<V>({
 
 			/>;
 
-		case dateTime:
+		case dateTime.label:
 
 			return <input type={focused || value ? "datetime-local" : "text"} {...common}
 

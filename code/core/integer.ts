@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, Type } from "@metreeca/core/index";
 import { isNumber } from "@metreeca/core/number";
 
 
@@ -49,6 +49,11 @@ export const integer: Type<number>=immutable({
 
 	format(value, locales) {
 		return toIntegerString(value, { locales });
+	},
+
+
+	cast(type: Type): typeof integer {
+		return inconvertible(integer, type);
 	}
 
 });

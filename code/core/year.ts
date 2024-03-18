@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { error, immutable, Type } from "@metreeca/core/index";
+import { error, immutable, inconvertible, Type } from "@metreeca/core/index";
 import { isString } from "@metreeca/core/string";
 
 
@@ -46,6 +46,11 @@ export const year: Type<string, Date>=immutable({
 
 	format(value, locales) {
 		return toYearString(value, { locales });
+	},
+
+
+	cast(type: Type): typeof year {
+		return inconvertible(year, type);
 	}
 
 });
