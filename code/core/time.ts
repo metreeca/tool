@@ -86,7 +86,7 @@ export function toTimeString(value: Date, {
 
 		hour: "numeric",
 		minute: "numeric",
-		second: "numeric",
+		second: undefined,
 
 		...opts
 
