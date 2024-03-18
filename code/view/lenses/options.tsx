@@ -237,7 +237,7 @@ export function ToolOptions<
 	function Label(label: null | string) {
 		return label
 			? <span>{label}</span>
-			: <span className={"label"}>{label === null ? "blank" : "empty"}</span>;
+			: <span className={"label"}>{label === null ? "‹blank›" : "‹empty›"}</span>;
 	}
 
 }

@@ -34,12 +34,8 @@ tool-options {
     }
 
     & > small { /* placeholder */
-
         padding: 0.5em 0.5em;
-
         font-size: 90%;
-        color: var(--tool--color-label);
-
     }
 
     & > section {
@@ -81,15 +77,9 @@ tool-options {
 
                 & > a,
                 & > span {
-
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-
-                    &.label, &:empty {
-                        color: var(--tool--color-label);
-                    }
-
                 }
 
                 & > button,
