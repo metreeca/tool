@@ -224,16 +224,23 @@ export function ToolOptions<
 			/>
 
 			{
-				value === null ? <span className={"label"}>{"blank"}</span> // !!! localize
+				value === null ? Label(null)
 					: as ? <span>{as(value)}</span>
 						: isBoolean(value) ? value ? <Check/> : <X/>
 							: isEntry(value) ? <ToolLink>{value}</ToolLink>
-								: <span>{type.format(value)}</span>
+								: Label(type.format(value))
 			}
 
 			<small>{toValueString(count)}</small>
 
 		</li>;
+	}
+
+
+	function Label(label: null | string) {
+		return label
+			? <span>{label}</span>
+			: <span className={"label"}>{label === null ? "blank" : "empty"}</span>;
 	}
 
 }

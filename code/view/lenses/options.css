@@ -90,10 +90,6 @@ tool-options {
                         color: var(--tool--color-label);
                     }
 
-                    &:empty::after {
-                        content: "-";
-                    }
-
                 }
 
                 & > button,
