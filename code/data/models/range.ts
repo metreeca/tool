@@ -139,14 +139,18 @@ export function useRange<V extends Value>(collection: Collection<V>, expression:
 
 			} else {
 
-				const { gte, lte }=delta;
-
-				if ( gte !== undefined || lte !== undefined ) {
+				if ( delta.gte !== undefined || delta.lte !== undefined ) {
 					setCollection({
 
 						query: {
-							[lower]: gte === undefined ? gte : gte === null ? undefined : effective.encode(gte),
-							[upper]: lte === undefined ? lte : lte === null ? undefined : effective.encode(lte)
+
+							[lower]: delta.gte === undefined ? gte
+								: delta.gte === null ? undefined
+									: effective.encode(delta.gte),
+
+							[upper]: delta.lte === undefined ? lte
+								: delta.lte === null ? undefined
+									: effective.encode(delta.lte)
 						}
 
 					});
