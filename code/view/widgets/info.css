@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,10 +37,14 @@ tool-info {
 
         display: contents;
 
-        & > dt {
+        & > * {
 
             overflow: hidden;
             text-overflow: ellipsis;
+
+        }
+
+        & > dt {
 
             white-space: nowrap;
 
@@ -69,8 +73,11 @@ tool-info {
 
                     margin-left: 0.75em;
 
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
                     &::marker {
-                        color: var(--node--color-light);
+                        color: var(--tool--color-light);
                     }
 
                     &:not(:first-child) {
