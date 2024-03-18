@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-import { immutable, isObject } from "@metreeca/core";
-import { Entry, isEntry } from "@metreeca/core/entry";
-import { Frame } from "@metreeca/core/frame";
-import { isInteger } from "@metreeca/core/integer";
-import { isString } from "@metreeca/core/string";
-import { evaluate, Value } from "@metreeca/core/value";
+import { immutable } from "@metreeca/core";
+import { Entry } from "@metreeca/core/entry";
+import { Value } from "@metreeca/core/value";
 
 
 export interface Graph {
@@ -38,12 +35,6 @@ export interface Graph {
 
 }
 
-export interface Order {
-
-	[expression: string]: "increasing" | "decreasing" | number;
-
-}
-
 /**
  * Error trace.
  */
@@ -58,34 +49,6 @@ export interface Trace {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function isOrder(value: unknown): value is Order {
-	return isObject(value) && Object.entries(value).every(([key, value]) =>
-		isString(key) && isCriterion(value)
-	);
-}
-
-export function asOrder(value: unknown): undefined | Order {
-	return isOrder(value) ? value : undefined;
-}
-
-
-export function asSort(expression: string, model: Frame) {
-	return isEntry(evaluate(model, expression)) ? `^${expression}.label` : `^${expression}`;
-}
-
-
-export function isCriterion(value: unknown): value is Order[string] {
-	return value === "increasing" || value === "decreasing" || isInteger(value);
-}
-
-export function asCriterion(value: unknown): undefined | Order[string] {
-	return isCriterion(value) ? value : undefined;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 export function errors(response: Response): Promise<Response> {
 	if ( response.ok ) {

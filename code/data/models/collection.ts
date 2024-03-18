@@ -16,11 +16,11 @@
 
 import { immutable, isEmpty } from "@metreeca/core";
 import { Entry } from "@metreeca/core/entry";
-import { cleanFrame, Frame } from "@metreeca/core/frame";
+import { Frame, toModel, toQuery } from "@metreeca/core/frame";
 import { Value } from "@metreeca/core/value";
 import { Setter } from "@metreeca/data/hooks";
+import { useQuery } from "@metreeca/data/models/query";
 import { useResource } from "@metreeca/data/models/resource";
-import { useState } from "react";
 
 
 export type Collection<V extends Value>=Readonly<[
@@ -62,22 +62,25 @@ export function useCollection<
 
 }>={}): Collection<V> {
 
-	const model=immutable(toModel(entry?.[field]?.[0])); // the first item in the collection model array
+	const model=entry?.[field]?.[0]; // the first item in the collection model array
 
 	if ( model === undefined ) {
 		throw new RangeError(`undefined model for collection <${field}>`);
 	}
 
-	const [query, setQuery]=store ?? useState(immutable({}));
+	const [query, setQuery]=store ?? useQuery();
+
+	const cleanModel=immutable(toModel(model));
+	const cleanQuery=immutable(toQuery(query));
 
 	return [
 
 		{
 
-			filtered: !isEmpty(query),
+			filtered: !isEmpty(cleanQuery),
 
-			model,
-			query: immutable(toQuery(query)),
+			model: cleanModel,
+			query: cleanQuery,
 
 			items<M extends Value>(model: M): undefined | ReadonlyArray<M> {
 
@@ -98,7 +101,7 @@ export function useCollection<
 			} else {
 
 				if ( delta.query !== undefined ) {
-					setQuery(cleanFrame({ ...query, ...delta.query }));
+					setQuery(toQuery({ ...query, ...delta.query }));
 				}
 
 			}
@@ -106,23 +109,6 @@ export function useCollection<
 		}
 
 	];
-
-
-	function toModel<V extends Entry>(entry: undefined | V): typeof entry {
-		return entry && Object.entries(entry).reduce((f, [label, value]) => {
-
-			return label.match(/^['\w]/) ? { ...f, [label]: value } : f;
-
-		}, {} as V);
-	}
-
-	function toQuery(frame: Frame): Frame {
-		return Object.entries(frame).reduce((f, [label, value]) => {
-
-			return label.match(/^[<>~?]/) ? { ...f, [label]: value } : f; // !!! verify constraint value
-
-		}, {});
-	}
 
 }
 

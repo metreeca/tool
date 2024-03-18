@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-import { isArray, isDefined, isEmpty } from "@metreeca/core";
-import { isEntry } from "@metreeca/core/entry";
-import { asFrame, Frame } from "@metreeca/core/frame";
-import { isString } from "@metreeca/core/string";
-import { isValue, Value } from "@metreeca/core/value";
+import { decodeQuery, encodeQuery, Frame, isFrame, toQuery } from "@metreeca/core/frame";
 import { useRouter } from "@metreeca/data/contexts/router";
 import { Setter } from "@metreeca/data/hooks";
 import { useEffect, useState } from "react";
@@ -38,22 +34,22 @@ export function useQuery(): [Frame, Setter<Frame>] {
 
 	const key=`${route}#query`;
 
-	const value=normalize(asFrame(history.state))
-		?? decode(location.search.substring(1))
-		?? decode(sessionStorage.getItem(key))
-		?? {};
+	const [query, setQuery]=useState(
+		(isFrame(history.state) ? toQuery(history.state) : undefined)
+		?? decodeQuery(location.search.substring(1))
+		?? decodeQuery(sessionStorage.getItem(key))
+		?? {}
+	);
 
 
-	const [query, setQuery]=useState(value);
-
-	useEffect(() => { update(value); }, []);
+	useEffect(() => { update(query); }, []);
 
 	return [query, update];
 
 
 	function update(query: Frame) {
 
-		const search=encode(query);
+		const search=encodeQuery(query);
 
 		history.replaceState(query, document.title,
 			search ? `${location.pathname}?${search}${location.hash}` : `${location.pathname}${location.hash}`
@@ -64,130 +60,4 @@ export function useQuery(): [Frame, Setter<Frame>] {
 		setQuery(query);
 	}
 
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// !!! compact encoding / handle versioning
-
-function encode(query: Frame): string {
-
-	if ( isEmpty(query) ) {
-
-		return "";
-
-	} else {
-
-		const params=new URLSearchParams();
-
-		Object.entries(query).forEach(([label, value]) => {
-
-			if ( label.startsWith("<=") && isValue(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith(">=") && isValue(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith("<") && isValue(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith(">") && isValue(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith("~") && isString(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith("?") && isArray(value, isValue) ) {
-
-				value.forEach(v => params.append(label.substring(1), encode(v)));
-
-			}
-
-		});
-
-		return params.toString();
-
-
-		function encode(value: null | Value): string {
-			return isEntry(value) ? value.id : JSON.stringify(value);
-		}
-
-	}
-
-}
-
-function decode(search: undefined | null | string): undefined | Frame {
-	try {
-
-		if ( search ) {
-
-			const query: { [label: string]: Frame[string] }={};
-
-			new URLSearchParams(search).forEach((value, label) => {
-
-				if ( label.startsWith("<=") ) {
-
-					query[label]=decode(value);
-
-				} else if ( label.startsWith(">=") ) {
-
-					query[label]=decode(value);
-
-				} else if ( label.startsWith("<") ) {
-
-					query[label]=decode(value);
-
-				} else if ( label.startsWith(">") ) {
-
-					query[label]=decode(value);
-
-				} else if ( label.startsWith("~") ) {
-
-					query[label]=decode(value);
-
-				} else if ( label.startsWith("?") ) {
-
-					query[label]=[...(query[label] as [] ?? []), decode(value)];
-
-				} else {
-
-					query[`?${label}`]=[...(query[label] as [] ?? []), decode(value)];
-
-				}
-
-			});
-
-			return query;
-
-
-			function decode(value: string): null | Value {
-				return value.match(/^\/|^\w+:/) ? { id: value } : JSON.parse(value);
-			}
-
-		} else {
-
-			return undefined;
-
-		}
-
-	} catch ( e ) {
-
-		console.warn("malformed search string <%o> / %o", search, e);
-
-		return undefined;
-
-	}
-}
-
-function normalize(query: undefined | Frame): undefined | Frame {
-	return query === undefined ? undefined : Object.entries(query).reduce((frame, [label, value]) => ({
-		...frame,
-		[label.match(/^\w+$/) ? `?${label}` : label]: isArray(value) ? value : isDefined(value) ? [value] : undefined
-	}), {});
 }

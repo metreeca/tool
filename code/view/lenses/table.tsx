@@ -16,7 +16,7 @@
 
 import { isDefined } from "@metreeca/core";
 import { Entry, isEntry, toEntryString } from "@metreeca/core/entry";
-import { Frame, isFrame } from "@metreeca/core/frame";
+import { Frame, isFrame, Order } from "@metreeca/core/frame";
 import { isNumber } from "@metreeca/core/number";
 import { isString } from "@metreeca/core/string";
 import { equals, evaluate } from "@metreeca/core/value";
@@ -24,7 +24,6 @@ import { useRouter } from "@metreeca/data/contexts/router";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection, SelectionDelta } from "@metreeca/data/models/selection";
-import { asCriterion, asSort, Order } from "@metreeca/link";
 import { classes } from "@metreeca/view";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { DecreasingIcon, IncreasingIcon, OpenIcon, SortIcon } from "@metreeca/view/widgets/icon";
@@ -155,7 +154,7 @@ export function ToolTable<V extends Frame>({
 
 		...(Object.entries(order).reduce((value, [expression, criterion]) => ({
 
-			...value, [asSort(expression, collection.model)]: asCriterion(criterion)
+			...value, ...Order(collection.model, expression, criterion)
 
 		}), {})),
 

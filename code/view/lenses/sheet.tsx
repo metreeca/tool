@@ -16,12 +16,11 @@
 
 import { isDefined } from "@metreeca/core";
 import { isEntry } from "@metreeca/core/entry";
-import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
+import { Frame, isFrame, Order, toFrameString } from "@metreeca/core/frame";
 import { isString } from "@metreeca/core/string";
 import { useCache } from "@metreeca/data/hooks/cache";
 import { Collection } from "@metreeca/data/models/collection";
 import { Selection } from "@metreeca/data/models/selection";
-import { asCriterion, asSort, Order } from "@metreeca/link";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { ToolMore } from "@metreeca/view/widgets/more";
 import React, { createElement, Fragment, ReactNode, useState } from "react";
@@ -73,7 +72,7 @@ export function ToolSheet<V extends Frame>({
 
 		...Object.entries(order).reduce((order, [expression, criterion]) => ({
 
-			...order, [asSort(expression, collection.model)]: asCriterion(criterion)
+			...order, ...Order(collection.model, expression, criterion)
 
 		}), {}),
 
@@ -91,13 +90,13 @@ export function ToolSheet<V extends Frame>({
 
 	return items?.length ? createElement("tool-sheet", {}, <>
 
-		{items?.map((item, index) => <Fragment key={isEntry(item) ? item.id : JSON.stringify(item)}>{
+			{items?.map((item, index) => <Fragment key={isEntry(item) ? item.id : JSON.stringify(item)}>{
 
-			as(item)
+				as(item)
 
-		}</Fragment>)}
+			}</Fragment>)}
 
-		{more && <ToolMore onLoad={load}/>}
+			{more && <ToolMore onLoad={load}/>}
 
 		</>)
 

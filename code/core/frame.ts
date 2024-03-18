@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import { error, immutable, isArray, isObject, Type } from "@metreeca/core/index";
-import { isLocal, toLocalString } from "@metreeca/core/local";
+import { isEntry } from "@metreeca/core/entry";
+import { error, immutable, isArray, isEmpty, isObject, Type } from "@metreeca/core/index";
+import { isInteger } from "@metreeca/core/integer";
+import { isLocal, Local, toLocalString } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
-import { isValue, Value } from "@metreeca/core/value";
+import { evaluate, isValue, Value } from "@metreeca/core/value";
 
 
 /**
@@ -26,6 +28,44 @@ import { isValue, Value } from "@metreeca/core/value";
 export interface Frame {
 
 	readonly [field: string]: undefined | Value | ReadonlyArray<Value>;
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export interface Query extends Frame { // expression-based fields for reference only
+
+	readonly "<{expression}"?: Value;
+	readonly "<={expression}"?: Value;
+	readonly "<<{expression}"?: Value;
+
+	readonly ">{expression}"?: Value;
+	readonly ">={expression}"?: | Value;
+	readonly ">>{expression}"?: Value;
+
+	readonly "~{expression}"?: string;
+
+	readonly "?{expression}"?: Value[] | Local;
+
+}
+
+export interface Focus extends Frame { // expression-based fields for reference only
+
+	readonly "${expression}"?: Value[] | Local;
+
+}
+
+export interface Order {
+
+	readonly [expression: string]: undefined | "increasing" | "decreasing" | number;
+
+}
+
+export interface Slice {
+
+	readonly "@"?: number,
+	readonly "#"?: number
 
 }
 
@@ -78,6 +118,7 @@ export function asFrame(value: unknown): undefined | Frame {
 	return isFrame(value) ? value : undefined;
 }
 
+
 export function toFrameString(value: Frame, {
 
 	locales
@@ -103,29 +144,45 @@ export function sortFrames<F extends Frame>(frames: F[], locales?: Intl.LocalesA
 
 }
 
+
 /**
- * Cleans frames, recursively removing undefined values and non-id fields.
+ * Extracts the model component of a frame.
  *
- * @param frame
+ * Recursively removes:
+ *
+ * - undefined values
+ * - query/focus/order fields
+ *
+ * @param frame the frame to be processed
  */
-export function cleanFrame<F extends Frame>(frame: F): typeof frame {
+export function toModel<V extends Frame>(frame: V): typeof frame {
 
 	return Object.entries(frame).reduce((f, [label, value]) => {
 
-		const v=clean(value);
+		if ( label.match(/^['\w]/) ) { // retain only plain or quoted labels
 
-		return v === undefined ? f : { ...f, [label]: v };
+			const v=clean(value);
 
-	}, {} as F);
+			return v === undefined ? f : { ...f, [label]: v };
+
+		} else {
+
+			return f;
+
+		}
+
+	}, {} as V);
 
 
-	function clean(value: Frame[string]): typeof value { // retain only entry identifiers
+	function clean(value: Frame[string]): typeof value {
 
-		if ( isObject(value) && "id" in value ) {
+		// !!! if ( isObject(value) && "id" in value ) { // retain only entry identifiers for write operations
+		//
+		// 	return { id: value.id };
+		//
+		// }
 
-			return { id: value.id };
-
-		} else if ( isArray<Value>(value) ) {
+		if ( isArray<Value>(value) ) {
 
 			return value.map(clean) as Value[];
 
@@ -139,5 +196,176 @@ export function cleanFrame<F extends Frame>(frame: F): typeof frame {
 
 }
 
+/**
+ * Extracts the query component of a frame
+ *
+ * @param frame
+ */
+export function toQuery(frame: Frame): Query {
+	return Object.entries(frame).reduce((query, [label, value]) => {
 
+		if ( label.startsWith("<=") && isValue(value) ) {
+
+			return { ...query, [label]: value };
+
+		} else if ( label.startsWith(">=") && isValue(value) ) {
+
+			return { ...query, [label]: value };
+
+		} else if ( label.startsWith("<") && isValue(value) ) {
+
+			return { ...query, [label]: value };
+
+		} else if ( label.startsWith(">") && isValue(value) ) {
+
+			return { ...query, [label]: value };
+
+		} else if ( label.startsWith("~") && isString(value) ) {
+
+			return { ...query, [label]: value };
+
+		} else if ( label.startsWith("?") && isArray(value, isValue) ) {
+
+			return { ...query, [label]: value };
+
+		} else {
+
+			return query;
+
+		}
+
+	}, {});
+}
+
+
+export function encodeQuery(query: Query): string {
+
+	if ( isEmpty(query) ) {
+
+		return "";
+
+	} else {
+
+		const params=new URLSearchParams();
+
+		Object.entries(query).forEach(([label, value]) => {
+
+			if ( label.startsWith("<=") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith(">=") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith("<") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith(">") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith("~") && isString(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith("?") && isArray(value, isValue) ) {
+
+				value.forEach(v => params.append(label.substring(1), encode(v)));
+
+			}
+
+		});
+
+		return params.toString();
+
+
+		function encode(value: null | Value): string {
+			return value === null ? "null"
+				: isEntry(value) ? value.id
+					: value.toString();
+		}
+
+	}
+
+}
+
+export function decodeQuery(search: undefined | null | string): undefined | Query {
+	try {
+
+		if ( search ) {
+
+			const query: { -readonly [K in keyof Frame]: Frame[K] }={};
+
+			new URLSearchParams(search).forEach((value, label) => {
+
+				if ( label.startsWith("<=") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith(">=") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith("<") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith(">") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith("~") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith("?") ) {
+
+					query[label]=[...(query[label] as [] ?? []), decode(value)];
+
+				} else {
+
+					query[`?${label}`]=[...(query[label] as [] ?? []), decode(value)];
+
+				}
+
+			});
+
+
+			return query;
+
+
+			function decode(value: string): null | Value {
+				return value === "null" ? null
+					: value === "true" ? true
+						: value === "false" ? false
+							: value.match(/^[-+]?\d+(?:\.\d+)?(?:e[-+]\d+)?$/i) ? parseFloat(value)
+								: value.match(/^\w+:|^\//) ? { id: value } // absolute or root-relative IRI
+									: value;
+			}
+
+		} else {
+
+			return undefined;
+
+		}
+
+	} catch ( e ) {
+
+		console.warn("malformed search string <%o> / %o", search, e);
+
+		return undefined;
+
+	}
+}
+
+
+export function Order(frame: Frame, expression: string, criterion: Order[string]) {
+	return {
+
+		[isEntry(evaluate(frame, expression)) ? `^${expression}.label` : `^${expression}`]: criterion === "increasing" || criterion === "decreasing" || isInteger(criterion) ? criterion : undefined
+
+	}
+}
 

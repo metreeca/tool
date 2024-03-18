@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { useCache }              from "@metreeca/data/hooks/cache";
-import { useTrailing }           from "@metreeca/data/hooks/events";
-import { Keywords }              from "@metreeca/data/models/keywords";
-import { AutoDelay }             from "@metreeca/view";
+import { useCache } from "@metreeca/data/hooks/cache";
+import { useTrailing } from "@metreeca/data/hooks/events";
+import { Keywords } from "@metreeca/data/models/keywords";
+import { AutoDelay } from "@metreeca/view";
 import { ClearIcon, SearchIcon } from "@metreeca/view/widgets/icon";
-import * as React                from "react";
-import { createElement }         from "react";
+import * as React from "react";
+import { createElement } from "react";
 import "./keywords.css";
 
 
@@ -57,6 +57,10 @@ export function ToolKeywords({
 	const [input, setInput]=useCache(keywords);
 
 
+	function search(keywords: string) {
+		setKeywords(keywords);
+	}
+
 	function clear() {
 		setKeywords("")
 	}
@@ -80,7 +84,7 @@ export function ToolKeywords({
 
 			onInputCapture={useTrailing(auto ?? AutoDelay, e => {
 
-				setKeywords(e.currentTarget.value.trim());
+				search(e.currentTarget.value.trim());
 
 			}, [setKeywords])}
 

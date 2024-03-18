@@ -28,7 +28,7 @@ import { isString } from "@metreeca/core/string";
 
 export interface Local {
 
-	readonly [lang: string]: string;
+	readonly [lang: string]: string; // !!! string arrays?
 
 }
 
@@ -73,7 +73,8 @@ export const local: Type<Local> & ((model: Local) => Type<Local>)=Object.freeze(
 
 export function isLocal(value: unknown): value is Local {
 	return isObject(value) && !("id" in value) && Object.entries(value).every(([key, value]) =>
-		isString(key) && /^|\*|[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*$/.test(key) && isString(value)
+		isString(key) && /^|\*|[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*$/.test(key)
+		&& isString(value) // !!! string arrays?
 	);
 }
 
