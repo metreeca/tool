@@ -89,7 +89,6 @@ export function ToolSheet<V extends Frame>({
 		setLimit(limit + LimitNext);
 	}
 
-
 	return items?.length ? createElement("tool-sheet", {}, <>
 
 		{items?.map((item, index) => <Fragment key={isEntry(item) ? item.id : JSON.stringify(item)}>{
@@ -100,7 +99,11 @@ export function ToolSheet<V extends Frame>({
 
 		{more && <ToolMore onLoad={load}/>}
 
-	</>) : placeholder ? <ToolHint>{placeholder}</ToolHint> : null;
+		</>)
+
+		: placeholder ? <ToolHint>{placeholder} <span>{items ? "No Matches" : "Loading…"}</span></ToolHint>
+
+			: null;
 
 }
 

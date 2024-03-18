@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,8 @@ tool-hint {
     width: 100%;
     height: 100%;
 
+    color: var(--tool--color-disabled);
+
     &.border {
 
         padding: 1em;
@@ -41,9 +43,7 @@ tool-hint {
 
     }
 
-    color: var(--tool--color-disabled);
-
-    & > .lucide:only-child {
+    & > .lucide:first-child {
 
         aspect-ratio: 1;
 
@@ -55,6 +55,5 @@ tool-hint {
 
         stroke-width: 2.5%;
     }
-
 
 }
