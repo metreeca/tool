@@ -15,8 +15,8 @@
  */
 
 import { error, immutable, Type } from "@metreeca/core";
-import { Frame, isFrame } from "@metreeca/core/frame";
-import { isLocal, Local, toLocalString } from "@metreeca/core/local";
+import { Frame, isFrame, toFrameString } from "@metreeca/core/frame";
+import { Local } from "@metreeca/core/local";
 import { isString } from "@metreeca/core/string";
 
 
@@ -91,24 +91,7 @@ export function toEntryString(value: Entry, {
 
 }={}): string {
 
-	return isString(value.label) ? value.label
-
-		: isLocal(value.label) ? toLocalString(value.label, { locales })
-
-			: value.id // guess the entry label from its id
-				.replace(/^.*?(?:[/#:]([^/#:]+))?(?:\/|#|#_|#id|#this)?$/, "$1") // extract label
-				.replace(/([a-z-0-9])([A-Z])/g, "$1 $2") // split camel-case words
-				.replace(/[-_]+/g, " ") // split kebab-case words
-				.replace(/\b[a-z]/g, $0 => $0.toUpperCase());
-
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export function sortEntries<E extends Entry>(entries: E[], locales?: Intl.LocalesArgument): typeof entries {
-
-	return [...entries].sort((x, y) => toEntryString(x, { locales }).localeCompare(toEntryString(y, { locales })));
+	return toFrameString(value, { locales });
 
 }
 

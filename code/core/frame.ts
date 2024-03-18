@@ -130,8 +130,16 @@ export function toFrameString(value: Frame, {
 }={}): string {
 
 	return isString(value.label) ? value.label
+
 		: isLocal(value.label) ? toLocalString(value.label, { locales })
-			: JSON.stringify(value);
+
+			: isString(value.id) ? value.id // guess entry label from its id
+					.replace(/^.*?(?:[/#:]([^/#:]+))?(?:\/|#|#_|#id|#this)?$/, "$1") // extract label
+					.replace(/([a-z-0-9])([A-Z])/g, "$1 $2") // split camel-case words
+					.replace(/[-_]+/g, " ") // split kebab-case words
+					.replace(/\b[a-z]/g, $0 => $0.toUpperCase())
+
+				: JSON.stringify(value);
 
 }
 
@@ -366,6 +374,6 @@ export function Order(frame: Frame, expression: string, criterion: Order[string]
 
 		[isEntry(evaluate(frame, expression)) ? `^${expression}.label` : `^${expression}`]: criterion === "increasing" || criterion === "decreasing" || isInteger(criterion) ? criterion : undefined
 
-	}
+	};
 }
 
