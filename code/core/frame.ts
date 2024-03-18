@@ -216,7 +216,15 @@ export function toQuery(frame: Frame): Query {
 
 			return { ...query, [label]: value };
 
+		} else if ( label.startsWith("<<") && isValue(value) ) {
+
+			return { ...query, [label]: value };
+
 		} else if ( label.startsWith(">=") && isValue(value) ) {
+
+			return { ...query, [label]: value };
+
+		} else if ( label.startsWith(">>") && isValue(value) ) {
 
 			return { ...query, [label]: value };
 
@@ -262,7 +270,15 @@ export function encodeQuery(query: Query): string {
 
 				params.set(label, encode(value));
 
+			} else if ( label.startsWith("<<") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
 			} else if ( label.startsWith(">=") && isValue(value) ) {
+
+				params.set(label, encode(value));
+
+			} else if ( label.startsWith(">>") && isValue(value) ) {
 
 				params.set(label, encode(value));
 
@@ -312,7 +328,15 @@ export function decodeQuery(search: undefined | null | string): undefined | Quer
 
 					query[label]=decode(value);
 
+				} else if ( label.startsWith("<<") ) {
+
+					query[label]=decode(value);
+
 				} else if ( label.startsWith(">=") ) {
+
+					query[label]=decode(value);
+
+				} else if ( label.startsWith(">>") ) {
 
 					query[label]=decode(value);
 
