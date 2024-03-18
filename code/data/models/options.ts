@@ -147,7 +147,7 @@ export function useOptions<
 	} as unknown as { value: null | Value, count: number };
 
 	const baseline=decode(items(specs)); // ignoring all facets
-	const matching=decode(items({ ...query, [filter]: undefined, ...specs })); // ignoring all but this facet
+	const matching=decode(items({ ...query, [filter]: undefined, ...specs })); // ignoring this facet
 
 	const ready=baseline !== undefined && matching !== undefined;
 
@@ -179,7 +179,7 @@ export function useOptions<
 			ready,
 
 			type: effective,
-			size: size,
+			size,
 
 			keywords,
 			limit,

@@ -62,14 +62,11 @@ export function ToolOptions<
 	const [active, setActive]=useState(false);
 	const [input, setInput]=useCache(keywords);
 
-	const [delta]=useState(limit); // progressive loading window size set to initial limit
-
-
 	const expanded=!compact || active;
 	const selected=items && items.some(({ selected }) => selected);
 
 	const matching=items && items.length > 0;
-	const overflow=expanded && matching && size > 0 && delta > size;
+	const overflow=expanded && matching && more;
 
 
 	useEffect(() => {
@@ -121,7 +118,7 @@ export function ToolOptions<
 	}
 
 	function load() {
-		setOptions({ limit: limit + delta });
+		setOptions({ limit: limit + size });
 	}
 
 
