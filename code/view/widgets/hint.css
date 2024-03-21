@@ -30,6 +30,8 @@ tool-hint {
     width: 100%;
     height: 100%;
 
+    text-align: center;
+
     color: var(--tool--color-disabled);
 
     &.border {
@@ -54,6 +56,18 @@ tool-hint {
         max-height: var(--tool-hint-icon-size);
 
         stroke-width: 2.5%;
+
+        & + * {
+            margin-top: 1em;
+            font-size: 1.1em;
+        }
+
+    }
+
+    & > tool-spin {
+
+        font-size: 3em;
+
     }
 
 }

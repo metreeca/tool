@@ -16,13 +16,16 @@
 
 import { asObject, isFunction } from "@metreeca/core";
 import { isString } from "@metreeca/core/string";
+import { Mark, Meta } from "@metreeca/data/hooks/mark";
+import { ToolHint } from "@metreeca/view/widgets/hint";
+import { ErrorIcon, ForbiddenIcon, NotFoundIcon, UnauthorizedIcon } from "@metreeca/view/widgets/icon";
 import { ToolSpin } from "@metreeca/view/widgets/spin";
 import Slugger from "github-slugger";
 import { Root } from "hast";
 import { headingRank } from "hast-util-heading-rank";
 import { toString } from "hast-util-to-string";
 import "highlight.js/styles/github.css";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect } from "react";
 import ReactMarkdown, { defaultUrlTransform } from "react-markdown";
 import { Nodes } from "react-markdown/lib";
 import rehypeHighlight from "rehype-highlight";
@@ -32,13 +35,6 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkGemoji from "remark-gemoji";
 import remarkGfm from "remark-gfm";
 import { find } from "unist-util-find";
-
-
-export interface Meta {
-
-	[label: string]: string;
-
-}
 
 
 /**
@@ -57,80 +53,47 @@ export function ToolMark({
 
 	meta?: "toc" | string | ((meta: Meta) => ReactNode)
 
-	children: string
+	children: string | Mark
 
 }) {
 
-	const [status, setStatus]=useState<number>();
-	const [content, setContent]=useState<string>();
+	const { code, text, hash }: Mark=isString(children) ? { code: 200, text: children } : children;
 
 	useEffect(() => {
 
-		const match=children.match(/^((?:\w+:|\/)[^#\s]+)(?:#([^\s]*))?$/);
-
-		if ( match ) { // absolute or root-relative URL
-
-			const path=match[1];
-			const hash=match[2];
-
-			const url=path.endsWith(".md") ? path
-				: path.endsWith("/") ? `${path}index.md`
-					: `${path}.md`;
-
-			const controller=new AbortController();
-
-			fetch(url, { signal: controller.signal })
-
-				.then(response => response.text().then(content => {
-
-					setStatus(response.status);
-					setContent(response.ok ? content : undefined);
-
-				}))
-
-				.then(() => {
-
-					if ( hash ) {
-						document.getElementById(hash)?.scrollIntoView(); // scroll to anchor
-					}
-
-				})
-
-				.catch(() => {});
-
-			return () => controller.abort(); // cancel pending fetch request on component unmount
-
-		} else { // markdown content
-
-			setStatus(200);
-			setContent(children);
-
-			return () => {};
-
+		if ( hash ) {
+			document.getElementById(hash)?.scrollIntoView(); // scroll to anchor
 		}
 
-	}, [children]);
+	}, [hash]);
 
-	return content ?
+	return meta === "toc" ? text && ToolMarkTOC(text)
 
-		meta === "toc" ? ToolMarkTOC(content)
-			: meta ? ToolMarkMeta(content, meta)
-				: ToolMarkBody(content)
+		: meta ? text && ToolMarkMeta(text, meta)
 
-		: status === 404 ? <span>:-( Page Not Found</span>
-			: status !== undefined ? <span>{`:-( The Server Says ${status}…`}</span>
-				: <ToolSpin/>;
+			: isString(text) ? text && ToolMarkText(text)
+
+				: <ToolHint>{{
+
+					0: <ToolSpin/>,
+
+					401: <><UnauthorizedIcon/><span>Restricted Document<br/>Log In to Access</span></>,
+					403: <><ForbiddenIcon/><span>Restricted Document</span></>,
+					404: <><NotFoundIcon/><span>Document Not Found</span></>
+
+				}[code ?? 0] ?? <><ErrorIcon/><span>Unable to Download</span></>}</ToolHint>;
 
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function ToolMarkTOC(content: string) {
-	return <ReactMarkdown
+function ToolMarkTOC(text: string) {
+	return text && <ReactMarkdown
 
-		remarkPlugins={[remarkFrontmatter]}
+        remarkPlugins={[remarkFrontmatter]}
 
-		rehypePlugins={[function () {
+        rehypePlugins={[function () {
 			return (root: Root) => {
 
 				const slugs=new Slugger();
@@ -153,16 +116,14 @@ function ToolMarkTOC(content: string) {
 			};
 		}]}
 
-	>{
+    >{
 
-		content
+		text
 
 	}</ReactMarkdown>;
 }
 
-function ToolMarkMeta(content: string, meta: string | ((meta: Meta) => ReactNode)) {
-
-	Node;
+function ToolMarkMeta(text: string, meta: string | ((meta: Meta) => ReactNode)) {
 
 	const file=remark()
 
@@ -182,7 +143,7 @@ function ToolMarkMeta(content: string, meta: string | ((meta: Meta) => ReactNode
 
 		})
 
-		.processSync(content);
+		.processSync(text);
 
 	const entries=asObject(file.data.meta) ?? {};
 
@@ -191,7 +152,7 @@ function ToolMarkMeta(content: string, meta: string | ((meta: Meta) => ReactNode
 			: null;
 }
 
-function ToolMarkBody(content: string) {
+function ToolMarkText(content: string) {
 	return <ReactMarkdown
 
 		remarkPlugins={[remarkFrontmatter, remarkGfm, remarkGemoji]}
