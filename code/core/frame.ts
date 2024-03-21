@@ -38,11 +38,9 @@ export interface Query extends Frame { // expression-based fields for reference 
 
 	readonly "<{expression}"?: Value;
 	readonly "<={expression}"?: Value;
-	readonly "<<{expression}"?: Value;
 
 	readonly ">{expression}"?: Value;
 	readonly ">={expression}"?: | Value;
-	readonly ">>{expression}"?: Value;
 
 	readonly "~{expression}"?: string;
 
@@ -223,15 +221,7 @@ export function toQuery(frame: Frame, normalize: boolean=false): Query {
 
 			return { ...query, [label]: value };
 
-		} else if ( label.startsWith("<<") && isValue(value) ) {
-
-			return { ...query, [label]: value };
-
 		} else if ( label.startsWith(">=") && isValue(value) ) {
-
-			return { ...query, [label]: value };
-
-		} else if ( label.startsWith(">>") && isValue(value) ) {
 
 			return { ...query, [label]: value };
 
@@ -283,27 +273,11 @@ export function encodeQuery(query: Query): string {
 
 			if ( label.startsWith("<=") && isValue(value) ) {
 
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith("<<") && isValue(value) ) {
-
-				params.set(label, encode(value));
+				params.set(`${label.substring(2)}<`, encode(value));
 
 			} else if ( label.startsWith(">=") && isValue(value) ) {
 
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith(">>") && isValue(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith("<") && isValue(value) ) {
-
-				params.set(label, encode(value));
-
-			} else if ( label.startsWith(">") && isValue(value) ) {
-
-				params.set(label, encode(value));
+				params.set(`${label.substring(2)}>`, encode(value));
 
 			} else if ( label.startsWith("~") && isString(value) ) {
 
@@ -311,7 +285,15 @@ export function encodeQuery(query: Query): string {
 
 			} else if ( label.startsWith("?") && isArray(value, isValue) ) {
 
-				value.forEach(v => params.append(label.substring(1), encode(v)));
+				if ( value.length ) {
+
+					value.forEach(v => params.append(label.substring(1), encode(v)));
+
+				} else {
+
+					params.append(label.substring(1), "*");
+
+				}
 
 			}
 
@@ -321,7 +303,7 @@ export function encodeQuery(query: Query): string {
 
 
 		function encode(value: null | Value): string {
-			return value === null ? "null"
+			return value === null ? ""
 				: isEntry(value) ? value.id
 					: value.toString();
 		}
@@ -339,29 +321,21 @@ export function decodeQuery(search: undefined | null | string): undefined | Quer
 
 			new URLSearchParams(search).forEach((value, label) => {
 
-				if ( label.startsWith("<=") ) {
+				if ( label.endsWith("<") ) {
 
-					query[label]=decode(value);
+					query[`<=${label.substring(0, label.length - 1)}`]=decode(value);
 
-				} else if ( label.startsWith("<<") ) {
+				} else if ( label.endsWith(">") ) {
 
-					query[label]=decode(value);
+					query[`>=${label.substring(0, label.length - 1)}`]=decode(value);
 
-				} else if ( label.startsWith(">=") ) {
+				} else if ( label.startsWith("<=") ) { // legacy syntax
 
-					query[label]=decode(value);
+					query[`<=${label.substring(2)}`]=decode(value);
 
-				} else if ( label.startsWith(">>") ) {
+				} else if ( label.startsWith(">=") ) { // legacy syntax
 
-					query[label]=decode(value);
-
-				} else if ( label.startsWith("<") ) {
-
-					query[label]=decode(value);
-
-				} else if ( label.startsWith(">") ) {
-
-					query[label]=decode(value);
+					query[`>=${label.substring(2)}`]=decode(value);
 
 				} else if ( label.startsWith("~") ) {
 
@@ -369,7 +343,9 @@ export function decodeQuery(search: undefined | null | string): undefined | Quer
 
 				} else if ( label.startsWith("?") ) {
 
-					query[label]=[...(query[label] as [] ?? []), decode(value)];
+					const values=query[label] as [] ?? [];
+
+					query[label]=(value === "*") ? [...values, decode(value)] : values;
 
 				} else {
 
@@ -384,7 +360,7 @@ export function decodeQuery(search: undefined | null | string): undefined | Quer
 
 
 			function decode(value: string): null | Value {
-				return value === "null" ? null
+				return value === "" ? null
 					: value === "true" ? true
 						: value === "false" ? false
 							: value.match(/^[-+]?\d+(?:\.\d+)?(?:e[-+]\d+)?$/i) ? parseFloat(value)

@@ -96,8 +96,8 @@ export function useRange<V extends Value>(collection: Collection<V>, expression:
 		?? error(new RangeError(`unknown model for <${model}>[${expression}]`))
 	);
 
-	const lower=`>>${expression}`;
-	const upper=`<<${expression}`;
+	const lower=`>=${expression}`;
+	const upper=`<=${expression}`;
 
 	const gte=query[lower];
 	const lte=query[upper];
