@@ -196,21 +196,29 @@ tbody > tr:nth-child(even) > td {
     background-color: var(--tool--background-color);
 }
 
-tr > :last-child {
-    width: 100%;
-}
-
 th {
+
     white-space: nowrap;
     font-weight: 700;
+
+    &:empty:last-child {
+        width: 100%;
+    }
+
 }
 
 th,
 td {
+
     padding: 0.5em 0.5em;
     text-align: start;
     vertical-align: top;
     border-bottom-style: solid;
+
+    & > img {
+        margin: 0;
+    }
+
 }
 
 
@@ -309,7 +317,13 @@ button {
 /**** Blocks **********************************************************************************************************/
 
 p {
+
     margin-bottom: 1em;
+
+    &:has(img:only-child) {
+        margin: 0;
+    }
+
 }
 
 blockquote {
@@ -320,6 +334,17 @@ blockquote {
 
     & > p {
         margin-bottom: 0.1em;
+    }
+
+}
+
+pre {
+
+    & > code.hljs {
+        margin-bottom: 1.5em;
+        font-size: 0.9em;
+        border-radius: 0.25em;
+        background-color: #F6F6F6;
     }
 
 }
@@ -342,7 +367,7 @@ img {
 
     display: block;
     width: 100%;
-    margin: 0 auto 1em;
+    margin: 1.5em auto 1em;
 
     cursor: pointer;
 
@@ -385,6 +410,26 @@ img {
 
         background-color: rgb(0, 0, 0, 0.3);
 
+    }
+
+    &[src$='#25'] {
+        width: 25%;
+    }
+
+    &[src$='#33'] {
+        width: 33%;
+    }
+
+    &[src$='#50'] {
+        width: 50%;
+    }
+
+    &[src$='#66'] {
+        width: 66%;
+    }
+
+    &[src$='#75'] {
+        width: 75%;
     }
 
 }

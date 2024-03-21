@@ -197,7 +197,7 @@ export function ToolOptions<
             <ul ref={ul => {
 
 				if ( limit && ul && !ul.parentElement!.style.height ) {
-					ul.parentElement!.style.height=`${ul.getBoundingClientRect().height}px`;
+					ul.parentElement!.style.height=`${Math.ceil(ul.getBoundingClientRect().height)}px`;
 				}
 
 			}}>{items.filter(({ selected }) => expanded || selected).map(Option)}</ul>

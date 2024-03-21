@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
+import { asObject, isFunction } from "@metreeca/core";
+import { isString } from "@metreeca/core/string";
 import { ToolSpin } from "@metreeca/view/widgets/spin";
 import Slugger from "github-slugger";
 import { Root } from "hast";
 import { headingRank } from "hast-util-heading-rank";
 import { toString } from "hast-util-to-string";
 import "highlight.js/styles/github.css";
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import ReactMarkdown, { defaultUrlTransform } from "react-markdown";
+import { Nodes } from "react-markdown/lib";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
-import deflist from "remark-deflist";
+import { remark } from "remark";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGemoji from "remark-gemoji";
 import remarkGfm from "remark-gfm";
+import { find } from "unist-util-find";
+
+
+export interface Meta {
+
+	[label: string]: string;
+
+}
 
 
 /**
@@ -38,13 +49,13 @@ import remarkGfm from "remark-gfm";
  */
 export function ToolMark({
 
-	toc=false,
+	meta,
 
 	children
 
 }: {
 
-	toc?: boolean
+	meta?: "toc" | string | ((meta: Meta) => ReactNode)
 
 	children: string
 
@@ -100,66 +111,101 @@ export function ToolMark({
 
 	}, [children]);
 
-	return content ? toc
+	return content ?
 
-			? <ReactMarkdown
-
-				remarkPlugins={[remarkFrontmatter]}
-				rehypePlugins={[rehypeTOC]}
-
-			>{
-
-				content
-
-			}</ReactMarkdown>
-
-
-			: <ReactMarkdown
-
-				remarkPlugins={[remarkFrontmatter, remarkGfm, remarkGemoji, deflist]}
-				rehypePlugins={[rehypeSlug, rehypeHighlight]}
-
-				urlTransform={href => [defaultUrlTransform(href)]
-					.map(value => value.endsWith("/index.md") ? value.substring(0, value.length - "/index.md".length) : value)
-					.map(value => value.endsWith(".md") ? value.substring(0, value.length - ".md".length) : value)
-					[0]
-				}
-
-			>{
-
-				content
-
-			}</ReactMarkdown>
+		meta === "toc" ? ToolMarkTOC(content)
+			: meta ? ToolMarkMeta(content, meta)
+				: ToolMarkBody(content)
 
 		: status === 404 ? <span>:-( Page Not Found</span>
 			: status !== undefined ? <span>{`:-( The Server Says ${status}…`}</span>
 				: <ToolSpin/>;
 
-
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function rehypeTOC() {
-	return (root: Root) => {
+function ToolMarkTOC(content: string) {
+	return <ReactMarkdown
 
-		const slugs=new Slugger();
+		remarkPlugins={[remarkFrontmatter]}
 
-		slugs.reset();
+		rehypePlugins={[function () {
+			return (root: Root) => {
 
-		return {
+				const slugs=new Slugger();
 
-			...root, children: (root.children).filter((node) => headingRank(node)).map(node => ({
-				...node, children: [{
-					...node,
-					type: "element",
-					tagName: "a",
-					properties: { href: `#${slugs.slug(toString(node))}` }
-				}]
-			}))
+				slugs.reset();
 
-		};
+				return {
 
-	};
+					...root, children: (root.children).filter((node) => headingRank(node)).map(node => ({
+						...node, children: [{
+							...node,
+							type: "element",
+							tagName: "a",
+							properties: { href: `#${slugs.slug(toString(node))}` }
+						}]
+					}))
+
+				};
+
+			};
+		}]}
+
+	>{
+
+		content
+
+	}</ReactMarkdown>;
+}
+
+function ToolMarkMeta(content: string, meta: string | ((meta: Meta) => ReactNode)) {
+
+	Node;
+
+	const file=remark()
+
+		.use(remarkFrontmatter)
+
+		.use(() => (tree: Nodes, file) => {
+
+			const node=find(tree, { type: "yaml" });
+
+			if ( node && "value" in node && isString(node.value) ) {
+
+				const matches=[...node.value.matchAll(/(?:^|\n)\s*(\w+)\s*:\s*(.*?)\s*(?:\n|$)/g)];
+
+				file.data.meta=matches.reduce((entries, [$0, $1, $2]) => ({ ...entries, [$1]: $2 }), {});
+
+			}
+
+		})
+
+		.processSync(content);
+
+	const entries=asObject(file.data.meta) ?? {};
+
+	return isFunction(meta) ? meta(entries)
+		: entries[meta] ? <span>{entries[meta]}</span>
+			: null;
+}
+
+function ToolMarkBody(content: string) {
+	return <ReactMarkdown
+
+		remarkPlugins={[remarkFrontmatter, remarkGfm, remarkGemoji]}
+		rehypePlugins={[rehypeSlug, rehypeHighlight]}
+
+		urlTransform={href => [defaultUrlTransform(href)]
+			.map(value => value.endsWith("/index.md") ? value.substring(0, value.length - "/index.md".length) : value)
+			.map(value => value.endsWith(".md") ? value.substring(0, value.length - ".md".length) : value)
+			[0]
+		}
+
+	>{
+
+		content
+
+	}</ReactMarkdown>;
 }
