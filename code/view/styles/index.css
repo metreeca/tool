@@ -336,6 +336,58 @@ blockquote {
         margin-bottom: 0.1em;
     }
 
+    /* Panels */
+
+    &:has(> p:first-child > em:first-child),
+    &:has(> p:first-child > strong:first-child) {
+
+        position: relative;
+
+        padding: 0.75em 1em 0.75em 3em;
+        border-radius: 0.25em;
+
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-weight: 700;
+        }
+
+        & > p:first-child > em:first-child,
+        & > p:first-child > strong:first-child {
+            display: none;
+        }
+
+        /* Info Panel */
+
+        &:has(> p:first-child > em:first-child) {
+
+            background-color: #EAF1FD;
+
+            &::before {
+                content: 'ⓘ';
+                color: #3C78F4;
+                transform: scale(1.25) translate(0.66em, 0.6em);
+            }
+
+        }
+
+        /* Warning Panel */
+
+        &:has(> p:first-child > strong:first-child) {
+
+            background-color: #FEf7D9;
+
+            &::before {
+                content: '⚠︎';
+                color: #D6702F;
+                transform: scale(1.66) translate(0.5em, 0.4em);
+            }
+
+        }
+
+    }
+
 }
 
 pre {
