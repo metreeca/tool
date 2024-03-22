@@ -68,13 +68,28 @@ export function ToolMark({
 
 	const { code, text, hash }: Asset=isString(children) ? { code: 200, text: children } : children;
 
+
+	function scroll(hash: string) {
+		document.getElementById(hash)?.scrollIntoView(); // scroll to anchor
+	}
+
+
 	useEffect(() => {
 
-		if ( hash ) {
-			document.getElementById(hash)?.scrollIntoView(); // scroll to anchor
-		}
+		if ( hash ) { scroll(hash); }
 
 	}, [hash]);
+
+	useEffect(() => {
+
+		function handler() { scroll(location.hash.substring(1)); }
+
+		window.addEventListener("hashchange", handler);
+
+		return () => window.removeEventListener("hashchange", handler);
+
+	}, []);
+
 
 	return meta === "toc" ? text && ToolMarkTOC(text)
 

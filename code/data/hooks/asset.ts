@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { isString } from "@metreeca/core/string";
 import { useFetcher } from "@metreeca/data/contexts/fetcher";
 import { useEffect, useState } from "react";
 
@@ -32,9 +31,10 @@ export interface Asset {
 
 export function useAsset(file: undefined | string): Asset {
 
-	const url=isString(file) ? new URL(file, location.href) : undefined;
+	const url=file ? new URL(file, location.href) : new URL(location.href);
 
 	const path=url?.pathname;
+	const type=".md"; // !!! generalize
 	const hash=url?.hash.substring(1);
 
 
@@ -46,9 +46,9 @@ export function useAsset(file: undefined | string): Asset {
 
 		if ( path ) {
 
-			const asset=path.endsWith(".md") ? path
-				: path.endsWith("/") ? `${path}index.md`
-					: `${path}.md`;
+			const asset=path.endsWith(type) ? path
+				: path.endsWith("/") ? `${path}index${type}`
+					: `${path}${type}`;
 
 			const controller=new AbortController();
 
