@@ -15,11 +15,11 @@
  */
 
 import { isString } from "@metreeca/core/string";
-import { FetchAborted, FetchFailed } from "@metreeca/data/contexts/fetcher";
+import { useFetcher } from "@metreeca/data/contexts/fetcher";
 import { useEffect, useState } from "react";
 
 
-export interface Mark {
+export interface Asset {
 
 	readonly code?: number;
 	readonly text?: string;
@@ -27,24 +27,19 @@ export interface Mark {
 
 }
 
-export interface Meta {
-
-	readonly [label: string]: string;
-
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function useMark(file: undefined | string): Mark {
+export function useAsset(file: undefined | string): Asset {
 
-	const [mark, setMark]=useState<Mark>({});
-
-
-	const url=isString(file) ? new URL(file || location.href) : undefined;
+	const url=isString(file) ? new URL(file, location.href) : undefined;
 
 	const path=url?.pathname;
 	const hash=url?.hash.substring(1);
+
+
+	const fetcher=useFetcher();
+	const [asset, setAsset]=useState<Asset>({});
 
 
 	useEffect(() => {
@@ -57,25 +52,17 @@ export function useMark(file: undefined | string): Mark {
 
 			const controller=new AbortController();
 
-			fetch(asset, { signal: controller.signal })
+			fetcher(asset, { signal: controller.signal })
 
 				.then(response => response.text().then(text => {
 
-					setMark({
+					setAsset({
 						code: response.status,
 						text,
 						hash
 					});
 
-				}))
-
-				.catch(reason => {
-
-					setMark({
-						code: reason.name === "AbortError" ? FetchAborted : FetchFailed
-					});
-
-				});
+				}));
 
 			return () => controller.abort();
 
@@ -88,5 +75,5 @@ export function useMark(file: undefined | string): Mark {
 	}, [path]);
 
 
-	return mark;
+	return asset;
 }

@@ -35,9 +35,9 @@ import { isYear, year } from "@metreeca/core/year";
 
 
 /**
- * Primitive types.
+ * Defined primitive types.
  */
-export type Primitive=undefined | null | boolean | number | string
+export type Primitive=boolean | number | string
 
 
 /**

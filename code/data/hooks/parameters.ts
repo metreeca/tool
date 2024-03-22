@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2023 Metreeca srl
+ * Copyright © 2020-2024 Metreeca srl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { equals, Primitive }   from "@metreeca/core";
-import { useRouter }           from "@metreeca/data/contexts/router";
-import { useStorage }          from "@metreeca/data/hooks/storage";
+import { equals, Primitive } from "@metreeca/core";
+import { useRouter } from "@metreeca/data/contexts/router";
+import { useStorage } from "@metreeca/data/hooks/storage";
 import { useEffect, useState } from "react";
 
 
@@ -58,7 +58,7 @@ export function useParameters<T extends Parameters=Parameters>(initial: T, stora
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function parameters<T>(query?: Parameters, defaults?: Parameters): Parameters {
+export function parameters(query?: Parameters, defaults?: Parameters): Parameters {
 	if ( query === undefined ) { // getter
 
 		const query={};
