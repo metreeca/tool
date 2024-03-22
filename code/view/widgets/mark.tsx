@@ -16,7 +16,7 @@
 
 import { asObject, isFunction } from "@metreeca/core";
 import { isString } from "@metreeca/core/string";
-import { Mark, Meta } from "@metreeca/data/hooks/mark";
+import { Asset } from "@metreeca/data/hooks/asset";
 import { ToolHint } from "@metreeca/view/widgets/hint";
 import { ErrorIcon, ForbiddenIcon, NotFoundIcon, UnauthorizedIcon } from "@metreeca/view/widgets/icon";
 import { ToolSpin } from "@metreeca/view/widgets/spin";
@@ -37,6 +37,15 @@ import remarkGfm from "remark-gfm";
 import { find } from "unist-util-find";
 
 
+export interface Meta {
+
+	readonly [label: string]: string;
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Creates a Markdown rendering component.
  *
@@ -53,11 +62,11 @@ export function ToolMark({
 
 	meta?: "toc" | string | ((meta: Meta) => ReactNode)
 
-	children: string | Mark
+	children: string | Asset
 
 }) {
 
-	const { code, text, hash }: Mark=isString(children) ? { code: 200, text: children } : children;
+	const { code, text, hash }: Asset=isString(children) ? { code: 200, text: children } : children;
 
 	useEffect(() => {
 
